@@ -1,0 +1,88 @@
+/* Global */
+
+.roboto {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto";
+  color: var(--darknavy)
+}
+
+
+:root {
+/* colors */
+
+--cornflower: #6382D4;
+--darkcornflower: #263B74;
+--lightcornflower: #A5B9F1;
+--verylightcornflower: #E6ECFB;
+--darknavy: #010D26;
+--purple: #584A8B;
+--indigo: #301496;
+--greypurple: #827D93;
+--green: #246C31;
+--red: #982C2C;
+--yellow: #CFAD18;
+--parchment: #ECEAE4;
+}
+
+/* Main */
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #A5B9F1;
+}
+
+/* Todo List Component */
+
+.listContainer {
+  width: 66vw;
+  display: flex;
+  flex-direction: column;
+}
+
+.itemContainer {
+  width: 100%;
+  background-color: var(--parchment);
+  padding: 2rem;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+}
+
+form {
+  margin-right: 2rem;
+}
+
+.todoItem {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.label {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+
+

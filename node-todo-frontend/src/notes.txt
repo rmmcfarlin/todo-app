@@ -1,0 +1,7 @@
+Todo Item: 
+
+id: {uniqueId}
+Task: {taskName}
+Due Date: {date}
+Notes: {notes}
+Completed: {bool}

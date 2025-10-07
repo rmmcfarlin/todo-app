@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "title": "Learn Node",
+    "completed": false
+  },
+  {
+    "id": 2,
+    "title": "Write a small API",
+    "completed": true
+  }
+]
