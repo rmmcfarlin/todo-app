@@ -1,9 +1,11 @@
 let express = require('express')
 let fs = require('fs').promises
+let cors = require('cors')
 let app = express()
 
-app.use(express.json())
 
+app.use(express.json())
+app.use(cors());
 
 // GET
 app.get('/tasks', async (req,res) => {

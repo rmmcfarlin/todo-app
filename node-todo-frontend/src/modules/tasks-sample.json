@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "title": "Learn Node",
+    "completed": false,
+    "dueDate": "2025-10-13",
+    "notes": "Learn node and express for backend development"
+  },
+  {
+    "id": 2,
+    "title": "Write a small API",
+    "completed": true,
+    "dueDate": "2025-11-15",
+    "notes": "Learn node and express for backend development, writing a small API for tasks"
+  }
+]

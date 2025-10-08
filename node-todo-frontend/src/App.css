@@ -40,24 +40,32 @@
 #root {
   width: 100vw;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: #A5B9F1;
+}
+
+.App {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Todo List Component */
 
 .listContainer {
   width: 66vw;
+  max-height: 75%;
   display: flex;
   flex-direction: column;
+  overflow: scroll;
 }
 
 .itemContainer {
   width: 100%;
+  height: 50%;
   background-color: var(--parchment);
   padding: 2rem;
+  margin-bottom: 2rem;
   border-radius: 10px;
   display: flex;
   align-items: center;
@@ -77,6 +85,11 @@ form {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1.25rem;
+  width: 100%;
+}
+
+.itemInfo {
+  width: 100%;
 }
 
 .label {
@@ -84,5 +97,32 @@ form {
   font-size: 1rem;
 }
 
+/* Add Task Form */
 
+.addTaskForm {
+  background-color: var(--parchment);
+  padding: 2rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
 
+input {
+  margin-bottom: 1rem;
+}
+
+.submitTaskButton {
+  margin-top: 1rem;
+  width: 50%;
+  padding: 0.7rem;
+  align-self: center;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  color: white;
+  background-color: var(--greypurple);
+}
+
+.submitTaskButton:hover {
+  background-color: var(--cornflower);
+}

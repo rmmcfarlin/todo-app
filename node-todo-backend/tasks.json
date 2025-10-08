@@ -2,11 +2,39 @@
   {
     "id": 1,
     "title": "Learn Node",
-    "completed": false
+    "completed": false,
+    "dueDate": "2025-10-13",
+    "notes": "Learn node and express for backend development"
   },
   {
     "id": 2,
     "title": "Write a small API",
-    "completed": true
+    "completed": true,
+    "dueDate": "2025-11-15",
+    "notes": "Learn node and express for backend development, writing a small API for tasks"
+  },
+  {
+    "title": "testtest",
+    "completed": false,
+    "dueDate": "2025-10-23",
+    "notes": "testestestest"
+  },
+  {
+    "title": "test123",
+    "completed": false,
+    "dueDate": "2025-10-30",
+    "notes": "yeee"
+  },
+  {
+    "title": "test123",
+    "completed": false,
+    "dueDate": "2025-10-30",
+    "notes": "yeee"
+  },
+  {
+    "title": "Add scrolling ",
+    "completed": false,
+    "dueDate": "2025-10-08",
+    "notes": ""
   }
 ]
