@@ -22,20 +22,39 @@ const TodoList = () => {
             } catch (err) {
                 console.error(err)
                 setError(err.message)
-
             }
         }
         fetchData();
     }, [])
 
+    const handleDelete = async (id) => {
+
+        console.log(`deleting ${id}`)
+        try {
+            const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+            method: "DELETE",
+            headers: {"Content-Type": "application/json"},
+        })
+
+        if (!response.ok) throw new Error("Failed to delete task");
+
+        setTasks(prevTasks => prevTasks.filter(tasks => tasks.id !== id))
+        } catch (err) {
+            console.errror(err)
+            setError(err.message)
+        }
+    }
+
     const userTasks = Object.values(tasks).flat()
 
-    console.log(userTasks)
 
     return (
         <div className="listContainer">
         {
             userTasks.map((task) => {
+                
+                let taskId = task.id
+
                 return (
                         <div className="itemContainer">
                             <form>
@@ -52,6 +71,7 @@ const TodoList = () => {
                                     <span className="label">Notes: </span><span>{task.notes}</span>
                                 </div>
                             </div>
+                            <button className="modifyTaskButton" onClick={() => handleDelete(taskId)}>Delete</button>
                         </div>
                 )
             })

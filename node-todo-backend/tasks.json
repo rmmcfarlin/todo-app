@@ -1,40 +1,34 @@
 [
   {
-    "id": 1,
-    "title": "Learn Node",
-    "completed": false,
-    "dueDate": "2025-10-13",
-    "notes": "Learn node and express for backend development"
-  },
-  {
-    "id": 2,
-    "title": "Write a small API",
-    "completed": true,
-    "dueDate": "2025-11-15",
-    "notes": "Learn node and express for backend development, writing a small API for tasks"
-  },
-  {
-    "title": "testtest",
-    "completed": false,
-    "dueDate": "2025-10-23",
-    "notes": "testestestest"
-  },
-  {
-    "title": "test123",
-    "completed": false,
-    "dueDate": "2025-10-30",
-    "notes": "yeee"
-  },
-  {
-    "title": "test123",
-    "completed": false,
-    "dueDate": "2025-10-30",
-    "notes": "yeee"
-  },
-  {
+    "id": 4,
     "title": "Add scrolling ",
     "completed": false,
     "dueDate": "2025-10-08",
+    "notes": ""
+  },
+  {
+    "id": 5,
+    "title": "bitch",
+    "completed": false,
+    "dueDate": "2025-11-05",
+    "notes": "yeee"
+  },
+  {
+    "title": "Delete Me",
+    "completed": false,
+    "dueDate": "2025-10-08",
+    "notes": "Delete this ho"
+  },
+  {
+    "title": "1",
+    "completed": false,
+    "dueDate": "",
+    "notes": ""
+  },
+  {
+    "title": "2",
+    "completed": false,
+    "dueDate": "",
     "notes": ""
   }
 ]
