@@ -2,12 +2,13 @@ import logo from './logo.svg';
 import './App.css';
 import TodoList from './modules/todo-list';
 import AddTask from './modules/add-task';
+import AppWrapper from './modules/app-wrapper';
 
 function App() {
   return (
     <div className="App">
-        <TodoList />
-        <AddTask />
+
+    <AppWrapper />
 
     </div>
   );

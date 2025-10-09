@@ -3,29 +3,9 @@ import { useState, useEffect } from 'react'
 
 
 
-const TodoList = () => {
+const TodoList = ({tasks, setTasks, setError}) => {
 
-    const [tasks, setTasks] = useState([])
-    const [error, setError] = useState(null)
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-               const response = await fetch("http://localhost:3000/tasks")
-               if (!response.ok) {
-                throw new Error("Network response not ok")
-               }
-
-               const data = await response.json();
-               setTasks(data)
-
-            } catch (err) {
-                console.error(err)
-                setError(err.message)
-            }
-        }
-        fetchData();
-    }, [])
+    const [editTask, setEditTask] = useState(false)
 
     const handleDelete = async (id) => {
 
@@ -40,7 +20,7 @@ const TodoList = () => {
 
         setTasks(prevTasks => prevTasks.filter(tasks => tasks.id !== id))
         } catch (err) {
-            console.errror(err)
+            console.log(err)
             setError(err.message)
         }
     }
@@ -56,7 +36,7 @@ const TodoList = () => {
                 let taskId = task.id
 
                 return (
-                        <div className="itemContainer">
+                        <div className="itemContainer" key={taskId}>
                             <form>
                                 <input type="checkbox" value={task.completed}></input>
                             </form>
@@ -71,7 +51,15 @@ const TodoList = () => {
                                     <span className="label">Notes: </span><span>{task.notes}</span>
                                 </div>
                             </div>
-                            <button className="modifyTaskButton" onClick={() => handleDelete(taskId)}>Delete</button>
+                            {editTask ? (
+                               <>
+                                <button className="taskButton saveButton">Save</button>
+                                <button className="taskButton deleteButton" onClick={() => handleDelete(taskId)}>Delete</button>
+                               </>)
+                                :  (<button className="taskButton modifyTaskButton">Edit</button>)
+                            }
+                          
+                            
                         </div>
                 )
             })

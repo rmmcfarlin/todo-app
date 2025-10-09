@@ -1,33 +1,45 @@
 import { useState, useEffect } from 'react'
 
-const AddTask = () => {
+const AddTask = ({tasks, setTasks}) => {
 
-    const [addTask, setAddTask] = useState(false)
     const [formData, setFormData] = useState({
+        id: "",
         title: "",
         completed: false,
         dueDate: "",
         notes: ""
     })
 
+    const idGenerator = () => {
+        return Math.floor(Math.random() * 1000000000);
+    }
+
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
+        // const taskId = idGenerator();
 
         setFormData(prev => ({...prev, [name]: value}))
     }
 
-    useEffect(() => {
-  console.log("Updated formData:", formData);
-}, [formData]);
-
     const handleSubmit = async (e) => {
-        // e.preventDefault();
-        await fetch("http://localhost:3000/tasks", {
+        e.preventDefault();
+
+        const res = await fetch("http://localhost:3000/tasks", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(formData)
         })
+
+        const resData = await res.json()
+        
+        const newTask = {...formData, id: resData.id}
+
+        const updatedList = [...tasks, newTask]
+
+        console.log(updatedList)
+
+        setTasks(updatedList)
 
         setFormData({
             title: "",
@@ -35,8 +47,6 @@ const AddTask = () => {
             dueDate: "",
             notes: ""
         })
-
-
     }
 
 
