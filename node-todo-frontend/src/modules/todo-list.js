@@ -7,6 +7,18 @@ const TodoList = ({tasks, setTasks, setError}) => {
 
     const [editTask, setEditTask] = useState(false)
 
+    const handleEdit = () => {
+        setEditTask(true)
+    }
+
+    const cancelEdits = () => {
+        setEditTask(false)
+    }
+
+    const handleSave = () => {
+        setEditTask(false)
+    }
+
     const handleDelete = async (id) => {
 
         console.log(`deleting ${id}`)
@@ -47,16 +59,17 @@ const TodoList = ({tasks, setTasks, setError}) => {
                                        <span className="label">Due: </span><span>{task.dueDate}</span>
                                     </div>
                                 </div>
-                                <div>
+                                <div className="notesSection">
                                     <span className="label">Notes: </span><span>{task.notes}</span>
                                 </div>
                             </div>
                             {editTask ? (
                                <>
-                                <button className="taskButton saveButton">Save</button>
+                                <button className="taskButton cancelButton" onClick={cancelEdits}>Cancel</button>
+                                <button className="taskButton saveButton" onClick={handleSave}>Save</button>
                                 <button className="taskButton deleteButton" onClick={() => handleDelete(taskId)}>Delete</button>
                                </>)
-                                :  (<button className="taskButton modifyTaskButton">Edit</button>)
+                                :  (<button className="taskButton modifyTaskButton" onClick={handleEdit}>Edit</button>)
                             }
                           
                             

@@ -1,34 +1,37 @@
 [
   {
-    "id": 4,
-    "title": "Add scrolling ",
+    "title": "Add edit / PUT functionality",
     "completed": false,
-    "dueDate": "2025-10-08",
-    "notes": ""
+    "dueDate": "2025-10-09",
+    "notes": "",
+    "id": 1759980080598
   },
   {
-    "id": 5,
-    "title": "bitch",
+    "id": 1759990080927,
+    "title": "Add Popup confirmation for delete",
     "completed": false,
-    "dueDate": "2025-11-05",
-    "notes": "yeee"
+    "dueDate": "2025-10-10",
+    "notes": "Add popup for delete button, move handleDelete function to confirmation button and have Delete button trigger popup"
   },
   {
-    "title": "Delete Me",
+    "title": "Add Completed / Archived Functionality",
     "completed": false,
-    "dueDate": "2025-10-08",
-    "notes": "Delete this ho"
+    "dueDate": "2025-10-17",
+    "notes": "Style checkbox, set completed = true, backend logic to move task to archived file when task is marked completed",
+    "id": 1759990342416
   },
   {
-    "title": "1",
+    "title": "Fix Edit Task to apply to each task",
+    "completed": false,
+    "dueDate": "2025-10-17",
+    "notes": "currently marks state as editTask = true for all tasks, will need to be tied to task ID possibly?",
+    "id": 1759990434751
+  },
+  {
+    "title": "Add sorting functionality",
     "completed": false,
     "dueDate": "",
-    "notes": ""
-  },
-  {
-    "title": "2",
-    "completed": false,
-    "dueDate": "",
-    "notes": ""
+    "notes": "Currently sorts by oldest -> newest, should add filtering options",
+    "id": 1759990499771
   }
 ]

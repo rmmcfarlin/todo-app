@@ -20,12 +20,15 @@ app.get('/tasks', async (req,res) => {
 //POST
 app.post('/tasks', async (req,res) => {
     try {
-        const newTask = req.body
+        const taskId = Date.now()
+
+        const newTask = {...req.body, id: taskId}
+
         const data = await fs.readFile('tasks.json', 'utf8')
         const tasks = JSON.parse(data)
         tasks.push(newTask)
         await fs.writeFile('tasks.json', JSON.stringify(tasks, null, 2))
-        res.status(201).json({ message: 'Task Added'})
+        res.status(201).json({ message: 'Task Added', id: taskId})
     } catch (err) {
         res.status(500).json({ error: "Unable to write tasks"})
 

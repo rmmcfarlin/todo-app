@@ -98,7 +98,15 @@ form {
   font-size: 1rem;
 }
 
-.modifyTaskButton {
+.notesSection {
+  width: 75%;
+  justify-self: center;
+  margin-bottom: 2rem;
+}
+
+/* Editing UI */
+
+.taskButton {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
@@ -106,11 +114,29 @@ form {
   color: white;
   background-color: var(--greypurple);
   position: absolute;
-  bottom: 16px;
-  right: 16px;
 }
 
-.modifyTaskButton:hover {
+.saveButton, .modifyTaskButton {
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.saveButton {
+  background-color: var(--green);
+}
+
+.cancelButton {
+  bottom: 1rem;
+  right: 5.5rem;
+}
+
+.deleteButton {
+  bottom: 1rem;
+  left: 1rem;
+  background-color: var(--red);
+}
+
+.modifyTaskButton:hover, .cancelButton:hover {
   background-color: var(--darkcornflower);
 }
 
