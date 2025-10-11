@@ -169,3 +169,16 @@ input {
 .submitTaskButton:hover {
   background-color: var(--darkcornflower);
 }
+
+/* Edit Task Form */
+
+.editTaskInput, .notesInput {
+  border: none;
+  background: transparent;
+  font-family: "Roboto";
+  font-size: 1rem;
+}
+
+.notesInput {
+  width: 100%;  
+}

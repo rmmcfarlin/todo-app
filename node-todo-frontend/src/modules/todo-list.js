@@ -1,22 +1,24 @@
 import { React } from 'react'
 import { useState, useEffect } from 'react'
+import EditableNotes from './editable-notes'
 
 
 
 const TodoList = ({tasks, setTasks, setError}) => {
 
-    const [editTask, setEditTask] = useState(false)
+    const [editTask, setEditTask] = useState("")
 
-    const handleEdit = () => {
-        setEditTask(true)
+
+    const handleEdit = (id) => {
+        setEditTask(id)
     }
-
     const cancelEdits = () => {
-        setEditTask(false)
+        setEditTask("")
     }
 
+    
     const handleSave = () => {
-        setEditTask(false)
+   
     }
 
     const handleDelete = async (id) => {
@@ -53,23 +55,43 @@ const TodoList = ({tasks, setTasks, setError}) => {
                                 <input type="checkbox" value={task.completed}></input>
                             </form>
                             <div className="itemInfo">
-                                <div className="itemHeader">
+                                                             
+                            {editTask === taskId ? (
+                                 <>
+                                    <div className="itemHeader">
+                                    <form onSubmit={handleSave}></form>
+                                        <input type="text" name="editTitle" value={task.title} className="todoItem editTaskInput"></input>
+                                        <div>
+                                            <span className="label">Due: </span>
+                                            <input type="date" name="editDate" value={task.dueDate} className='editTaskInput'></input>
+                                        </div>
+                                    </div>
+                                <div className="notesSection">
+                                   <EditableNotes task={task} />
+                                </div>
+                                </>
+                            ) : (
+                               <>
+                                 <div className="itemHeader">
                                     <span className="todoItem">{task.title}</span>
                                     <div>
                                        <span className="label">Due: </span><span>{task.dueDate}</span>
                                     </div>
-                                </div>
+                                    </div>
                                 <div className="notesSection">
-                                    <span className="label">Notes: </span><span>{task.notes}</span>
+                                    <span>{task.notes}</span>
                                 </div>
+                               </>
+                            )   
+                        }
                             </div>
-                            {editTask ? (
+                            {editTask === taskId ? (
                                <>
                                 <button className="taskButton cancelButton" onClick={cancelEdits}>Cancel</button>
                                 <button className="taskButton saveButton" onClick={handleSave}>Save</button>
                                 <button className="taskButton deleteButton" onClick={() => handleDelete(taskId)}>Delete</button>
                                </>)
-                                :  (<button className="taskButton modifyTaskButton" onClick={handleEdit}>Edit</button>)
+                                :  (<button className="taskButton modifyTaskButton" onClick={() => handleEdit(taskId)}>Edit</button>)
                             }
                           
                             
