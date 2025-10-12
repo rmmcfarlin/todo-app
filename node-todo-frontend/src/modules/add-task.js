@@ -10,15 +10,9 @@ const AddTask = ({tasks, setTasks}) => {
         notes: ""
     })
 
-    const idGenerator = () => {
-        return Math.floor(Math.random() * 1000000000);
-    }
-
     const handleChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        // const taskId = idGenerator();
-
         setFormData(prev => ({...prev, [name]: value}))
     }
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-function EditableNotes({ task }) {
+function EditableNotes({ task, handleChange }) {
   const [notes, setNotes] = useState(task.notes || "");
 
   useEffect(() => {
@@ -11,17 +11,21 @@ function EditableNotes({ task }) {
     }
   }, [notes]);
 
-  return (
-    <textarea
-      className="notesInput"
-      value={notes}
-      onChange={(e) => {
+  const handleAreaChange = (e) => {
         setNotes(e.target.value);
         e.target.style.height = "auto";
         e.target.style.height = `${e.target.scrollHeight}px`;
-        e.target.style.width = "500px";
+      }
+
+  return (
+    <textarea
+      name="notes"
+      className="notesInput"
+      value={notes}
+      onChange={(e) => {
+        handleChange(e)
+        handleAreaChange(e)
       }}
-      placeholder="Add notes..."
     />
   );
 }

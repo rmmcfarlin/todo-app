@@ -79,12 +79,13 @@ form {
 .todoItem {
   font-size: 2rem;
   font-weight: 700;
+  width: 75%;
 }
 
 .itemHeader {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 1.25rem;
   width: 100%;
 }
@@ -181,4 +182,10 @@ input {
 
 .notesInput {
   width: 100%;  
+}
+
+.editTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  width: 75%;
 }

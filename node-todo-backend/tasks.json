@@ -1,10 +1,11 @@
 [
   {
-    "title": "Add edit / PUT functionality",
+    "title": "Finish PUT functionality for Completed",
     "completed": false,
-    "dueDate": "2025-10-09",
-    "notes": "",
-    "id": 1759980080598
+    "dueDate": "2025-10-14",
+    "notes": "completed functionality will have to go through the PUT route. will need to add the checkbox into the form / style with position absolute ",
+    "id": 1759980080598,
+    "editDate": "2025-10-13"
   },
   {
     "id": 1759990080927,
