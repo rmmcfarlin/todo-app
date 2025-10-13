@@ -1,7 +1,7 @@
 [
   {
     "title": "Finish PUT functionality for Completed",
-    "completed": false,
+    "completed": true,
     "dueDate": "2025-10-14",
     "notes": "completed functionality will have to go through the PUT route. will need to add the checkbox into the form / style with position absolute ",
     "id": 1759980080598,
@@ -11,19 +11,19 @@
     "id": 1759990080927,
     "title": "Add Popup confirmation for delete",
     "completed": false,
-    "dueDate": "2025-10-10",
+    "dueDate": "2025-10-13",
     "notes": "Add popup for delete button, move handleDelete function to confirmation button and have Delete button trigger popup"
   },
   {
     "title": "Add Completed / Archived Functionality",
     "completed": false,
     "dueDate": "2025-10-17",
-    "notes": "Style checkbox, set completed = true, backend logic to move task to archived file when task is marked completed",
+    "notes": "Style checkbox, create \"Completed\" container that can be expanded. Frontend automatically sorts completed tasks to \"Completed\" bin on the bottom. Separate archived section accessible through sidebar, with backend logic to move task to archived file",
     "id": 1759990342416
   },
   {
     "title": "Fix Edit Task to apply to each task",
-    "completed": false,
+    "completed": true,
     "dueDate": "2025-10-17",
     "notes": "currently marks state as editTask = true for all tasks, will need to be tied to task ID possibly?",
     "id": 1759990434751
@@ -31,8 +31,15 @@
   {
     "title": "Add sorting functionality",
     "completed": false,
-    "dueDate": "",
-    "notes": "Currently sorts by oldest -> newest, should add filtering options",
+    "dueDate": "2025-10-19",
+    "notes": "Currently sorts by oldest -> newest, should add filtering options. Might be a stretch, but drag + drop sorting would be cool too and could be a good challenge",
     "id": 1759990499771
+  },
+  {
+    "id": 1760292364501,
+    "title": "Add subtasks",
+    "completed": false,
+    "dueDate": "2025-11-07",
+    "notes": "Would be cool to add functionality for subtasks within each task?"
   }
 ]
