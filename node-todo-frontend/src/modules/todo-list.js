@@ -1,16 +1,12 @@
-import { React } from 'react'
 import { useState, useEffect } from 'react'
-import EditableNotes from './editable-notes'
-import EditableTitle from './editable-title'
-import EditableDate from './editable-date'
 import EditTaskForm from './edit-task-form'
+import CompletedCheckbox from './completed-checkbox'
+import CompletedTasks from "./completed-tasks"
 
 
-const TodoList = ({tasks, setTasks, setError}) => {
+const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError}) => {
 
     const [editTask, setEditTask] = useState("")
-    
-
 
     const handleEdit = (id) => {
         setEditTask(id)
@@ -37,23 +33,19 @@ const TodoList = ({tasks, setTasks, setError}) => {
         }
     }
 
-    const userTasks = Object.values(tasks).flat()
-
-
     return (
         <div className="listContainer">
         {
-            userTasks.map((task) => {
+            tasks.map((task) => {
                 
                 let taskId = task.id
 
                 return (
                         <div className="itemContainer" key={taskId}>
-                            <form>
-                                <input type="checkbox" value={task.completed}></input>
-                            </form>
-                            <div className="itemInfo">
-                                                             
+                           <CompletedCheckbox 
+                                task={task} 
+                                setError={setError} />
+                            <div className="itemInfo">                            
                             {editTask === taskId ? (
                                 <>
                                     <EditTaskForm task={task} setError={setError} setEditTask={setEditTask} />
@@ -75,17 +67,19 @@ const TodoList = ({tasks, setTasks, setError}) => {
                             </div>
                             {editTask === taskId ? (
                                <>
-                                <button className="taskButton cancelButton" onClick={cancelEdits}>Cancel</button>
-                                <button className="taskButton deleteButton" onClick={() => handleDelete(taskId)}>Delete</button>
+                                <button className="button taskButton cancelButton" onClick={cancelEdits}>Cancel</button>
+                                <button className="button taskButton deleteButton" onClick={() => handleDelete(taskId)}>Delete</button>
                                </>)
-                                :  (<button className="taskButton modifyTaskButton" onClick={() => handleEdit(taskId)}>Edit</button>)
+                                :  (<button className="button taskButton modifyTaskButton" onClick={() => handleEdit(taskId)}>Edit</button>)
                             }
-                          
-                            
                         </div>
                 )
             })
         }
+        <CompletedTasks 
+            completedTasks={completedTasks} 
+            setCompletedTasks={setCompletedTasks} 
+            setError={setError} />
         </div>
     )
 }

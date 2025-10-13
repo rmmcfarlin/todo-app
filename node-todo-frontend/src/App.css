@@ -39,25 +39,39 @@
 
 #root {
   width: 100vw;
-  height: 100vh;
-  background-color: #A5B9F1;
+  background-color: #9B99A3;
 }
 
 .App {
-  height: 100vh;
+  height: 100%;
+  padding: 8rem;
   display: flex;
-  justify-content: center;
+  justify-content: right;
   align-items: center;
+  position: relative;
+}
+
+/* Sidebar */
+
+.sidebar {
+  position: fixed;
+  left: 3%;
+  top: 50%;
+  transform: translate(0%, -50%);
 }
 
 /* Todo List Component */
 
 .listContainer {
-  width: 66vw;
-  max-height: 75%;
+  width: 65vw;
+  max-height: 95%;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  align-items: center;
+}
+
+.listContainer::-webkit-scrollbar {
+  display: none;
 }
 
 .itemContainer {
@@ -105,15 +119,27 @@ form {
   margin-bottom: 2rem;
 }
 
-/* Editing UI */
+.showCompletedTasks {
+  width: 25%;
+}
 
-.taskButton {
+
+/* UI */
+
+.button {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 5px;
   font-weight: 500;
   color: white;
-  background-color: var(--greypurple);
+  background-color: #2E2E33;
+}
+
+.button:hover {
+  background-color: #87848E;
+}
+
+.taskButton {
   position: absolute;
 }
 
@@ -137,11 +163,22 @@ form {
   background-color: var(--red);
 }
 
-.modifyTaskButton:hover, .cancelButton:hover {
-  background-color: var(--darkcornflower);
+.submitTaskButton {
+  margin-top: 1rem;
+  width: 50%;
+  padding: 0.5rem 1rem;
+  align-self: center;
+  border: none;
+  border-radius: 5px;
+  font-weight: 500;
+  color: white;
 }
 
-/* Add Task Form */
+.showCompletedTasks {
+  margin-bottom: 2rem;
+}
+
+/* Form Elements */
 
 .addTaskForm {
   background-color: var(--parchment);
@@ -154,24 +191,6 @@ form {
 input {
   margin-bottom: 1rem;
 }
-
-.submitTaskButton {
-  margin-top: 1rem;
-  width: 50%;
-  padding: 0.5rem 1rem;
-  align-self: center;
-  border: none;
-  border-radius: 5px;
-  font-weight: 500;
-  color: white;
-  background-color: var(--greypurple);
-}
-
-.submitTaskButton:hover {
-  background-color: var(--darkcornflower);
-}
-
-/* Edit Task Form */
 
 .editTaskInput, .notesInput {
   border: none;
@@ -188,4 +207,41 @@ input {
   font-size: 2rem;
   font-weight: 700;
   width: 75%;
+}
+
+.custom-checkbox input{
+  display: none;
+}
+
+.custom-checkbox .checkmark {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #2E2E33;
+  background-color: #eee;
+  border-radius: 4px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+  position: relative;
+}
+
+.custom-checkbox input:checked + .checkmark {
+  background-color: #2E2E33;
+}
+
+.custom-checkbox .checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.custom-checkbox input:checked + .checkmark::after {
+  display: block;
+  left: 5px;
+  top: 0px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
 }

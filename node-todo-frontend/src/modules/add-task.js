@@ -45,7 +45,7 @@ const AddTask = ({tasks, setTasks}) => {
 
 
     return(
-        <div>
+        <>
             <form className="addTaskForm" onSubmit={handleSubmit}>
                 <label for="taskName">Task:</label>
                 <input type="text" name="title" value={formData.title} onChange={handleChange}></input>
@@ -53,9 +53,9 @@ const AddTask = ({tasks, setTasks}) => {
                 <input type="date" name="dueDate" value={formData.dueDate} onChange={handleChange}></input>
                 <label for="notes">Notes:</label>
                 <input type="text" name="notes" value={formData.notes} onChange={handleChange}></input>
-                <button className="submitTaskButton" type="submit">Add Task</button>
+                <button className="button submitTaskButton" type="submit">Add Task</button>
             </form>
-        </div>
+        </>
     )
 }
 

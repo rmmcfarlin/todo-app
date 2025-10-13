@@ -2,6 +2,7 @@ import { useState } from 'react'
 import EditableDate from './editable-date'
 import EditableNotes from './editable-notes'
 import EditableTitle from './editable-title'
+import CompletedCheckbox from './completed-checkbox'
 
 
 const EditTaskForm = ({ task, setError, setEditTask }) => {
