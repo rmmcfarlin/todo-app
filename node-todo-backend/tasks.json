@@ -12,7 +12,7 @@
     "title": "Add Popup confirmation for delete",
     "completed": false,
     "dueDate": "2025-10-13",
-    "notes": "Add popup for delete button, move handleDelete function to confirmation button and have Delete button trigger popup"
+    "notes": "Add popup for delete button, move handleDelete function to confirmation button and have Delete button trigger popup. test"
   },
   {
     "title": "Add Completed / Archived Functionality",
@@ -41,5 +41,19 @@
     "completed": false,
     "dueDate": "2025-11-07",
     "notes": "Would be cool to add functionality for subtasks within each task?"
+  },
+  {
+    "id": 1760329313517,
+    "title": "Finish Sidebar",
+    "completed": false,
+    "dueDate": "2025-10-30",
+    "notes": "Button for expand / hide, add archived tasks button, etc. "
+  },
+  {
+    "id": 1760329350339,
+    "title": "Finish Sidebar",
+    "completed": false,
+    "dueDate": "2025-10-30",
+    "notes": "Button for expand / hide, add archived tasks button, etc. "
   }
 ]

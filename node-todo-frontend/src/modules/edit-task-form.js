@@ -53,7 +53,7 @@ const EditTaskForm = ({ task, setError, setEditTask }) => {
                     <EditableNotes task={task} handleChange={handleChange} />
                 </div>
             </form>
-            <button className="taskButton saveButton" onClick={() => handleSave(task.id)} type="submit" form="editTaskForm">Save</button>
+            <button className="button taskButton saveButton" onClick={() => handleSave(task.id)} type="submit" form="editTaskForm">Save</button>
         </>
     )
 }

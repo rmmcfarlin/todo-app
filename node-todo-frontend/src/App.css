@@ -54,10 +54,17 @@
 /* Sidebar */
 
 .sidebar {
+  height: 100%;
+  width: 17.5%;
+  background-color: #3A3A40;
   position: fixed;
-  left: 3%;
+  left: 0%;
   top: 50%;
   transform: translate(0%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Todo List Component */
@@ -84,10 +91,6 @@
   border-radius: 10px;
   display: flex;
   align-items: center;
-}
-
-form {
-  margin-right: 2rem;
 }
 
 .todoItem {

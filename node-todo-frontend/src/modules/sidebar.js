@@ -5,7 +5,7 @@ const Sidebar = ({tasks, setTasks}) => {
 
     return(
         <div className="sidebar">
-            <AddTask />
+            <AddTask tasks={tasks} setTasks={setTasks}/>
         </div>
     )
 }
