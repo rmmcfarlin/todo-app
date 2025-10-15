@@ -45,15 +45,15 @@
   {
     "id": 1760329313517,
     "title": "Finish Sidebar",
-    "completed": false,
+    "completed": true,
     "dueDate": "2025-10-30",
     "notes": "Button for expand / hide, add archived tasks button, etc. "
   },
   {
-    "id": 1760329350339,
-    "title": "Finish Sidebar",
+    "id": 1760479457873,
+    "title": "Add Google Calendar integration",
     "completed": false,
-    "dueDate": "2025-10-30",
-    "notes": "Button for expand / hide, add archived tasks button, etc. "
+    "dueDate": "2025-11-30",
+    "notes": "Import / export events with google calendar, add Google OAuth2 functionality"
   }
 ]

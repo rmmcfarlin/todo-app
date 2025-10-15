@@ -3,15 +3,19 @@ import CompletedCheckbox from './completed-checkbox'
 
 const CompletedTasks = ({ completedTasks, setCompletedTasks, setError }) => {
 
+    const [showCompleted, setShowCompleted] = useState(false)
+
+    const handleShowCompleted = () => {
+        setShowCompleted(!showCompleted)
+    }
+
     return(
         <>
-            <button className="button showCompletedTasks">Show Completed Tasks</button>
-             <div className="listContainer">
-        {
-            completedTasks.map((task) => {
-                
+            <button className="button showCompletedTasks" onClick={handleShowCompleted}>Show Completed Tasks</button>
+            {showCompleted ? (
+                  <div className="listContainer">            
+        {completedTasks.map((task) => {
                 let taskId = task.id
-
                 return (
                         <div className="itemContainer" key={taskId}>
                            <CompletedCheckbox task={task} setError={setError} setCompletedTasks={setCompletedTasks} />
@@ -32,6 +36,10 @@ const CompletedTasks = ({ completedTasks, setCompletedTasks, setError }) => {
                 )
             }
             </div>
+            ) : (
+                <></>
+            )
+        }
         </>
         )
 }

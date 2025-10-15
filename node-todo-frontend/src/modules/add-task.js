@@ -1,60 +1,29 @@
 import { useState, useEffect } from 'react'
+import { ReactComponent as PlusSignSvg } from "../assets/plus-symbol-button.svg"
 
-const AddTask = ({tasks, setTasks}) => {
+const AddTask = ({ addTask, setAddTask, className, expanded }) => {
 
-    const [formData, setFormData] = useState({
-        id: "",
-        title: "",
-        completed: false,
-        dueDate: "",
-        notes: ""
-    })
-
-    const handleChange = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
-        setFormData(prev => ({...prev, [name]: value}))
+    const handleAddTask = () => {
+        setAddTask(!addTask)
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+      const getClass = () => {
 
-        const res = await fetch("http://localhost:3000/tasks", {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(formData)
-        })
-
-        const resData = await res.json()
-        
-        const newTask = {...formData, id: resData.id}
-
-        const updatedList = [...tasks, newTask]
-
-        console.log(updatedList)
-
-        setTasks(updatedList)
-
-        setFormData({
-            title: "",
-            completed: false,
-            dueDate: "",
-            notes: ""
-        })
+        if (expanded) {
+            return ""
+        } else {
+            return "collapsed"
+        }
     }
-
+    
+    const textClass = getClass()
 
     return(
         <>
-            <form className="addTaskForm" onSubmit={handleSubmit}>
-                <label for="taskName">Task:</label>
-                <input type="text" name="title" value={formData.title} onChange={handleChange}></input>
-                <label for="dueDate">Due Date:</label>
-                <input type="date" name="dueDate" value={formData.dueDate} onChange={handleChange}></input>
-                <label for="notes">Notes:</label>
-                <input type="text" name="notes" value={formData.notes} onChange={handleChange}></input>
-                <button className="button submitTaskButton" type="submit">Add Task</button>
-            </form>
+        <button className={className} onClick={handleAddTask}>
+            <PlusSignSvg className="sidebarIcon" />
+            <span className={textClass}>Add Task</span>
+        </button>
         </>
     )
 }

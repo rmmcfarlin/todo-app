@@ -30,9 +30,12 @@
 --indigo: #301496;
 --greypurple: #827D93;
 --green: #246C31;
+--lightgreen: #3DA24E;
 --red: #982C2C;
+--lightred: #CC4A4A;
 --yellow: #CFAD18;
 --parchment: #ECEAE4;
+--charcoal: #3A3A40;
 }
 
 /* Main */
@@ -43,38 +46,37 @@
 }
 
 .App {
-  height: 100%;
-  padding: 8rem;
   display: flex;
   justify-content: right;
   align-items: center;
   position: relative;
 }
 
-/* Sidebar */
-
-.sidebar {
-  height: 100%;
-  width: 17.5%;
-  background-color: #3A3A40;
-  position: fixed;
-  left: 0%;
-  top: 50%;
-  transform: translate(0%, -50%);
+.appContainer {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  transition: all 0.3s ease;
+}
+
+.appMain {
+  min-height: 100vh;
+  flex-grow: 1;
+  transition: width 0.3s ease;
+  overflow: scroll;
   justify-content: center;
+  padding: 7rem 0 3rem;
 }
 
 /* Todo List Component */
 
 .listContainer {
   width: 65vw;
-  max-height: 95%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
+  margin: 0 auto;
 }
 
 .listContainer::-webkit-scrollbar {
@@ -124,10 +126,31 @@
 
 .showCompletedTasks {
   width: 25%;
+  margin-bottom: 2rem;
 }
 
 
 /* UI */
+
+.hamburgerIcon {
+  width: 20px;
+  border: none;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.sidebarButton {
+  display: flex;
+  background-color: transparent;
+  border: none;
+  padding: 1rem;
+  width: 100%;
+}
+
+.sidebarButton:hover {
+  background-color: #87848E;
+}
 
 .button {
   padding: 0.5rem 1rem;
@@ -155,6 +178,10 @@
   background-color: var(--green);
 }
 
+.saveButton:hover {
+  background-color: var(--lightgreen);
+}
+
 .cancelButton {
   bottom: 1rem;
   right: 5.5rem;
@@ -166,29 +193,61 @@
   background-color: var(--red);
 }
 
-.submitTaskButton {
-  margin-top: 1rem;
-  width: 50%;
-  padding: 0.5rem 1rem;
-  align-self: center;
-  border: none;
-  border-radius: 5px;
-  font-weight: 500;
-  color: white;
-}
-
-.showCompletedTasks {
-  margin-bottom: 2rem;
+.deleteButton:hover {
+  background-color: var(--lightred);
 }
 
 /* Form Elements */
 
-.addTaskForm {
-  background-color: var(--parchment);
+.addTaskContainer {
+  background-color: var(--charcoal);
+  width: 50%;
   padding: 2rem;
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  align-self: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.addTaskContainer p {
+  font-size: 2rem;
+  color: whitesmoke;
+  margin-bottom: 2rem;
+}
+
+.addTaskMain {
+  position: absolute;
+  top: -46px;
+  right: 0%;
+  background-color: transparent;
+  border: none;
+}
+
+.addTaskButtonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.addTaskMain svg {
+  width: 30px;
+}
+
+.addTaskMain span {
+  display: none;
+}
+
+.addTaskForm {
+  display: flex;
+  flex-direction: column;
+}
+.addTaskForm label {
+  color: whitesmoke;
 }
 
 input {
@@ -202,8 +261,12 @@ input {
   font-size: 1rem;
 }
 
-.notesInput {
+.notesInput, .addNotesInput {
   width: 100%;  
+}
+
+.addNotesInput {
+  background-color: white;
 }
 
 .editTitle {
@@ -247,4 +310,57 @@ input {
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
+}
+
+/* Sidebar */
+
+.sidebar {
+  height: 100%;
+  background-color: var(--charcoal);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.appContainer.expanded .sidebar {
+   width: 17.5%;
+}
+
+.appContainer.collapsed .sidebar {
+  width: 3%;
+}
+
+.userProfileFooter {
+  position: absolute;
+  bottom: 0%;
+  display: flex;
+  padding: 2rem 1rem;
+}
+
+.userProfileFooter span {
+  color: whitesmoke;
+  margin-left: 1rem;
+}
+
+.profilePicture {
+  width: 20px;
+  border-radius: 50%;
+}
+
+.sidebarButton span {
+  color: whitesmoke;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-left: 0.3rem;
+}
+
+.collapsed {
+  display: none;
+}
+
+.sidebarIcon {
+  width: 15px;
 }

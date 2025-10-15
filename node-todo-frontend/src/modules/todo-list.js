@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import EditTaskForm from './edit-task-form'
 import CompletedCheckbox from './completed-checkbox'
 import CompletedTasks from "./completed-tasks"
+import AddTask from './add-task'
 
-
-const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError}) => {
+const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError, addTask, setAddTask}) => {
 
     const [editTask, setEditTask] = useState("")
 
@@ -34,8 +34,11 @@ const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError}
     }
 
     return (
-        <div className="listContainer">
-        {
+    <>
+        <div className="appMain">
+             <div className="listContainer">
+                    <AddTask tasks={tasks} setTasks={setTasks} addTask={addTask} setAddTask={setAddTask} className="addTaskMain" />
+             {
             tasks.map((task) => {
                 
                 let taskId = task.id
@@ -81,7 +84,11 @@ const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError}
             setCompletedTasks={setCompletedTasks} 
             setError={setError} />
         </div>
+        </div>
+       
+    </>
     )
+
 }
 
 export default TodoList

@@ -1,6 +1,7 @@
 import { useState, useTheme, useEffect } from 'react'
 import TodoList from './todo-list'
 import Sidebar from './sidebar'
+import AddTaskForm from './add-task-form'
 
 
 const AppWrapper = () => {
@@ -8,6 +9,8 @@ const AppWrapper = () => {
     const [tasks, setTasks] = useState([])
     const [completedTasks, setCompletedTasks] = useState([])
     const [error, setError] = useState(null)
+    const [addTask, setAddTask] = useState(false)
+    const [expanded, setExpanded] = useState(false)
 
      useEffect(() => {
         const fetchData = async () => {
@@ -36,13 +39,31 @@ const AppWrapper = () => {
 
     return (
         <>
-            <Sidebar tasks={tasks} setTasks={setTasks} />
+           <div className='appContainer'>
+            <Sidebar 
+                className={`appContainer ${expanded ? 'expanded' : 'collapsed'}`}
+                tasks={tasks} 
+                setTasks={setTasks} 
+                addTask={addTask} 
+                setAddTask={setAddTask} 
+                expanded={expanded}
+                setExpanded={setExpanded}
+            />
             <TodoList 
                 tasks={tasks} 
                 setTasks={setTasks} 
                 completedTasks={completedTasks} 
                 setCompletedTasks={setCompletedTasks} 
                 setError={setError}
+                addTask={addTask} 
+                setAddTask={setAddTask} 
+            /> 
+           </div>
+            <AddTaskForm 
+                tasks={tasks}
+                setTasks={setTasks}
+                addTask={addTask} 
+                setAddTask={setAddTask} 
             />
         </>
     )
