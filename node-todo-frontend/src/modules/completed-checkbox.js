@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 const CompletedCheckbox = ({ task, setError }) => {
 
@@ -18,8 +18,6 @@ const CompletedCheckbox = ({ task, setError }) => {
 
         setNewFormData(prev => ({...prev, completed: e.target.checked}))
         const updatedFormData = {...newFormData, completed: checked}
-
-        console.log(updatedFormData)
 
         try {
             const response = await fetch(`http://localhost:3000/tasks/${id}`, {

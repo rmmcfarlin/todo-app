@@ -1,12 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useMemo, useState } from 'react'
+import { ReactComponent as SortSvg } from '../assets/sort.svg'
 import EditTaskForm from './edit-task-form'
 import CompletedCheckbox from './completed-checkbox'
 import CompletedTasks from "./completed-tasks"
 import AddTask from './add-task'
+import SortDropdown from './sortdropdown'
 
 const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError, addTask, setAddTask}) => {
 
     const [editTask, setEditTask] = useState("")
+    const [sort, setSort] = useState(false)
+    const [sortMethod, setSortMethod] = useState("dueSoonest")
+    // const [sortedTasks, setSortedTasks] = useState([])
 
     const handleEdit = (id) => {
         setEditTask(id)
@@ -14,32 +19,60 @@ const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError,
     const cancelEdits = () => {
         setEditTask("")
     }
+    const handleSort = () => {
+        setSort(!sort)
+    }
+
+
+    const sortedTasks = useMemo(() => {
+        // console.log("sorting tasks")
+        if (sortMethod === "dueSoonest") {
+            return [...tasks].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+        } else if (sortMethod === "dueLatest") {
+            return [...tasks].sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate))
+        } else if (sortMethod === "createdNewest") {
+            return [...tasks].sort((a, b) => b.id - a.id)
+        } else if (sortMethod === "createdOldest") {
+            return [...tasks].sort((a, b) => a.id - b.id)
+        } else {
+            return tasks
+        }
+    }, [tasks, sortMethod])
+    
+
 
     const handleDelete = async (id) => {
-
-        console.log(`deleting ${id}`)
+        if(window.confirm("Are you sure you want to delete this task?")) {
         try {
             const response = await fetch(`http://localhost:3000/tasks/${id}`, {
             method: "DELETE",
             headers: {"Content-Type": "application/json"},
         })
-
         if (!response.ok) throw new Error("Failed to delete task");
-
         setTasks(prevTasks => prevTasks.filter(tasks => tasks.id !== id))
         } catch (err) {
             console.log(err)
             setError(err.message)
         }
+      }
     }
+
+
 
     return (
     <>
         <div className="appMain">
              <div className="listContainer">
-                    <AddTask tasks={tasks} setTasks={setTasks} addTask={addTask} setAddTask={setAddTask} className="addTaskMain" />
+                <SortSvg className="sortIcon" onClick={handleSort} />
+                {sort ? (
+                    <SortDropdown sort={sort} setSort={setSort} setSortMethod={setSortMethod} />
+                ) : (
+                    <></>
+                )}
+
+                <AddTask tasks={tasks} setTasks={setTasks} addTask={addTask} setAddTask={setAddTask} className="addTaskMain" />
              {
-            tasks.map((task) => {
+                sortedTasks.map((task) => {
                 
                 let taskId = task.id
 
@@ -47,7 +80,9 @@ const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError,
                         <div className="itemContainer" key={taskId}>
                            <CompletedCheckbox 
                                 task={task} 
-                                setError={setError} />
+                                setError={setError}
+                                setCompletedTasks={setCompletedTasks}
+                                />
                             <div className="itemInfo">                            
                             {editTask === taskId ? (
                                 <>

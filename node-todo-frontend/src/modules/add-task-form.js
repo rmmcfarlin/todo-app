@@ -31,7 +31,6 @@ const AddTaskForm = ({ tasks, setTasks, addTask, setAddTask }) => {
         const name = e.target.name;
         const value = e.target.value;
         setFormData(prev => ({...prev, [name]: value}))
-        console.log(formData)
     }
 
     const handleCancel = () => {
@@ -48,12 +47,8 @@ const AddTaskForm = ({ tasks, setTasks, addTask, setAddTask }) => {
         })
 
         const resData = await res.json()
-        
         const newTask = {...formData, id: resData.id}
-
         const updatedList = [...tasks, newTask]
-
-        console.log(updatedList)
 
         setTasks(updatedList)
 

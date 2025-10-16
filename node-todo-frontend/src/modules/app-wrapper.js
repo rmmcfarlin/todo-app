@@ -1,4 +1,4 @@
-import { useState, useTheme, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import TodoList from './todo-list'
 import Sidebar from './sidebar'
 import AddTaskForm from './add-task-form'
@@ -13,7 +13,7 @@ const AppWrapper = () => {
     const [expanded, setExpanded] = useState(false)
 
      useEffect(() => {
-        const fetchData = async () => {
+            const fetchData = async () => {
             try {
                const response = await fetch("http://localhost:3000/tasks")
                if (!response.ok) {
@@ -28,6 +28,7 @@ const AppWrapper = () => {
 
                setTasks(uncompletedTasks)
                setCompletedTasks(completedTasks)
+               console.log('re-rendering')
 
             } catch (err) {
                 console.log(err)
@@ -35,7 +36,7 @@ const AppWrapper = () => {
             }
         }
         fetchData();
-    }, [])    
+    }, [completedTasks])    
 
     return (
         <>

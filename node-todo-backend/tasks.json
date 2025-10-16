@@ -10,7 +10,7 @@
   {
     "id": 1759990080927,
     "title": "Add Popup confirmation for delete",
-    "completed": false,
+    "completed": true,
     "dueDate": "2025-10-13",
     "notes": "Add popup for delete button, move handleDelete function to confirmation button and have Delete button trigger popup. test"
   },
@@ -30,7 +30,7 @@
   },
   {
     "title": "Add sorting functionality",
-    "completed": false,
+    "completed": true,
     "dueDate": "2025-10-19",
     "notes": "Currently sorts by oldest -> newest, should add filtering options. Might be a stretch, but drag + drop sorting would be cool too and could be a good challenge",
     "id": 1759990499771
@@ -39,7 +39,7 @@
     "id": 1760292364501,
     "title": "Add subtasks",
     "completed": false,
-    "dueDate": "2025-11-07",
+    "dueDate": "2025-11-30",
     "notes": "Would be cool to add functionality for subtasks within each task?"
   },
   {
@@ -55,5 +55,12 @@
     "completed": false,
     "dueDate": "2025-11-30",
     "notes": "Import / export events with google calendar, add Google OAuth2 functionality"
+  },
+  {
+    "id": 1760505099793,
+    "title": "Add user functionality and authentication",
+    "completed": false,
+    "dueDate": "2025-10-25",
+    "notes": "Add user accounts / login and authentication test"
   }
 ]

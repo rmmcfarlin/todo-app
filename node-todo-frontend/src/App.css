@@ -201,7 +201,7 @@
 
 .addTaskContainer {
   background-color: var(--charcoal);
-  width: 50%;
+  width: 33%;
   padding: 2rem;
   border-radius: 10px;
   display: flex;
@@ -236,6 +236,13 @@
 
 .addTaskMain svg {
   width: 30px;
+}
+
+.sortIcon {
+  width: 30px;
+  position: absolute;
+  top: -46px;
+  left: 0px;
 }
 
 .addTaskMain span {
@@ -310,6 +317,25 @@ input {
   border: solid white;
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
+}
+
+/* Sort Menu */
+
+.sortDropdown {
+  background-color: var(--charcoal);
+  width: 15rem;
+  padding: 1rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: -30px;
+  left: 40px;
+  z-index: 1;
+}
+
+.sortButton {
+  background-color: transparent;
 }
 
 /* Sidebar */
