@@ -11,6 +11,7 @@ const AppWrapper = () => {
     const [error, setError] = useState(null)
     const [addTask, setAddTask] = useState(false)
     const [expanded, setExpanded] = useState(false)
+    const [refreshTrigger, setRefreshTrigger] = useState(0)
 
      useEffect(() => {
             const fetchData = async () => {
@@ -28,6 +29,7 @@ const AppWrapper = () => {
 
                setTasks(uncompletedTasks)
                setCompletedTasks(completedTasks)
+        
                console.log('re-rendering')
 
             } catch (err) {
@@ -36,7 +38,7 @@ const AppWrapper = () => {
             }
         }
         fetchData();
-    }, [completedTasks])    
+    }, [refreshTrigger])    
 
     return (
         <>
@@ -57,7 +59,9 @@ const AppWrapper = () => {
                 setCompletedTasks={setCompletedTasks} 
                 setError={setError}
                 addTask={addTask} 
-                setAddTask={setAddTask} 
+                setAddTask={setAddTask}
+                refreshTrigger={refreshTrigger}
+                setRefreshTrigger={setRefreshTrigger}
             /> 
            </div>
             <AddTaskForm 

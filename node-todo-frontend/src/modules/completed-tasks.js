@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import CompletedCheckbox from './completed-checkbox'
 
-const CompletedTasks = ({ completedTasks, setCompletedTasks, setError }) => {
+const CompletedTasks = ({ completedTasks, setCompletedTasks, setError, setRefreshTrigger }) => {
 
     const [showCompleted, setShowCompleted] = useState(false)
 
@@ -18,7 +18,7 @@ const CompletedTasks = ({ completedTasks, setCompletedTasks, setError }) => {
                 let taskId = task.id
                 return (
                         <div className="itemContainer" key={taskId}>
-                           <CompletedCheckbox task={task} setError={setError} setCompletedTasks={setCompletedTasks} />
+                           <CompletedCheckbox task={task} setError={setError} setCompletedTasks={setCompletedTasks} setRefreshTrigger={setRefreshTrigger} />
                             <div className="itemInfo">                            
                                  <div className="itemHeader">
                                     <span className="todoItem">{task.title}</span>

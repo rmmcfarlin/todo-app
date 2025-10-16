@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const CompletedCheckbox = ({ task, setError }) => {
+const CompletedCheckbox = ({ task, setError, setRefreshTrigger }) => {
 
     const [completed, setCompleted] = useState(task.completed || false)
 
@@ -15,7 +15,6 @@ const CompletedCheckbox = ({ task, setError }) => {
     const handleCheck = async (e, id) => {
         const checked = e.target.checked
         setCompleted(checked)
-
         setNewFormData(prev => ({...prev, completed: e.target.checked}))
         const updatedFormData = {...newFormData, completed: checked}
 
@@ -31,6 +30,10 @@ const CompletedCheckbox = ({ task, setError }) => {
             console.log(err.message)
             setError(err)
         }
+
+        setTimeout(() => {
+            setRefreshTrigger(prev => prev + 1)
+        }, 1250)
     }
 
     return(

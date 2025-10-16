@@ -6,12 +6,12 @@ import CompletedTasks from "./completed-tasks"
 import AddTask from './add-task'
 import SortDropdown from './sortdropdown'
 
-const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError, addTask, setAddTask}) => {
+const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError, addTask, setAddTask, setRefreshTrigger }) => {
 
     const [editTask, setEditTask] = useState("")
     const [sort, setSort] = useState(false)
     const [sortMethod, setSortMethod] = useState("dueSoonest")
-    // const [sortedTasks, setSortedTasks] = useState([])
+
 
     const handleEdit = (id) => {
         setEditTask(id)
@@ -82,6 +82,7 @@ const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError,
                                 task={task} 
                                 setError={setError}
                                 setCompletedTasks={setCompletedTasks}
+                                setRefreshTrigger={setRefreshTrigger}
                                 />
                             <div className="itemInfo">                            
                             {editTask === taskId ? (
@@ -117,7 +118,8 @@ const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError,
         <CompletedTasks 
             completedTasks={completedTasks} 
             setCompletedTasks={setCompletedTasks} 
-            setError={setError} />
+            setError={setError}
+            setRefreshTrigger={setRefreshTrigger} />
         </div>
         </div>
        
