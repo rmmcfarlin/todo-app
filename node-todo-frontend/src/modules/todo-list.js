@@ -50,6 +50,7 @@ const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError,
         })
         if (!response.ok) throw new Error("Failed to delete task");
         setTasks(prevTasks => prevTasks.filter(tasks => tasks.id !== id))
+        setRefreshTrigger(prev => prev + 1)
         } catch (err) {
             console.log(err)
             setError(err.message)
@@ -119,7 +120,9 @@ const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError,
             completedTasks={completedTasks} 
             setCompletedTasks={setCompletedTasks} 
             setError={setError}
-            setRefreshTrigger={setRefreshTrigger} />
+            setRefreshTrigger={setRefreshTrigger}
+            handleDelete={handleDelete} 
+            />
         </div>
         </div>
        

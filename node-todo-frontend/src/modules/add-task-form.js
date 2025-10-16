@@ -76,8 +76,8 @@ const AddTaskForm = ({ tasks, setTasks, addTask, setAddTask }) => {
                 <label for="notes">Notes:</label>
                 <textarea type="text" name="notes" onChange={handleChange} className="addNotesInput"></textarea>
                 <div className="addTaskButtonContainer">
-                    <button className="cancelButton button" onClick={handleCancel}>Cancel</button>
-                    <button className="button saveButton" type="submit">Submit</button>
+                    <button className="addTaskSubmit button saveButton" type="submit">Submit</button>
+                    <button className="addTaskCancel button" onClick={handleCancel}>Cancel</button>
                 </div>
             </form>
             </div>

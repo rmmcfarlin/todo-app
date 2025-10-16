@@ -93,6 +93,7 @@
   border-radius: 10px;
   display: flex;
   align-items: center;
+  position: relative;
 }
 
 .todoItem {
@@ -174,6 +175,10 @@
   right: 1rem;
 }
 
+.addTaskSubmit {
+  position: absolute;
+}
+
 .saveButton {
   background-color: var(--green);
 }
@@ -183,11 +188,19 @@
 }
 
 .cancelButton {
+  position: absolute;
   bottom: 1rem;
-  right: 5.5rem;
+  right: 1rem;
+}
+
+.addTaskCancel {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
 }
 
 .deleteButton {
+  position: absolute;
   bottom: 1rem;
   left: 1rem;
   background-color: var(--red);
@@ -231,7 +244,6 @@
 .addTaskButtonContainer {
   display: flex;
   justify-content: space-between;
-  margin-top: 2rem;
 }
 
 .addTaskMain svg {
@@ -252,7 +264,9 @@
 .addTaskForm {
   display: flex;
   flex-direction: column;
+  margin-bottom: 3rem;
 }
+
 .addTaskForm label {
   color: whitesmoke;
 }

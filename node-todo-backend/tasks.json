@@ -22,13 +22,6 @@
     "id": 1759990342416
   },
   {
-    "title": "Fix Edit Task to apply to each task",
-    "completed": true,
-    "dueDate": "2025-10-17",
-    "notes": "currently marks state as editTask = true for all tasks, will need to be tied to task ID possibly?",
-    "id": 1759990434751
-  },
-  {
     "title": "Add sorting functionality",
     "completed": true,
     "dueDate": "2025-10-19",
@@ -41,13 +34,6 @@
     "completed": false,
     "dueDate": "2025-11-30",
     "notes": "Would be cool to add functionality for subtasks within each task?"
-  },
-  {
-    "id": 1760329313517,
-    "title": "Finish Sidebar",
-    "completed": true,
-    "dueDate": "2025-10-30",
-    "notes": "Button for expand / hide, add archived tasks button, etc. "
   },
   {
     "id": 1760479457873,

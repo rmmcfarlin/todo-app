@@ -77,4 +77,34 @@ app.put('/tasks/:id', async (req,res) => {
     }
 })
 
+// Archive 
+
+app.post('/tasks/:id/archive', async (req,res) => {
+    try {
+        const id = parseInt(req.params.id)
+
+        const data = await fs.readFile('tasks.json', 'utf8')
+        const currentTasks = JSON.parse(data)
+
+        const archiveData = await fs.readFile('archive.json', 'utf8')
+        const archivedTasks = JSON.parse(archiveData)
+
+          if (id === -1) {
+            return res.status(404).json({ error: "Task Not Found"})
+        }
+
+        const newArchivedTask = currentTasks.filter(task => task.id === id)
+        const newCurrentTasks = currentTasks.filter(task => task.id !== id)
+
+        archivedTasks.push(newArchivedTask)
+      
+        await fs.writeFile('tasks.json', JSON.stringify(newCurrentTasks, null, 2))
+        await fs.writeFile('archive.json', JSON.stringify(archivedTasks, null, 2))
+
+        res.status(201).json({ message: "Task archived"})
+    } catch {
+        res.status(500).json({ error: "Unable to archive task."})
+    }
+})
+
 app.listen(3000, () => console.log("Express Server running on port 3000.") )
