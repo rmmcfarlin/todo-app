@@ -6,11 +6,10 @@ import CompletedTasks from "./completed-tasks"
 import AddTask from './add-task'
 import SortDropdown from './sortdropdown'
 
-const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, setError, addTask, setAddTask, setRefreshTrigger }) => {
+const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, setError, addTask, setAddTask, setRefreshTrigger, sortMethod, setSortMethod }) => {
 
     const [editTask, setEditTask] = useState("")
     const [sort, setSort] = useState(false)
-    const [sortMethod, setSortMethod] = useState("dueSoonest")
 
 
     const handleEdit = (id) => {

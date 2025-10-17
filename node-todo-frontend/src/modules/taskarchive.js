@@ -6,26 +6,24 @@ import SortDropdown from './sortdropdown'
 
 
 
-const TaskArchive = ({ domain, expanded, showArchived, setShowArchived, archivedTasks, setRefreshTrigger, setError }) => {
+const TaskArchive = ({ domain, expanded, showArchived, archivedTasks, setRefreshTrigger, setError, sortMethod, setSortMethod }) => {
 
-    const [archSortMethod, setArchSortMethod] = useState("createdNewest")
     const [archSort, setArchSort] = useState(false)
-    const [taskIsArchived, setTaskIsArchived] = useState()
 
     const sortedArchive = useMemo(() => {
         // console.log("sorting tasks")
-        if (archSortMethod === "dueSoonest") {
+        if (sortMethod === "dueSoonest") {
             return [...archivedTasks].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
-        } else if (archSortMethod === "dueLatest") {
+        } else if (sortMethod === "dueLatest") {
             return [...archivedTasks].sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate))
-        } else if (archSortMethod === "createdNewest") {
+        } else if (sortMethod === "createdNewest") {
             return [...archivedTasks].sort((a, b) => b.id - a.id)
-        } else if (archSortMethod === "createdOldest") {
+        } else if (sortMethod === "createdOldest") {
             return [...archivedTasks].sort((a, b) => a.id - b.id)
         } else {
             return archivedTasks
         }
-    }, [archivedTasks, archSortMethod])
+    }, [archivedTasks, sortMethod])
 
     const handleSort = () => {
         setArchSort(!archSort)
@@ -52,11 +50,11 @@ const TaskArchive = ({ domain, expanded, showArchived, setShowArchived, archived
                         <p className='archivedTasksHeader'>Archived Tasks</p>
                     </div>
                     {archSort ? (
-                        <SortDropdown sort={archSort} setSort={setArchSort} archSortMethod={archSortMethod} />
+                        <SortDropdown sort={archSort} setSort={setArchSort} sortMethod={sortMethod} setSortMethod={setSortMethod} />
                         ) : (
                         <></>
                         )}
-                    {archivedTasks.map((task) => {
+                    {sortedArchive.map((task) => {
                         let taskId = task.id
                         return (
                             <div className="archivedContainer" key={taskId}>

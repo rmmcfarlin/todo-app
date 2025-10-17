@@ -1,7 +1,7 @@
 [
   {
     "title": "Add Archived Functionality",
-    "completed": false,
+    "completed": true,
     "dueDate": "2025-10-17",
     "notes": "Add \"archive\" button to show up only on completed tasks, add routing in backend to then write that task to a new file and remove from /tasks, build out \"archived\" component to show only archived tasks on click",
     "id": 1759990342416,

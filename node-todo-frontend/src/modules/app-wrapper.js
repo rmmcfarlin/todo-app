@@ -12,6 +12,7 @@ const AppWrapper = () => {
     const [error, setError] = useState(null)
     const [addTask, setAddTask] = useState(false)
     const [expanded, setExpanded] = useState(false)
+    const [sortMethod, setSortMethod] = useState("dueSoonest")
     const [refreshTrigger, setRefreshTrigger] = useState(0)
     const [showArchived, setShowArchived] = useState(false)
     const [archivedTasks, setArchivedTasks] = useState([])
@@ -62,7 +63,7 @@ const AppWrapper = () => {
                 setArchivedTasks={setArchivedTasks}
                 setError={setError}
                 showArchived={showArchived} 
-                setShowArchived={setShowArchived} 
+                setShowArchived={setShowArchived}
             />
             <div className="appMain">
                 {showArchived ? (
@@ -74,7 +75,9 @@ const AppWrapper = () => {
                 archivedTasks={archivedTasks} 
                 setArchivedTasks={setArchivedTasks}
                 setError={setError}
-                setRefreshTrigger={setRefreshTrigger} />
+                setRefreshTrigger={setRefreshTrigger}
+                sortMethod={sortMethod}
+                setSortMethod={setSortMethod} />
             ) : (
             <TodoList
                 domain={domain} 
@@ -87,6 +90,8 @@ const AppWrapper = () => {
                 setAddTask={setAddTask}
                 refreshTrigger={refreshTrigger}
                 setRefreshTrigger={setRefreshTrigger}
+                sortMethod={sortMethod}
+                setSortMethod={setSortMethod}
             /> 
             )}
             </div>
