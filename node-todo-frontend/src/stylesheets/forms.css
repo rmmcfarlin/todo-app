@@ -1,0 +1,122 @@
+/* Form Elements */
+
+.addTaskContainer {
+  background-color: var(--charcoal);
+  width: 33%;
+  padding: 2rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+.addTaskContainer p {
+  font-size: 2rem;
+  color: whitesmoke;
+  margin-bottom: 2rem;
+}
+
+.addTaskMain {
+  position: absolute;
+  top: -46px;
+  right: 0%;
+  background-color: transparent;
+  border: none;
+}
+
+.addTaskButtonContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.addTaskMain svg {
+  width: 30px;
+}
+
+.sortIcon {
+  width: 30px;
+  position: absolute;
+  top: -46px;
+  left: 0px;
+}
+
+.addTaskMain span {
+  display: none;
+}
+
+.addTaskForm {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 3rem;
+}
+
+.addTaskForm label {
+  color: whitesmoke;
+}
+
+input {
+  margin-bottom: 1rem;
+}
+
+.editTaskInput, .notesInput {
+  border: none;
+  background: transparent;
+  font-family: "Roboto";
+  font-size: 1rem;
+}
+
+.notesInput, .addNotesInput {
+  width: 100%;  
+}
+
+.addNotesInput {
+  background-color: white;
+}
+
+.editTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  width: 75%;
+}
+
+.custom-checkbox input{
+  display: none;
+}
+
+.custom-checkbox .checkmark {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #2E2E33;
+  background-color: #eee;
+  border-radius: 4px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+  position: relative;
+}
+
+.custom-checkbox input:checked + .checkmark {
+  background-color: #2E2E33;
+}
+
+.custom-checkbox .checkmark::after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.custom-checkbox input:checked + .checkmark::after {
+  display: block;
+  left: 5px;
+  top: 0px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}

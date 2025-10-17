@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react'
 import TodoList from './todo-list'
 import Sidebar from './sidebar'
 import AddTaskForm from './add-task-form'
+import TaskArchive from './taskarchive'
 
 
 const AppWrapper = () => {
@@ -12,11 +13,14 @@ const AppWrapper = () => {
     const [addTask, setAddTask] = useState(false)
     const [expanded, setExpanded] = useState(false)
     const [refreshTrigger, setRefreshTrigger] = useState(0)
+    const [showArchived, setShowArchived] = useState(false)
+    const [archivedTasks, setArchivedTasks] = useState([])
+    const domain = "http://localhost:3000"
 
      useEffect(() => {
             const fetchData = async () => {
             try {
-               const response = await fetch("http://localhost:3000/tasks")
+               const response = await fetch(`${domain}/tasks`)
                if (!response.ok) {
                 throw new Error("Network response not ok")
                }
@@ -24,11 +28,13 @@ const AppWrapper = () => {
                const data = await response.json();
 
                const userTasks = Object.values(data).flat()
-               const uncompletedTasks = userTasks.filter(task => task.completed === false)
-               const completedTasks = userTasks.filter(task => task.completed === true)
+               const uncompletedTasks = userTasks.filter(task => task.completed === false && task.archived === false)
+               const completedTasks = userTasks.filter(task => task.completed === true && task.archived === false)
+               const archivedTasks = userTasks.filter(task => task.archived === true)
 
                setTasks(uncompletedTasks)
                setCompletedTasks(completedTasks)
+               setArchivedTasks(archivedTasks)
         
                console.log('re-rendering')
 
@@ -44,6 +50,7 @@ const AppWrapper = () => {
         <>
            <div className='appContainer'>
             <Sidebar 
+                domain={domain}
                 className={`appContainer ${expanded ? 'expanded' : 'collapsed'}`}
                 tasks={tasks} 
                 setTasks={setTasks} 
@@ -51,8 +58,26 @@ const AppWrapper = () => {
                 setAddTask={setAddTask} 
                 expanded={expanded}
                 setExpanded={setExpanded}
+                archivedTasks={archivedTasks}
+                setArchivedTasks={setArchivedTasks}
+                setError={setError}
+                showArchived={showArchived} 
+                setShowArchived={setShowArchived} 
             />
-            <TodoList 
+            <div className="appMain">
+                {showArchived ? (
+            <TaskArchive  
+                domain={domain} 
+                expanded={expanded} 
+                showArchived={showArchived} 
+                setShowArchived={setShowArchived} 
+                archivedTasks={archivedTasks} 
+                setArchivedTasks={setArchivedTasks}
+                setError={setError}
+                setRefreshTrigger={setRefreshTrigger} />
+            ) : (
+            <TodoList
+                domain={domain} 
                 tasks={tasks} 
                 setTasks={setTasks} 
                 completedTasks={completedTasks} 
@@ -63,13 +88,17 @@ const AppWrapper = () => {
                 refreshTrigger={refreshTrigger}
                 setRefreshTrigger={setRefreshTrigger}
             /> 
+            )}
+            </div>
            </div>
-            <AddTaskForm 
+            <AddTaskForm
+                domain={domain} 
                 tasks={tasks}
                 setTasks={setTasks}
                 addTask={addTask} 
                 setAddTask={setAddTask} 
             />
+         
         </>
     )
 }

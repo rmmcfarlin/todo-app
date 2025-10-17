@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
-import EditableNotes from './editable-notes'
 
-const AddTaskForm = ({ tasks, setTasks, addTask, setAddTask }) => {
+const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask }) => {
 
     const [newNotes, setNewNotes] = useState("")
     const [formData, setFormData] = useState({
@@ -9,7 +8,8 @@ const AddTaskForm = ({ tasks, setTasks, addTask, setAddTask }) => {
         title: "",
         completed: false,
         dueDate: "",
-        notes: ""
+        notes: "",
+        archived: false
     })
 
     useEffect(() => {
@@ -40,7 +40,7 @@ const AddTaskForm = ({ tasks, setTasks, addTask, setAddTask }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const res = await fetch("http://localhost:3000/tasks", {
+        const res = await fetch(`${domain}/tasks`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(formData)

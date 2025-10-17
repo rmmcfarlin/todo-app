@@ -5,14 +5,15 @@ import EditableTitle from './editable-title'
 import CompletedCheckbox from './completed-checkbox'
 
 
-const EditTaskForm = ({ task, setError, setEditTask }) => {
+const EditTaskForm = ({ domain, task, setError, setEditTask }) => {
 
     const [ newFormData, setNewFormData ] = useState({
         "title": task.title,
         "completed": task.completed,
         "dueDate": task.dueDate,
         "notes": task.notes,
-        "id": task.id
+        "id": task.id, 
+        "archived": task.archive
     })
 
     const handleChange = (e) => {
@@ -26,7 +27,7 @@ const EditTaskForm = ({ task, setError, setEditTask }) => {
     const handleSave = async (id) => {
         console.log(`saving ${id}`)
         try {
-            const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+            const response = await fetch(`${domain}/tasks/${id}`, {
                 method: "PUT",
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(newFormData)

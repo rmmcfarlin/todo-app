@@ -6,7 +6,7 @@ import CompletedTasks from "./completed-tasks"
 import AddTask from './add-task'
 import SortDropdown from './sortdropdown'
 
-const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError, addTask, setAddTask, setRefreshTrigger }) => {
+const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, setError, addTask, setAddTask, setRefreshTrigger }) => {
 
     const [editTask, setEditTask] = useState("")
     const [sort, setSort] = useState(false)
@@ -44,7 +44,7 @@ const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError,
     const handleDelete = async (id) => {
         if(window.confirm("Are you sure you want to delete this task?")) {
         try {
-            const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+            const response = await fetch(`${domain}/tasks/${id}`, {
             method: "DELETE",
             headers: {"Content-Type": "application/json"},
         })
@@ -62,7 +62,6 @@ const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError,
 
     return (
     <>
-        <div className="appMain">
              <div className="listContainer">
                 <SortSvg className="sortIcon" onClick={handleSort} />
                 {sort ? (
@@ -84,11 +83,12 @@ const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError,
                                 setError={setError}
                                 setCompletedTasks={setCompletedTasks}
                                 setRefreshTrigger={setRefreshTrigger}
+                                domain={domain}
                                 />
                             <div className="itemInfo">                            
                             {editTask === taskId ? (
                                 <>
-                                    <EditTaskForm task={task} setError={setError} setEditTask={setEditTask} />
+                                    <EditTaskForm domain={domain} task={task} setError={setError} setEditTask={setEditTask} />
                                 </>
                             ) : (
                                <>
@@ -117,6 +117,7 @@ const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError,
             })
         }
         <CompletedTasks 
+            domain={domain}
             completedTasks={completedTasks} 
             setCompletedTasks={setCompletedTasks} 
             setError={setError}
@@ -124,8 +125,6 @@ const TodoList = ({tasks, setTasks, completedTasks, setCompletedTasks, setError,
             handleDelete={handleDelete} 
             />
         </div>
-        </div>
-       
     </>
     )
 

@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import AddTask from './add-task'
 import UserProfile from './user-profile'
-import TaskArchive from './taskarchive'
+import ShowArchivedButton from './show-archived-button'
 import { ReactComponent as HamburgerIcon } from '../assets/menu-hamburger-svgrepo-com.svg'
 
-const Sidebar = ({ tasks, setTasks, addTask, setAddTask, expanded, setExpanded }) => {
+const Sidebar = ({ domain, tasks, setTasks, addTask, setAddTask, expanded, setExpanded, archivedTasks, setArchivedTasks, setError, showArchived, setShowArchived }) => {
+
+
     
     const handleExpand = () => {
         setExpanded(!expanded)
@@ -16,7 +18,7 @@ const Sidebar = ({ tasks, setTasks, addTask, setAddTask, expanded, setExpanded }
         <div className='sidebar'>
             <HamburgerIcon onClick={handleExpand} />
             <AddTask expanded={expanded} tasks={tasks} setTasks={setTasks} addTask={addTask} setAddTask={setAddTask} className="sidebarButton addTaskSidebar" />
-            <TaskArchive  expanded={expanded} />
+            <ShowArchivedButton expanded={expanded} showArchived={showArchived} setShowArchived={setShowArchived} className="sidebarButton addTaskSidebar" />
             <UserProfile  expanded={expanded} />
         </div>
     )

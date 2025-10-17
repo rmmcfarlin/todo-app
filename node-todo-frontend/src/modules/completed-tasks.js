@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import CompletedCheckbox from './completed-checkbox'
+import ArchiveTaskButton from './archive-task-button'
 
-const CompletedTasks = ({ completedTasks, setCompletedTasks, setError, setRefreshTrigger, handleDelete }) => {
+const CompletedTasks = ({ domain, completedTasks, setCompletedTasks, setError, setRefreshTrigger, handleDelete }) => {
 
     const [showCompleted, setShowCompleted] = useState(false)
 
@@ -13,7 +14,7 @@ const CompletedTasks = ({ completedTasks, setCompletedTasks, setError, setRefres
         if (window.confirm("Are you sure you want to archive this task?")) {
             console.log(id)
              try {
-            const response = await fetch(`http://localhost:3000/tasks/${id}/archive`, {
+            const response = await fetch(`${domain}/tasks/${id}/archive`, {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'}
             })
@@ -35,7 +36,7 @@ const CompletedTasks = ({ completedTasks, setCompletedTasks, setError, setRefres
                 let taskId = task.id
                 return (
                         <div className="itemContainer" key={taskId}>
-                           <CompletedCheckbox task={task} setError={setError} setCompletedTasks={setCompletedTasks} setRefreshTrigger={setRefreshTrigger} />
+                           <CompletedCheckbox domain={domain} task={task} setError={setError} setCompletedTasks={setCompletedTasks} setRefreshTrigger={setRefreshTrigger} />
                             <div className="itemInfo">                            
                                  <div className="itemHeader">
                                     <span className="todoItem">{task.title}</span>
@@ -47,7 +48,7 @@ const CompletedTasks = ({ completedTasks, setCompletedTasks, setError, setRefres
                                     <span>{task.notes}</span>
                                 </div>
                                 <button className="button deleteButton" onClick={() => handleDelete(taskId)}>Delete</button>
-                                <button className="button cancelButton" onClick={() => handleArchive(taskId)}>Archive</button>
+                                <ArchiveTaskButton archiveAction={"Archive"} domain={domain} setError={setError} task={task} setRefreshTrigger={setRefreshTrigger}/>
                             </div>
                             
                         </div>

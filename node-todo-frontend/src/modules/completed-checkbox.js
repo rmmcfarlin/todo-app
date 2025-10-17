@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const CompletedCheckbox = ({ task, setError, setRefreshTrigger }) => {
+const CompletedCheckbox = ({ domain, task, setError, setRefreshTrigger }) => {
 
     const [completed, setCompleted] = useState(task.completed || false)
 
@@ -9,7 +9,8 @@ const CompletedCheckbox = ({ task, setError, setRefreshTrigger }) => {
         "completed": task.completed,
         "dueDate": task.dueDate,
         "notes": task.notes,
-        "id": task.id
+        "id": task.id,
+        "archived": task.archived
     })
 
     const handleCheck = async (e, id) => {
@@ -19,11 +20,12 @@ const CompletedCheckbox = ({ task, setError, setRefreshTrigger }) => {
         const updatedFormData = {...newFormData, completed: checked}
 
         try {
-            const response = await fetch(`http://localhost:3000/tasks/${id}`, {
+            const response = await fetch(`${domain}/tasks/${id}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(updatedFormData)
             })
+            if (response.ok) {console.log("task marked completed")}
             if (!response.ok) throw new Error("Failed to set task as completed")
 
         } catch (err) {
