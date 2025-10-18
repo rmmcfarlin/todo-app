@@ -9,7 +9,7 @@ const ArchiveTaskButton = ({ domain, setError, task, archiveAction, setRefreshTr
         "completed": task.completed,
         "dueDate": task.dueDate,
         "notes": task.notes,
-        "id": task.id,
+        "_id": task._id,
         "archived": task.archived
     })
 
@@ -37,7 +37,7 @@ const ArchiveTaskButton = ({ domain, setError, task, archiveAction, setRefreshTr
     }
 
     return(
-        <button className="button taskButton modifyTaskButton" onClick={() => handleArchive(task.id)}>{archiveAction}</button>
+        <button className="button taskButton modifyTaskButton" onClick={() => handleArchive(task._id)}>{archiveAction}</button>
     )
 }
 

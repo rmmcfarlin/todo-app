@@ -48,7 +48,7 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
             headers: {"Content-Type": "application/json"},
         })
         if (!response.ok) throw new Error("Failed to delete task");
-        setTasks(prevTasks => prevTasks.filter(tasks => tasks.id !== id))
+        setTasks(prevTasks => prevTasks.filter(tasks => tasks._id !== id))
         setRefreshTrigger(prev => prev + 1)
         } catch (err) {
             console.log(err)
@@ -73,7 +73,7 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
              {
                 sortedTasks.map((task) => {
                 
-                let taskId = task.id
+                let taskId = task._id
 
                 return (
                         <div className="itemContainer" key={taskId}>

@@ -12,7 +12,7 @@ const EditTaskForm = ({ domain, task, setError, setEditTask }) => {
         "completed": task.completed,
         "dueDate": task.dueDate,
         "notes": task.notes,
-        "id": task.id, 
+        "_id": task._id, 
         "archived": task.archive
     })
 
@@ -54,7 +54,7 @@ const EditTaskForm = ({ domain, task, setError, setEditTask }) => {
                     <EditableNotes task={task} handleChange={handleChange} />
                 </div>
             </form>
-            <button className="button taskButton saveButton" onClick={() => handleSave(task.id)} type="submit" form="editTaskForm">Save</button>
+            <button className="button taskButton saveButton" onClick={() => handleSave(task._id)} type="submit" form="editTaskForm">Save</button>
         </>
     )
 }

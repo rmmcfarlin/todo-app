@@ -1,110 +1,41 @@
-let express = require('express')
-let fs = require('fs').promises
-let cors = require('cors')
-let app = express()
+import express from 'express'
+import mongoose from 'mongoose'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import tasksRouter from './routes/tasks.js'
 
+dotenv.config()
+const port = process.env.PORT || 3000
 
+const app = express()
 app.use(express.json())
 app.use(cors());
 
-// GET
-app.get('/tasks', async (req,res) => {
+app.use('/tasks', tasksRouter)
+
+
+
+if (process.env.MONGO_URI) {
     try {
-        const data = await fs.readFile('tasks.json', 'utf8')
-        res.json(JSON.parse(data))
-    } catch (err) {
-        res.status(500).json({ error: "unable to read tasks" })
-    }
-})
-
-//POST
-app.post('/tasks', async (req,res) => {
-    try {
-        const taskId = Date.now()
-
-        const newTask = {...req.body, id: taskId}
-
-        const data = await fs.readFile('tasks.json', 'utf8')
-        const tasks = JSON.parse(data)
-        tasks.push(newTask)
-        await fs.writeFile('tasks.json', JSON.stringify(tasks, null, 2))
-        res.status(201).json({ message: 'Task Added', id: taskId})
-    } catch (err) {
-        res.status(500).json({ error: "Unable to write tasks"})
-
-    }
-})
-
-//DELETE
-
-app.delete('/tasks/:id', async (req,res) => {
-    try {
-        const id = parseInt(req.params.id)
-        const data = await fs.readFile('tasks.json', 'utf8')
-        let tasks = JSON.parse(data)
-
-        tasks = tasks.filter(t => t.id !== id)
-
-        await fs.writeFile('tasks.json', JSON.stringify(tasks, null, 2))
-        res.json({ message: 'Task Deleted'})
-
+        await mongoose.connect(process.env.MONGO_URI, { serverSelectionTimeoutMS: 10000 })
+        console.log('MongoDB Connected')
+        app.listen(port, () => console.log("Express Server running on port 3000.") )
     } catch {
-        res.status(500).json({ error: "Unable to delete task"})
+        console.log("unable to connect to MongoDB Atlas")
+        process.exit(1)
     }
+} else {
+    process.exit(1)
+}
 
+mongoose.connection.on('error', err => console.error('Mongo error:', err))
+
+mongoose.connection.on('disconnected', () => console.warn('Mongo disconnected'))
+
+process.on('SIGINT', async () => { 
+    console.log("Process shutting down")
+    await mongoose.connection.close(); process.exit(0) 
 })
 
-//PUT
-app.put('/tasks/:id', async (req,res) => {
-    try {
-        const updatedTask = req.body
-        const id = parseInt(req.params.id)
-        const data = await fs.readFile('tasks.json', 'utf8')
-        const tasks = JSON.parse(data)
-        const index = tasks.findIndex(task => task.id === id)
 
-        if (index === -1) {
-            return res.status(404).json({ error: "Task not found"})
-        }
 
-        tasks[index] = { ...tasks[index], ...updatedTask }
-
-        await fs.writeFile('tasks.json', JSON.stringify(tasks, null, 2))
-        res.status(201).json({ message: "Task updated"})
-
-    } catch {
-        res.status(500).json({ error: "Unable to modify task"})
-    }
-})
-
-// Archive 
-
-app.post('/tasks/:id/archive', async (req,res) => {
-    try {
-        const id = parseInt(req.params.id)
-
-        const data = await fs.readFile('tasks.json', 'utf8')
-        const currentTasks = JSON.parse(data)
-
-        const archiveData = await fs.readFile('archive.json', 'utf8')
-        const archivedTasks = JSON.parse(archiveData)
-
-          if (id === -1) {
-            return res.status(404).json({ error: "Task Not Found"})
-        }
-
-        const newArchivedTask = currentTasks.filter(task => task.id === id)
-        const newCurrentTasks = currentTasks.filter(task => task.id !== id)
-
-        archivedTasks.push(newArchivedTask)
-      
-        await fs.writeFile('tasks.json', JSON.stringify(newCurrentTasks, null, 2))
-        await fs.writeFile('archive.json', JSON.stringify(archivedTasks, null, 2))
-
-        res.status(201).json({ message: "Task archived"})
-    } catch {
-        res.status(500).json({ error: "Unable to archive task."})
-    }
-})
-
-app.listen(3000, () => console.log("Express Server running on port 3000.") )

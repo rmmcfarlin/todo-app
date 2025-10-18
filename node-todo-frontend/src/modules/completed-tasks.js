@@ -33,7 +33,7 @@ const CompletedTasks = ({ domain, completedTasks, setCompletedTasks, setError, s
             {showCompleted ? (
                   <div className="listContainer">            
         {completedTasks.map((task) => {
-                let taskId = task.id
+                let taskId = task._id
                 return (
                         <div className="itemContainer" key={taskId}>
                            <CompletedCheckbox domain={domain} task={task} setError={setError} setCompletedTasks={setCompletedTasks} setRefreshTrigger={setRefreshTrigger} />

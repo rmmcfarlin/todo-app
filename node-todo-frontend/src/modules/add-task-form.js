@@ -4,7 +4,7 @@ const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask }) => {
 
     const [newNotes, setNewNotes] = useState("")
     const [formData, setFormData] = useState({
-        id: "",
+        _id: "",
         title: "",
         completed: false,
         dueDate: "",
@@ -46,8 +46,7 @@ const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask }) => {
             body: JSON.stringify(formData)
         })
 
-        const resData = await res.json()
-        const newTask = {...formData, id: resData.id}
+        const newTask = formData
         const updatedList = [...tasks, newTask]
 
         setTasks(updatedList)

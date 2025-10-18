@@ -9,7 +9,7 @@ const CompletedCheckbox = ({ domain, task, setError, setRefreshTrigger }) => {
         "completed": task.completed,
         "dueDate": task.dueDate,
         "notes": task.notes,
-        "id": task.id,
+        "_id": task._id,
         "archived": task.archived
     })
 
@@ -45,7 +45,7 @@ const CompletedCheckbox = ({ domain, task, setError, setRefreshTrigger }) => {
                     type="checkbox" 
                     name="completed"
                     checked={completed} 
-                    onChange={(e) => {handleCheck(e, task.id)}}
+                    onChange={(e) => {handleCheck(e, task._id)}}
                 ></input>
                  <span class="checkmark"></span>
             </label>

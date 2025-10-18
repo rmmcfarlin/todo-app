@@ -10,6 +10,8 @@ const TaskArchive = ({ domain, expanded, showArchived, archivedTasks, setRefresh
 
     const [archSort, setArchSort] = useState(false)
 
+
+    // Fix sorting once created info is added in MongoDB
     const sortedArchive = useMemo(() => {
         // console.log("sorting tasks")
         if (sortMethod === "dueSoonest") {
@@ -55,7 +57,7 @@ const TaskArchive = ({ domain, expanded, showArchived, archivedTasks, setRefresh
                         <></>
                         )}
                     {sortedArchive.map((task) => {
-                        let taskId = task.id
+                        let taskId = task._id
                         return (
                             <div className="archivedContainer" key={taskId}>
                             <div className="itemInfo">                            
