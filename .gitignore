@@ -21,6 +21,7 @@ node-todo-backend/build/
 
 # misc
 .DS_Store
+node-todo-backend.env
 .env
 .env.local
 .env.development.local
