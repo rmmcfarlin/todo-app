@@ -74,6 +74,8 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
                 sortedTasks.map((task) => {
                 
                 let taskId = task._id
+                let date = new Date(task.dueDate)
+                let dueDate = date.toDateString()
 
                 return (
                         <div className="itemContainer" key={taskId}>
@@ -94,7 +96,7 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
                                  <div className="itemHeader">
                                     <span className="todoItem">{task.title}</span>
                                     <div>
-                                        <span className="label">Due: </span><span>{task.dueDate}</span>
+                                        <span className="label">Due: </span><span>{dueDate}</span>
                                     </div>
                                     </div>
                                 <div className="notesSection">

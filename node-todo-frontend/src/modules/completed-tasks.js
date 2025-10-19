@@ -34,6 +34,8 @@ const CompletedTasks = ({ domain, completedTasks, setCompletedTasks, setError, s
                   <div className="listContainer">            
         {completedTasks.map((task) => {
                 let taskId = task._id
+                let date = new Date(task.dueDate)
+                let dueDate = date.toDateString()
                 return (
                         <div className="itemContainer" key={taskId}>
                            <CompletedCheckbox domain={domain} task={task} setError={setError} setCompletedTasks={setCompletedTasks} setRefreshTrigger={setRefreshTrigger} />
@@ -41,7 +43,7 @@ const CompletedTasks = ({ domain, completedTasks, setCompletedTasks, setError, s
                                  <div className="itemHeader">
                                     <span className="todoItem">{task.title}</span>
                                     <div>
-                                        <span className="label">Due: </span><span>{task.dueDate}</span>
+                                        <span className="label">Due: </span><span>{dueDate}</span>
                                     </div>
                                     </div>
                                 <div className="notesSection">

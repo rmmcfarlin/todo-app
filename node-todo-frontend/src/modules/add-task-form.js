@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
 
-const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask }) => {
+const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask, setRefreshTrigger }) => {
 
     const [newNotes, setNewNotes] = useState("")
     const [formData, setFormData] = useState({
-        _id: "",
         title: "",
         completed: false,
         dueDate: "",
@@ -39,8 +38,7 @@ const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const res = await fetch(`${domain}/tasks`, {
+        const res = await fetch(`${domain}/tasks/`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(formData)
@@ -55,10 +53,12 @@ const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask }) => {
             title: "",
             completed: false,
             dueDate: "",
-            notes: ""
+            notes: "",
+            archived: false
         })
 
         setAddTask(false)
+        setRefreshTrigger(prev => prev + 1)
     }
 
 

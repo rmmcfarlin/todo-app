@@ -101,7 +101,8 @@ const AppWrapper = () => {
                 tasks={tasks}
                 setTasks={setTasks}
                 addTask={addTask} 
-                setAddTask={setAddTask} 
+                setAddTask={setAddTask}
+                setRefreshTrigger={setRefreshTrigger}
             />
          
         </>

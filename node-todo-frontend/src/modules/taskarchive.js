@@ -58,13 +58,15 @@ const TaskArchive = ({ domain, expanded, showArchived, archivedTasks, setRefresh
                         )}
                     {sortedArchive.map((task) => {
                         let taskId = task._id
+                        let date = new Date(task.dueDate)
+                        let dueDate = date.toDateString()
                         return (
                             <div className="archivedContainer" key={taskId}>
                             <div className="itemInfo">                            
                                 <div className="itemHeader">
                                     <span className="todoItem">{task.title}</span>
                                     <div>
-                                        <span className="label">Due: </span><span>{task.dueDate}</span>
+                                        <span className="label">Due: </span><span>{dueDate}</span>
                                     </div>
                                 </div>
                                 <div className="notesSection">
