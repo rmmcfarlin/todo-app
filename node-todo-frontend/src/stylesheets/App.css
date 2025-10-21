@@ -50,6 +50,8 @@
   justify-content: right;
   align-items: center;
   position: relative;
+  width: 100vw;
+  height: 100vh;
 }
 
 .appContainer {
@@ -433,4 +435,90 @@ input {
 
 .sidebarIcon {
   width: 15px;
+}
+
+/* Login Page */
+
+.loginPageBody {
+  background-color: var(--charcoal);
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginPageLogo {
+  width: 15vw;
+  margin-bottom: 1.5rem;
+}
+
+.loginContainer {
+  width: 33%;
+  height: auto;
+  background-color: var(--parchment);
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+
+.loginContainer form {
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.loginContainer, .loginContainer form {
+  display: flex;
+  display: flex;
+  flex-direction: column;
+}
+
+.loginContainer p:first-of-type {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.loginContainer form button, .loginButtonSecondary {
+  border-radius: 5px;
+  border: none;
+} 
+
+.loginContainer form button {
+  width: 40%;
+  background-color: var(--charcoal);
+  font-size: 1rem;
+  color: whitesmoke;
+  padding: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.loginButtonSecondary {
+  width: 33%;
+  font-size: 0.75rem;
+  padding: 0.25rem;
+  background-color: transparent;
+  margin-top: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.loginButtonContainer {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0;
+}
+
+.loginButtonContainer button:hover {
+  background-color: #87848E;
+}
+
+.loginButtonContainer button:nth-of-type(2) {
+  background-color: transparent;
+  border: 1px solid var(--charcoal);
+  color: var(--charcoal);
 }
