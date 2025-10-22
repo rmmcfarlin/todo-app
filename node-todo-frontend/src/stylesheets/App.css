@@ -222,7 +222,7 @@
 .cancelButton {
   position: absolute;
   bottom: 1rem;
-  right: 1rem;
+  right: 6rem;
 }
 
 .addTaskCancel {
@@ -455,7 +455,7 @@ input {
 }
 
 .loginContainer {
-  width: 33%;
+  width: 28%;
   height: auto;
   background-color: var(--parchment);
   padding: 1.5rem;

@@ -5,7 +5,7 @@ import AddTaskForm from './add-task-form'
 import TaskArchive from './taskarchive'
 
 
-const AppWrapper = () => {
+const AppWrapper = ({ domain }) => {
  
     const [tasks, setTasks] = useState([])
     const [completedTasks, setCompletedTasks] = useState([])
@@ -16,7 +16,7 @@ const AppWrapper = () => {
     const [refreshTrigger, setRefreshTrigger] = useState(0)
     const [showArchived, setShowArchived] = useState(false)
     const [archivedTasks, setArchivedTasks] = useState([])
-    const domain = "http://localhost:3000"
+
 
      useEffect(() => {
             const fetchData = async () => {

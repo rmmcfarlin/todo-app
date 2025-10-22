@@ -1,10 +1,13 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
 import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
-import dotenv from 'dotenv'
 import tasksRouter from './routes/tasks.js'
+import usersRouter from './routes/users.js'
 
-dotenv.config()
+
 const port = process.env.PORT || 3000
 
 const app = express()
@@ -12,6 +15,7 @@ app.use(express.json())
 app.use(cors());
 
 app.use('/tasks', tasksRouter)
+app.use('/users', usersRouter)
 
 
 if (process.env.MONGO_URI) {
