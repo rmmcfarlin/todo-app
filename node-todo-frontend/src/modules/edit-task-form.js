@@ -5,7 +5,7 @@ import EditableTitle from './editable-title'
 import CompletedCheckbox from './completed-checkbox'
 
 
-const EditTaskForm = ({ domain, task, setError, setEditTask }) => {
+const EditTaskForm = ({ domain, task, setError, setEditTask, setRefreshTrigger }) => {
 
     const [ newFormData, setNewFormData ] = useState({
         "title": task.title,
@@ -34,9 +34,11 @@ const EditTaskForm = ({ domain, task, setError, setEditTask }) => {
             })
             if (!response.ok) throw new Error("Failed to update task")
             setEditTask("")
+            setRefreshTrigger(prev => prev + 1)
         } catch (err) {
             console.log(err)
             setError(err.message)
+            setRefreshTrigger(prev => prev + 1)
         }
     }
 

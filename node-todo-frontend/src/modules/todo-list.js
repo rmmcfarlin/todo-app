@@ -89,7 +89,7 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
                             <div className="itemInfo">                            
                             {editTask === taskId ? (
                                 <>
-                                    <EditTaskForm domain={domain} task={task} setError={setError} setEditTask={setEditTask} />
+                                    <EditTaskForm domain={domain} task={task} setError={setError} setEditTask={setEditTask} setRefreshTrigger={setRefreshTrigger} />
                                 </>
                             ) : (
                                <>

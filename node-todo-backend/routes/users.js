@@ -41,11 +41,28 @@ router.post("/login", async (req,res) => {
     
         const correctPw = loginInfo.password
         if (await bcrypt.compare(password, correctPw)) {
-            const accessToken = jsonwebtoken.sign({ userId: loginInfo._id }, 
+            const accessToken = jsonwebtoken.sign(
+                { userId: loginInfo._id }, 
                 process.env.JWT_ACCESS_SECRET,
-                { expiresIn: "1d" }
+                { expiresIn: "15min" }
             )
-            return res.status(200).json({ accessToken, message: "Login successful"})
+            const refreshToken = jsonwebtoken.sign(
+                { userId: loginInfo._id },
+                process.env.JWT_REFRESH_SECRET,
+                { expiresIn: "7d" }
+            )
+
+            return res
+                .cookie("refreshToken", refreshToken, {
+                    httpOnly: true,
+                    sameSite: 'Lax',
+                    secure: false,
+                    path: "/users/refresh",
+                    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+                })
+                .status(200)
+                .json({ accessToken, message: "Login successful"})
+
         }  else {
             return res.status(401).json({ message: "Incorrect password."})
         }
@@ -54,5 +71,29 @@ router.post("/login", async (req,res) => {
     }
   }
 )
+
+// Refresh Access Token
+
+router.post("/refresh", async (req,res) => {
+    const refreshCookie = req.cookies.refreshToken
+
+    try {
+        if (!refreshCookie) {
+            res.status(401).json({ message: "No refresh token set, unable to authorize"})
+        }
+
+        const decoded = jsonwebtoken.verify(refreshCookie, process.env.JWT_REFRESH_SECRET)
+
+        const accessToken = jsonwebtoken.sign({ userId: decoded._id }, 
+            process.env.JWT_ACCESS_SECRET,
+            { expiresIn: "15min" }
+        )
+
+        res.status(201).json({ accessToken, message: "Refresh Succesful"})
+
+    } catch {
+        return res.status(500).json({ error: "Unable to refresh"})
+    }
+})
 
 export default router

@@ -5,47 +5,15 @@ import AddTaskForm from './add-task-form'
 import TaskArchive from './taskarchive'
 
 
-const AppWrapper = ({ domain }) => {
- 
-    const [tasks, setTasks] = useState([])
-    const [completedTasks, setCompletedTasks] = useState([])
-    const [error, setError] = useState(null)
+const AppWrapper = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks, errror, setError, refreshTrigger, setRefreshTrigger }) => {
+  
     const [addTask, setAddTask] = useState(false)
     const [expanded, setExpanded] = useState(false)
     const [sortMethod, setSortMethod] = useState("dueSoonest")
-    const [refreshTrigger, setRefreshTrigger] = useState(0)
     const [showArchived, setShowArchived] = useState(false)
-    const [archivedTasks, setArchivedTasks] = useState([])
+    
 
-
-     useEffect(() => {
-            const fetchData = async () => {
-            try {
-               const response = await fetch(`${domain}/tasks`)
-               if (!response.ok) {
-                throw new Error("Network response not ok")
-               }
-
-               const data = await response.json();
-
-               const userTasks = Object.values(data).flat()
-               const uncompletedTasks = userTasks.filter(task => task.completed === false && task.archived === false)
-               const completedTasks = userTasks.filter(task => task.completed === true && task.archived === false)
-               const archivedTasks = userTasks.filter(task => task.archived === true)
-
-               setTasks(uncompletedTasks)
-               setCompletedTasks(completedTasks)
-               setArchivedTasks(archivedTasks)
-        
-               console.log('re-rendering')
-
-            } catch (err) {
-                console.log(err)
-                setError(err.message)
-            }
-        }
-        fetchData();
-    }, [refreshTrigger])    
+   
 
     return (
         <>

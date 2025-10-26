@@ -4,6 +4,7 @@ dotenv.config()
 import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import tasksRouter from './routes/tasks.js'
 import usersRouter from './routes/users.js'
 
@@ -12,7 +13,12 @@ const port = process.env.PORT || 3000
 
 const app = express()
 app.use(express.json())
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3001",
+    credentials: true
+}   
+));
+app.use(cookieParser())
 
 app.use('/tasks', tasksRouter)
 app.use('/users', usersRouter)

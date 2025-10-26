@@ -23,6 +23,7 @@ const LoginPage = ({ domain, loggedIn, setLoggedIn }) => {
         const response = await fetch(`${domain}/users/login`, {
             method: "POST",
             headers: { "Content-Type": "application/json"},
+            credentials: "include",
             body: JSON.stringify(loginForm)
         }
       )
