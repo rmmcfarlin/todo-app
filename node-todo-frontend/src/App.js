@@ -18,6 +18,15 @@ function App() {
   const [refreshTrigger, setRefreshTrigger] = useState(0)
   const [accessToken, setAccessToken] = useState("")
 
+  const userData = {
+    accessToken,
+    setAccessToken,
+    loggedIn,
+    setLoggedIn,
+    currentUser,
+    setCurrentUser
+  }
+
   const domain = "http://localhost:3000"
       useEffect(() => {
         const authRefresh = async () => {
@@ -103,6 +112,7 @@ function App() {
           setArchivedTasks={setArchivedTasks}
           refreshTrigger={refreshTrigger}
           setRefreshTrigger={setRefreshTrigger}
+          userData={userData}
         />
     ) : (
       <LoginPage domain={domain} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />

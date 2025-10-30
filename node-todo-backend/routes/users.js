@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import User from '../models/user.js'
 import bcrypt from 'bcrypt'
 import jsonwebtoken from 'jsonwebtoken'
+import { requireAuth } from '../middleware/auth.js'
 
 const router = Router()
 
@@ -93,6 +94,26 @@ router.post("/refresh", async (req,res) => {
 
     } catch {
         return res.status(500).json({ error: "Unable to refresh"})
+    }
+})
+
+// Logout
+
+router.post("/logout", async (req,res) => {
+    const refreshCookie = req.cookies.refreshToken;
+
+    try {
+       res.clearCookie("refreshToken", {
+            httpOnly: true,
+            sameSite: "lax",
+            secure: false,
+            path: "/users/refresh",
+        })
+
+        res.status(200).json({ message: `Logged out successfully` });
+    } catch (err) {
+        console.error(err);
+        res.status(401).json({ message: "Invalid or expired refresh token" });
     }
 })
 

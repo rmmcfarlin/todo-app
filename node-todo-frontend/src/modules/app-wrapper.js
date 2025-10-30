@@ -5,7 +5,7 @@ import AddTaskForm from './add-task-form'
 import TaskArchive from './taskarchive'
 
 
-const AppWrapper = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks, errror, setError, refreshTrigger, setRefreshTrigger }) => {
+const AppWrapper = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks, errror, setError, refreshTrigger, setRefreshTrigger, userData }) => {
   
     const [addTask, setAddTask] = useState(false)
     const [expanded, setExpanded] = useState(false)
@@ -32,6 +32,8 @@ const AppWrapper = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks
                 setError={setError}
                 showArchived={showArchived} 
                 setShowArchived={setShowArchived}
+                userData={userData}
+                setRefreshTrigger={setRefreshTrigger}
             />
             <div className="appMain">
                 {showArchived ? (

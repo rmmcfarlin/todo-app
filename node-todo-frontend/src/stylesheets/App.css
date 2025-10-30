@@ -242,6 +242,75 @@
   background-color: var(--lightred);
 }
 
+/* User Profile Footer */
+
+.userProfileFooter {
+  position: absolute;
+  bottom: 0%;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 1rem;
+}
+
+.profileBanner {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.profileBanner span {
+  color: whitesmoke;
+  margin-left: 1rem;
+}
+
+.dropdownIcon {
+  width: 15px;
+}
+
+.dropdownIcon.expanded {
+  transform: rotate(180deg);
+}
+
+.dropdownIcon.sidebarCollapsed {
+  display: none;
+}
+
+.profilePicture {
+  width: 20px;
+  border-radius: 50%;
+}
+
+.profileButtons {
+  display: flex;
+  flex-direction: column;
+}
+
+.profileButton {
+  background-color: transparent;
+  border: none;
+  margin-top: 0.5rem;
+  position: relative;
+  padding: 0.25rem;
+  border-radius: 5px;
+  width: 75%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profileButton:hover {
+  background-color: #87848E;
+}
+
+.profileButton span {
+  color: whitesmoke;
+}
+
+.profileIcon {
+  width: 15px;
+  position: absolute;
+  left: 0.1rem;
+}
+
 /* Form Elements */
 
 .addTaskContainer {
@@ -403,23 +472,6 @@ input {
 
 .appContainer.collapsed .sidebar {
   width: 3%;
-}
-
-.userProfileFooter {
-  position: absolute;
-  bottom: 0%;
-  display: flex;
-  padding: 2rem 1rem;
-}
-
-.userProfileFooter span {
-  color: whitesmoke;
-  margin-left: 1rem;
-}
-
-.profilePicture {
-  width: 20px;
-  border-radius: 50%;
 }
 
 .sidebarButton span {
