@@ -506,7 +506,7 @@ input {
   margin-bottom: 1.5rem;
 }
 
-.loginContainer {
+.loginContainer, .createAccountForm {
   width: 28%;
   height: auto;
   background-color: var(--parchment);
@@ -526,7 +526,7 @@ input {
   flex-direction: column;
 }
 
-.loginContainer p:first-of-type {
+.loginContainer p:first-of-type, .createAccountForm p:first-of-type {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 2rem;
@@ -573,4 +573,17 @@ input {
   background-color: transparent;
   border: 1px solid var(--charcoal);
   color: var(--charcoal);
+}
+
+/* create account page */
+
+.createAccountForm form {
+  display: flex;
+  flex-direction: column;
+}
+
+.createAccountForm p {
+  font-size: 2rem;
+  margin-left: auto;
+  margin-right: auto;
 }

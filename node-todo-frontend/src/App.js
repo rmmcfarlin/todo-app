@@ -115,7 +115,7 @@ function App() {
           userData={userData}
         />
     ) : (
-      <LoginPage domain={domain} loggedIn={loggedIn} setLoggedIn={setLoggedIn} />
+      <LoginPage domain={domain} loggedIn={loggedIn} setLoggedIn={setLoggedIn} setRefreshTrigger={setRefreshTrigger} />
     )}
 
     </div>

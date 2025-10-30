@@ -7,6 +7,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import tasksRouter from './routes/tasks.js'
 import usersRouter from './routes/users.js'
+import User from './models/user.js'
 import { requireAuth } from './middleware/auth.js'
 
 
@@ -29,6 +30,7 @@ if (process.env.MONGO_URI) {
     try {
         await mongoose.connect(process.env.MONGO_URI, { serverSelectionTimeoutMS: 10000 })
         console.log('MongoDB Connected')
+        await User.syncIndexes()
         app.listen(port, () => console.log("Express Server running on port 3000.") )
     } catch {
         console.log("unable to connect to MongoDB Atlas")

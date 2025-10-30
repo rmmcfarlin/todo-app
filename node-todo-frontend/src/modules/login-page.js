@@ -2,7 +2,7 @@ import { useState } from 'react'
 import ToDoLogo from "../assets/todo-logo-charcoal.png"
 import CreateAccount from './create-account'
 
-const LoginPage = ({ domain, loggedIn, setLoggedIn }) => {
+const LoginPage = ({ domain, loggedIn, setLoggedIn, setRefreshTrigger }) => {
 
     const [ createAccount, setCreateAccount ] = useState(false)
     const [ loginForm, setLoginForm ] = useState({
@@ -30,7 +30,7 @@ const LoginPage = ({ domain, loggedIn, setLoggedIn }) => {
       if (!response.ok) throw new Error("Login unsuccessful")
       
       setLoginForm({
-        username: "",
+        email: "",
         password: ""
       })
 
@@ -43,18 +43,19 @@ const LoginPage = ({ domain, loggedIn, setLoggedIn }) => {
 
     return(
         <>
+            <div className="loginPageBody">
+                <img src={ToDoLogo} className="loginPageLogo"></img>
+                    
             {createAccount ? (
-                <CreateAccount />
+                <CreateAccount domain={domain} setRefreshTrigger={setRefreshTrigger} />
             ) : (
-                <div className="loginPageBody">
-                    <img src={ToDoLogo} className="loginPageLogo"></img>
-                        <div className="loginContainer">
+                 <div className="loginContainer">
                             <p>Welcome Back</p>
                             <form onSubmit={handleSubmit} className="loginForm">
-                                <label for="username" className="loginFormLabel">Username:</label>
-                                <input name="username" id="username" onChange={(e) => handleChange(e)}></input>
+                                <label for="email" className="loginFormLabel">Email Address:</label>
+                                <input name="email" required id="email" onChange={(e) => handleChange(e)}></input>
                                 <label for="password" className="loginFormLabel">Password:</label>
-                                <input name="password" id="password" onChange={(e) => handleChange(e)}></input>
+                                <input name="password" required type="password" id="password" onChange={(e) => handleChange(e)}></input>
                                 <div className="loginButtonContainer">
                                     <button type="submit">Login</button>
                                     <button onClick={handleCreateAccount}>Create Account</button>
@@ -62,8 +63,8 @@ const LoginPage = ({ domain, loggedIn, setLoggedIn }) => {
                             </form>  
                             <button className="loginButtonSecondary">Forgot Password?</button>
                         </div>
-                    </div>
             )}
+            </div>
         </>
     )
 }

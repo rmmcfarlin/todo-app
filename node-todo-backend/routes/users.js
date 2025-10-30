@@ -18,10 +18,10 @@ router.post("/create-account", async (req,res) => {
         const newUser = ({...data, "password": pwHash})
 
         const createUser = await User.create(newUser)
-        res.status(201).json({ message: "User created", id: createUser._id})
+        return res.status(201).json({ message: "User created", id: createUser._id})
 
     } catch {
-        res.status(500).json({ error: "Unable to create user" })
+        return res.status(500).json({ error: "Unable to create user" })
     }
   }
 )
@@ -30,12 +30,12 @@ router.post("/create-account", async (req,res) => {
 router.post("/login", async (req,res) => {
 
     try{
-        const { username, password } = req.body
-            if (!username || !password) {
-                return res.status(400).json({ error: "Missing username / password"})
+        const { email, password } = req.body
+            if (!email || !password) {
+                return res.status(400).json({ error: "Missing email / password"})
             }
 
-        const loginInfo = await User.findOne({ username })
+        const loginInfo = await User.findOne({ email })
             if (!loginInfo) {
                 return res.status(404).json({ error: "Username not found"})
             }
@@ -80,7 +80,7 @@ router.post("/refresh", async (req,res) => {
 
     try {
         if (!refreshCookie) {
-            res.status(401).json({ message: "No refresh token set, unable to authorize"})
+            return res.status(401).json({ message: "No refresh token set, unable to authorize"})
         }
 
         const decoded = jsonwebtoken.verify(refreshCookie, process.env.JWT_REFRESH_SECRET)
@@ -110,10 +110,10 @@ router.post("/logout", async (req,res) => {
             path: "/users/refresh",
         })
 
-        res.status(200).json({ message: `Logged out successfully` });
+        return res.status(200).json({ message: `Logged out successfully` });
     } catch (err) {
         console.error(err);
-        res.status(401).json({ message: "Invalid or expired refresh token" });
+        return res.status(401).json({ message: "Invalid or expired refresh token" });
     }
 })
 

@@ -1,11 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
 const userSchema = new mongoose.Schema({
-    username: { type: String, required: true, unique: true, minlength: 3, maxlength: 30 },
-    password: { type: String, required: true },
     email: { type: String, required: true, unique: true },
-    firstname: { type: String, required: true },
-    lastname: { type: String },
+    password: { type: String, required: true },
+    firstName: { type: String, required: true },
+    lastName: { type: String },
     createdAt: { type: Date, default: Date.now()},
     isActive: { type: Boolean, default: true }
 })
