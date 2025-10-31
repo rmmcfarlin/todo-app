@@ -1,8 +1,11 @@
 import { useState } from 'react'
 import ToDoLogo from "../assets/todo-logo-charcoal.png"
 import CreateAccount from './create-account'
+import { useUser } from '../context/user-context'
 
-const LoginPage = ({ domain, loggedIn, setLoggedIn, setRefreshTrigger }) => {
+const LoginPage = ({ domain, setRefreshTrigger }) => {
+
+    const { loggedIn, setLoggedIn, accessToken, setAccessToken, setCurrentUser } = useUser()
 
     const [ createAccount, setCreateAccount ] = useState(false)
     const [ loginForm, setLoginForm ] = useState({

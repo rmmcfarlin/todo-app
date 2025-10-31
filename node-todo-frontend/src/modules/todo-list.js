@@ -52,7 +52,6 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
         setRefreshTrigger(prev => prev + 1)
         } catch (err) {
             console.log(err)
-            setError(err.message)
         }
       }
     }

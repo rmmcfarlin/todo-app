@@ -1,6 +1,7 @@
 import { Router } from 'express'
 import mongoose from 'mongoose'
 import Task from '../models/task.js'
+import { requireAuth } from '../middleware/auth.js'
 
 const router = Router()
 
@@ -8,20 +9,26 @@ const router = Router()
 router.get('/', async (req,res) => {
     try {
         const data = await Task.find()
-        res.status(200).json(data)
+        return res.status(200).json(data)
     } catch (err) {
-        res.status(500).json({ error: "unable to read tasks" })
+        return res.status(500).json({ error: "unable to read tasks" })
     }
 })
 
 //POST
-router.post('/', async (req,res) => {
+router.post('/', requireAuth, async (req,res) => {
     try {
+
+        // console.log(req.user)
         const newTask = req.body
+        newTask.userId = req.body.id
+
+        // console.log(newTask)
+
         const createdTask = await Task.create(newTask)
-        res.status(201).json({ message: 'Task Added', id: createdTask._id })
+        return res.status(201).json({ message: 'Task Added', id: createdTask._id })
     } catch (err) {
-        res.status(500).json({ error: "Unable to write tasks"})
+        return res.status(500).json({ error: "Unable to write tasks"})
     }
 })
 
@@ -34,10 +41,10 @@ router.delete('/:id', async (req,res) => {
     }
     try {
         const deletedTask = await Task.findByIdAndDelete(id)
-        res.status(200).json({ message: 'Task Deleted'})
+        return res.status(200).json({ message: 'Task Deleted'})
 
     } catch {
-        res.status(500).json({ error: "Unable to delete task"})
+        return res.status(500).json({ error: "Unable to delete task"})
     }
 
 })
@@ -51,10 +58,10 @@ router.put('/:id', async (req,res) => {
         if (!result) {
             return res.status(404).json({ error: "Task not found"})
         }
-        res.status(200).json({ message: "Task updated"})
+        return res.status(200).json({ message: "Task updated"})
 
     } catch {
-        res.status(500).json({ error: "Unable to modify task"})
+        return res.status(500).json({ error: "Unable to modify task"})
     }
 })
 

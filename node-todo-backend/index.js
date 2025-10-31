@@ -23,7 +23,7 @@ app.use(cors({
 app.use(cookieParser())
 
 app.use('/tasks', tasksRouter)
-app.use('/users', usersRouter, requireAuth)
+app.use('/users', usersRouter)
 
 
 if (process.env.MONGO_URI) {

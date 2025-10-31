@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import jsonwebtoken from 'jsonwebtoken'
 
 export const requireAuth = (req, res, next) => {
    try {
@@ -7,8 +7,12 @@ export const requireAuth = (req, res, next) => {
 
         if (!token) return res.status(401).json({ error: "No token provided"})
     
-        const decoded = jwt.verify(token, process.env.JWT_ACCESS_SECRET)
-        req.user = { id: decoded.userId }
+        const decoded = jsonwebtoken.verify(token, process.env.JWT_ACCESS_SECRET, { complete: true })
+
+        console.log("decoded:", JSON.stringify(decoded, null, 2))
+
+        // req.user = { id: decoded.userId }
+        // console.log(req.user)
     
         next()
    } catch {

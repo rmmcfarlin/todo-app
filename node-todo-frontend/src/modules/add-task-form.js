@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
+import { useUser } from '../context/user-context';
 
 const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask, setRefreshTrigger }) => {
+
+    const { accessToken } = useUser()
 
     const [newNotes, setNewNotes] = useState("")
     const [formData, setFormData] = useState({
@@ -8,7 +11,8 @@ const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask, setRefreshT
         completed: false,
         dueDate: "",
         notes: "",
-        archived: false
+        archived: false,
+        userId: ""
     })
 
     useEffect(() => {
@@ -40,10 +44,15 @@ const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask, setRefreshT
         e.preventDefault();
         const res = await fetch(`${domain}/tasks/`, {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${accessToken}`
+            },
             body: JSON.stringify(formData)
         })
 
+        console.log(accessToken)
+        console.log()
         const newTask = formData
         const updatedList = [...tasks, newTask]
 
@@ -54,7 +63,8 @@ const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask, setRefreshT
             completed: false,
             dueDate: "",
             notes: "",
-            archived: false
+            archived: false,
+            userId: ""
         })
 
         setAddTask(false)

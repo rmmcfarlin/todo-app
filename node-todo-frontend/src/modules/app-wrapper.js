@@ -3,16 +3,17 @@ import TodoList from './todo-list'
 import Sidebar from './sidebar'
 import AddTaskForm from './add-task-form'
 import TaskArchive from './taskarchive'
+import { useUser } from '../context/user-context'
 
 
 const AppWrapper = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks, errror, setError, refreshTrigger, setRefreshTrigger, userData }) => {
-  
+    
+    const { loggedIn, setLoggedIn, accessToken, setAccessToken, setCurrentUser } = useUser()
+
     const [addTask, setAddTask] = useState(false)
     const [expanded, setExpanded] = useState(false)
     const [sortMethod, setSortMethod] = useState("dueSoonest")
     const [showArchived, setShowArchived] = useState(false)
-    
-
    
 
     return (
