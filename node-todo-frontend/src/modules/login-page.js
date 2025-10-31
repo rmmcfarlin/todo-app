@@ -31,6 +31,11 @@ const LoginPage = ({ domain, setRefreshTrigger }) => {
         }
       )
       if (!response.ok) throw new Error("Login unsuccessful")
+
+        const { accessToken, user } = await response.json()
+          setAccessToken(accessToken)
+          setCurrentUser(user)
+          setLoggedIn(true)
       
       setLoginForm({
         email: "",

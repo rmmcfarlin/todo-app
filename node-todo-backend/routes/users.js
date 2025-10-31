@@ -40,6 +40,7 @@ router.post("/login", async (req,res) => {
                 return res.status(404).json({ error: "Username not found"})
             }
 
+        console.log(`${loginInfo._id}`)
         const correctPw = loginInfo.password
         if (await bcrypt.compare(password, correctPw)) {
             const accessToken = jsonwebtoken.sign(
@@ -47,13 +48,14 @@ router.post("/login", async (req,res) => {
                 process.env.JWT_ACCESS_SECRET,
                 { expiresIn: "15min" }
             )
-            console.log("Access token created:", accessToken)
+            console.log("Access:", jsonwebtoken.decode(accessToken))
+            console.log(accessToken)
+
             const refreshToken = jsonwebtoken.sign(
                 { userId: `${loginInfo._id}` },
                 process.env.JWT_REFRESH_SECRET,
                 { expiresIn: "7d" }
             )
-            console.log("refresh token created:", refreshToken)
 
             return res
                 .cookie("refreshToken", refreshToken, {

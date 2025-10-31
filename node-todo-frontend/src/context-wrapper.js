@@ -40,10 +40,7 @@ const ContextWrapper = ({}) => {
           setLoggedIn(true)
           setCheckingAuth(false)
         } catch{
-          setAccessToken(null)
-          setCurrentUser(null)
           setCheckingAuth(false)
-          setLoggedIn(false)
         }
 
         }
@@ -68,8 +65,6 @@ const ContextWrapper = ({}) => {
                setTasks(uncompletedTasks)
                setCompletedTasks(completedTasks)
                setArchivedTasks(archivedTasks)
-        
-               console.log(accessToken)
 
             } catch (err) {
                 console.log(err)

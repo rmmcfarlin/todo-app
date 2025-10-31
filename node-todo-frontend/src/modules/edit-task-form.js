@@ -20,12 +20,10 @@ const EditTaskForm = ({ domain, task, setError, setEditTask, setRefreshTrigger }
         const name = e.target.name;
         const value = e.target.value;
         setNewFormData(prev => ({...prev, [name]: value}))
-        console.log(newFormData)
     }
 
         
     const handleSave = async (id) => {
-        console.log(`saving ${id}`)
         try {
             const response = await fetch(`${domain}/tasks/${id}`, {
                 method: "PUT",

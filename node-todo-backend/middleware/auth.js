@@ -7,12 +7,9 @@ export const requireAuth = (req, res, next) => {
 
         if (!token) return res.status(401).json({ error: "No token provided"})
     
-        const decoded = jsonwebtoken.verify(token, process.env.JWT_ACCESS_SECRET, { complete: true })
+        const decoded = jsonwebtoken.verify(token, process.env.JWT_ACCESS_SECRET)
 
-        console.log("decoded:", JSON.stringify(decoded, null, 2))
-
-        // req.user = { id: decoded.userId }
-        // console.log(req.user)
+        req.user = { id: decoded.userId }
     
         next()
    } catch {

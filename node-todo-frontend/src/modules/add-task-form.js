@@ -50,9 +50,7 @@ const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask, setRefreshT
             },
             body: JSON.stringify(formData)
         })
-
-        console.log(accessToken)
-        console.log()
+        
         const newTask = formData
         const updatedList = [...tasks, newTask]
 
