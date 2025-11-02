@@ -6,9 +6,12 @@ import { requireAuth } from '../middleware/auth.js'
 const router = Router()
 
 // GET
-router.get('/', async (req,res) => {
+router.get('/', requireAuth, async (req,res) => {
     try {
-        const data = await Task.find()
+
+        const userId = req.user.id
+
+        const data = await Task.find({ userId })
         return res.status(200).json(data)
     } catch (err) {
         return res.status(500).json({ error: "unable to read tasks" })

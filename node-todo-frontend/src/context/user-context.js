@@ -7,6 +7,8 @@ export const UserProvider = ({ children }) => {
     const [loggedIn, setLoggedIn] = useState(false)
     const [currentUser, setCurrentUser] = useState(null) 
     const [accessToken, setAccessToken] = useState("")
+    const [isLoggingOut, setIsLoggingOut] = useState(false)
+    const [userName, setUserName] = useState('')
 
       const value = {
         accessToken,
@@ -14,7 +16,11 @@ export const UserProvider = ({ children }) => {
         loggedIn,
         setLoggedIn,
         currentUser,
-        setCurrentUser
+        setCurrentUser,
+        userName,
+        setUserName,
+        isLoggingOut,
+        setIsLoggingOut
       }
 
     return <UserContext.Provider value={value}>{children}</UserContext.Provider>

@@ -8,7 +8,7 @@ export const requireAuth = (req, res, next) => {
         if (!token) return res.status(401).json({ error: "No token provided"})
     
         const decoded = jsonwebtoken.verify(token, process.env.JWT_ACCESS_SECRET)
-
+        console.log(decoded)
         req.user = { id: decoded.userId }
     
         next()

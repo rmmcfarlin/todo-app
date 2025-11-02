@@ -6,7 +6,7 @@ import { useUser } from './context/user-context';
 
 const ContextWrapper = ({}) => {
 
-    const { loggedIn, setLoggedIn, accessToken, setAccessToken, setCurrentUser } = useUser()
+    const { loggedIn, setLoggedIn, accessToken, setAccessToken, setCurrentUser, userName, setUserName, isLoggingOut, setIsLoggingOut } = useUser()
 
     const [checkingAuth, setCheckingAuth] = useState(true)
     const [tasks, setTasks] = useState([])
@@ -20,9 +20,8 @@ const ContextWrapper = ({}) => {
       useEffect(() => {
         const authRefresh = async () => {
 
-          if (accessToken) {
-            return
-          }
+          if (isLoggingOut) return
+          if (accessToken) return
 
           try {
             const authResponse = await fetch(`${domain}/users/refresh`, {
@@ -34,9 +33,12 @@ const ContextWrapper = ({}) => {
 
           if (!authResponse.ok) throw new Error("Unable to refresh")
 
-          const { accessToken, user } = await authResponse.json()
+          const { accessToken, message } = await authResponse.json()
+
+          console.log(accessToken)
+          console.log(message)
+
           setAccessToken(accessToken)
-          setCurrentUser(user)
           setLoggedIn(true)
           setCheckingAuth(false)
         } catch{
@@ -48,9 +50,19 @@ const ContextWrapper = ({}) => {
       }, [refreshTrigger])
 
       useEffect(() => {
+
+        if (!accessToken) return
             const fetchData = async () => {
             try {
-               const response = await fetch(`${domain}/tasks`)
+                    console.log("token seen")
+               const response = await fetch(`${domain}/tasks`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
+                }
+               })
+
                if (!response.ok) {
                 throw new Error("Network response not ok")
                }
@@ -72,7 +84,7 @@ const ContextWrapper = ({}) => {
             }
         }
         fetchData();
-    }, [refreshTrigger]) 
+    }, [accessToken, refreshTrigger]) 
 
   if (checkingAuth) {
     return(

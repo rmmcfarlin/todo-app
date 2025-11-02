@@ -4,32 +4,34 @@ import {ReactComponent as CarrotIcon} from '../assets/down-arrow.svg'
 import {ReactComponent as SettingsIcon} from '../assets/settings.svg'
 import {ReactComponent as ProfileIcon} from '../assets/profile.svg'
 import {ReactComponent as LogoutIcon} from '../assets/logout.svg'
+import { useUser } from '../context/user-context'
 
 const UserProfile = ({ domain, expanded, profileExpanded, setProfileExpanded, userData, setRefreshTrigger }) => {
 
-    const [username, setUserName] = useState('Ryan McFarlin')
+    const { userName, setLoggedIn, setIsLoggingOut, setAccessToken } = useUser()
+    
 
     const handleLogout = async () => {
 
         if (window.confirm("Are you sure you want to logout?")) {
+
             try {
+            setIsLoggingOut(true)
             const response = await fetch(`${domain}/users/logout`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
                 credentials: "include"
             })
             if (!response.ok) throw new Error("Faled to logout")
-
-            const res = await response.json()
-            console.log(res.message)
-
-            userData.setLoggedIn(false)
-            userData.setCurrentUser(null)
-            userData.setAccessToken("")
-            setRefreshTrigger(prev => prev + 1)
-
-
             
+            console.log("logging out")
+            setLoggedIn(false)
+            setAccessToken("")
+
+            setTimeout(() => {
+                setIsLoggingOut(false)
+                }, 1000)
+
         } catch (err) {
             console.log(err)
         }
@@ -67,7 +69,7 @@ const UserProfile = ({ domain, expanded, profileExpanded, setProfileExpanded, us
         <div className='userProfileFooter'>
             <div className='profileBanner'>
                 <img src={profilePlaceholder} className="profilePicture"></img>
-                <span className={className}>{username}</span>
+                <span className={className}>{userName}</span>
                 <CarrotIcon className={arrowClassName} onClick={handleProfileDropdown} />
             </div>
             {profileExpanded && expanded ? (
