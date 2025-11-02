@@ -4,12 +4,13 @@ import User from '../models/user.js'
 import bcrypt from 'bcrypt'
 import jsonwebtoken from 'jsonwebtoken'
 import { requireAuth } from '../middleware/auth.js'
+import { newUserValidation } from '../middleware/new-user-validation.js'
 
 const router = Router()
 
 // Create User
 
-router.post("/create-account", async (req,res) => {
+router.post("/create-account", newUserValidation, async (req,res) => {
 
     try{
         const data = req.body
