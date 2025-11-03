@@ -127,9 +127,45 @@
   margin-bottom: 2rem;
 }
 
+.taskActionsIcon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 20px;
+}
+
 .showCompletedTasks {
   width: 25%;
   margin-bottom: 2rem;
+}
+
+.taskActionMenu {
+  position: absolute;
+  right: -5rem;
+  top: 2rem;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--charcoal);
+  width: 10%;
+  padding: 0.5rem;
+  border-radius: 10px;
+}
+
+.taskActionButton {
+  margin-bottom: 0.5rem;
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  color: whitesmoke;
+}
+
+.taskActionButton:last-of-type {
+  margin-bottom: 0;
+}
+
+.taskActionButton:hover {
+  background-color: #87848E;
 }
 
 /* Archived Tasks Component */
@@ -157,6 +193,8 @@
 .headerIcon circle, .headerIcon path {
   stroke: whitesmoke;
 }
+
+
 
 
 /* UI */

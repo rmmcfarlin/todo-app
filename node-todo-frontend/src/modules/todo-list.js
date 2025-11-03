@@ -1,19 +1,31 @@
 import { useMemo, useState } from 'react'
 import { ReactComponent as SortSvg } from '../assets/sort.svg'
+import { ReactComponent as EditDots } from '../assets/dots-horizontal.svg'
 import EditTaskForm from './edit-task-form'
 import CompletedCheckbox from './completed-checkbox'
 import CompletedTasks from "./completed-tasks"
 import AddTask from './add-task'
 import SortDropdown from './sortdropdown'
+import { TaskActionMenu } from './task-action-menu'
 
 const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, setError, addTask, setAddTask, setRefreshTrigger, sortMethod, setSortMethod }) => {
 
+    const [showTaskActions, setShowTaskActions] = useState("")
     const [editTask, setEditTask] = useState("")
+    
     const [sort, setSort] = useState(false)
 
+    const handleTaskMenu = (id) => {
+        if (id === showTaskActions) {
+            setShowTaskActions("")
+            return
+        }
+        setShowTaskActions(id)
+    }
 
     const handleEdit = (id) => {
         setEditTask(id)
+        setShowTaskActions("")
     }
     const cancelEdits = () => {
         setEditTask("")
@@ -23,8 +35,8 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
     }
 
 
+
     const sortedTasks = useMemo(() => {
-        // console.log("sorting tasks")
         if (sortMethod === "dueSoonest") {
             return [...tasks].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
         } else if (sortMethod === "dueLatest") {
@@ -56,7 +68,34 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
       }
     }
 
+       const handleArchive = async (id) => {
 
+        const isArchived = !archiveTask 
+        setArchiveTask(isArchived)
+
+        setArchiveFormData(prev => ({...prev, archived: isArchived}))
+        const updatedTask = {...archiveFormData, archived: isArchived}
+
+        try {
+            const response = await fetch(`${domain}/tasks/${id}`, {
+                method: "PUT",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(updatedTask)
+            })
+            if (!response.ok) throw new Error("Failed to archive/unarchive task")
+            setRefreshTrigger(prev => prev + 1)
+        } catch(err) {
+            console.log(err.message)
+            setError(err)
+        }
+
+    }
+
+    const taskActionFunctions = {
+        handleEdit,
+        handleDelete,
+        handleArchive
+    }
 
     return (
     <>
@@ -78,6 +117,12 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
 
                 return (
                         <div className="itemContainer" key={taskId}>
+                           <EditDots className="taskActionsIcon" onClick={() => handleTaskMenu(taskId)} /> 
+                           {showTaskActions == taskId ? (
+                            <TaskActionMenu taskActionFunctions={taskActionFunctions} taskId={taskId} />
+                           ) : (
+                            <></>
+                           )}
                            <CompletedCheckbox 
                                 task={task} 
                                 setError={setError}
@@ -108,9 +153,10 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
                             {editTask === taskId ? (
                                <>
                                 <button className="button taskButton cancelButton" onClick={cancelEdits}>Cancel</button>
-                                <button className="button taskButton deleteButton" onClick={() => handleDelete(taskId)}>Delete</button>
                                </>)
-                                :  (<button className="button taskButton modifyTaskButton" onClick={() => handleEdit(taskId)}>Edit</button>)
+                                :  (
+                                    <></>
+                                )
                             }
                         </div>
                 )
@@ -122,7 +168,8 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
             setCompletedTasks={setCompletedTasks} 
             setError={setError}
             setRefreshTrigger={setRefreshTrigger}
-            handleDelete={handleDelete} 
+            handleDelete={handleDelete}
+            handleArchive={handleArchive} 
             />
         </div>
     </>
