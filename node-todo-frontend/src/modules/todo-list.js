@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { ReactComponent as SortSvg } from '../assets/sort.svg'
 import { ReactComponent as EditDots } from '../assets/dots-horizontal.svg'
 import EditTaskForm from './edit-task-form'
@@ -12,8 +12,15 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
 
     const [showTaskActions, setShowTaskActions] = useState("")
     const [editTask, setEditTask] = useState("")
+    const [archiveMap, setArchiveMap] = useState({})
     
     const [sort, setSort] = useState(false)
+
+    useEffect(() => {
+        const init = {};
+        tasks.forEach(t => (init[t._id] = t.archived || false));
+        setArchiveMap(init);
+    }, [tasks])
 
     const handleTaskMenu = (id) => {
         if (id === showTaskActions) {
@@ -68,13 +75,13 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
       }
     }
 
-       const handleArchive = async (id) => {
+    const handleArchive = async (id) => {
 
-        const isArchived = !archiveTask 
-        setArchiveTask(isArchived)
+        window.confirm("Are you sure you want to archive this task?")
 
-        setArchiveFormData(prev => ({...prev, archived: isArchived}))
-        const updatedTask = {...archiveFormData, archived: isArchived}
+        const isArchived = !archiveMap[id];
+        setArchiveMap(prev => ({ ...prev, [id]: isArchived }));
+        const updatedTask = { archived: isArchived }
 
         try {
             const response = await fetch(`${domain}/tasks/${id}`, {

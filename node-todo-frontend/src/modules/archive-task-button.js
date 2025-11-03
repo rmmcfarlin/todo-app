@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 const ArchiveTaskButton = ({ domain, setError, task, archiveAction, setRefreshTrigger, handleArchive }) => {
 
-    const [archiveTask, setArchiveTask] = useState(task.archived || false)
+
 
     const [ archiveFormData, setArchiveFormData ] = useState({
         "title": task.title,

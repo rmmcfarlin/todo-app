@@ -6,7 +6,7 @@ export const TaskActionMenu = ({ taskActionFunctions, taskId }) => {
     return(
         <div className="taskActionMenu">
             <button onClick={() => handleEdit(taskId)} className="taskActionButton">Edit</button>
-            <button oncClick={() => handleArchive(taskId)} className="taskActionButton">Archive</button>
+            <button onClick={() => handleArchive(taskId)} className="taskActionButton">Archive</button>
             <button onClick={() => handleDelete(taskId)} className="taskActionButton">Delete</button>
         </div>
     )
