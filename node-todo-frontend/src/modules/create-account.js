@@ -1,7 +1,10 @@
 import { useState } from 'react'
+import { useUser } from '../context/user-context'
 
 const CreateAccount = ({ domain, setCreateAccount, setRefreshTrigger }) => {
 
+    const { accessToken, setAccessToken } = useUser()
+    
     const [ userData, setUserData ] = useState({
         firstName: "",
         lastName: "",
@@ -36,13 +39,18 @@ const CreateAccount = ({ domain, setCreateAccount, setRefreshTrigger }) => {
             const response = await fetch(`${domain}/users/create-account`, {
                 method: "POST",
                 headers: {"Content-Type": "application/json"},
+                credentials: "include",
                 body: JSON.stringify(userData)
             })
             if (!response.ok) throw new Error("Unable to create account")
             
-            const res = await response.json()
+            const { token, message } = await response.json()
 
-            alert(res.message)
+            alert(message)
+
+            setAccessToken(token)
+
+            setRefreshTrigger(prev => prev + 1)
             
         } catch (err) {
             console.log(err)

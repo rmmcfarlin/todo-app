@@ -292,7 +292,6 @@
   position: relative;
   padding: 0.25rem;
   border-radius: 5px;
-  width: 75%;
   margin-left: auto;
   margin-right: auto;
 }
@@ -303,6 +302,7 @@
 
 .profileButton span {
   color: whitesmoke;
+  margin-left: 2rem;
 }
 
 .profileIcon {

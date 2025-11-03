@@ -18,8 +18,33 @@ router.post("/create-account", newUserValidation, async (req,res) => {
         const pwHash = await bcrypt.hash(data.password, 10)
         const newUser = ({...data, "password": pwHash})
 
+        console.log(newUser.email)
+
         const createUser = await User.create(newUser)
-        return res.status(201).json({ message: "User created", id: createUser._id})
+
+        console.log(`${createUser._id}`)
+
+        const accessToken = jsonwebtoken.sign(
+                { userId: `${createUser._id}` }, 
+                process.env.JWT_ACCESS_SECRET,
+                { expiresIn: "15min" }
+            )
+            const refreshToken = jsonwebtoken.sign(
+                { userId: `${createUser._id}` },
+                process.env.JWT_REFRESH_SECRET,
+                { expiresIn: "7d" }
+            )
+
+        return res
+                .cookie("refreshToken", refreshToken, {
+                    httpOnly: true,
+                    sameSite: 'Lax',
+                    secure: false,
+                    path: "/users/refresh",
+                    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+                })
+                .status(200)
+        .json({ accessToken, message: "User created", id: createUser._id})
 
     } catch {
         return res.status(500).json({ error: "Unable to create user" })
