@@ -23,8 +23,7 @@ const UserProfile = ({ domain, expanded, profileExpanded, setProfileExpanded, us
                 credentials: "include"
             })
             if (!response.ok) throw new Error("Faled to logout")
-            
-            console.log("logging out")
+        
             setLoggedIn(false)
             setAccessToken("")
 

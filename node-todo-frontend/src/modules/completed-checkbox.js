@@ -25,7 +25,7 @@ const CompletedCheckbox = ({ domain, task, setError, setRefreshTrigger }) => {
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(updatedFormData)
             })
-            if (response.ok) {console.log("task marked completed")}
+            
             if (!response.ok) throw new Error("Failed to set task as completed")
 
         } catch (err) {
@@ -40,14 +40,14 @@ const CompletedCheckbox = ({ domain, task, setError, setRefreshTrigger }) => {
 
     return(
          <form>
-            <label class="custom-checkbox">
+            <label className="custom-checkbox">
                  <input 
                     type="checkbox" 
                     name="completed"
                     checked={completed} 
                     onChange={(e) => {handleCheck(e, task._id)}}
                 ></input>
-                 <span class="checkmark"></span>
+                 <span className="checkmark"></span>
             </label>
            
          </form>

@@ -5,7 +5,7 @@ import { useUser } from '../context/user-context'
 
 const LoginPage = ({ domain, setRefreshTrigger }) => {
 
-    const { loggedIn, setLoggedIn, accessToken, setAccessToken, setCurrentUser } = useUser()
+    const { loggedIn, setLoggedIn, accessToken, setAccessToken, setUserName } = useUser()
 
     const [ createAccount, setCreateAccount ] = useState(false)
     const [ loginForm, setLoginForm ] = useState({
@@ -32,9 +32,9 @@ const LoginPage = ({ domain, setRefreshTrigger }) => {
       )
       if (!response.ok) throw new Error("Login unsuccessful")
 
-        const { accessToken, user } = await response.json()
+        const { accessToken, userName } = await response.json()
           setAccessToken(accessToken)
-          setCurrentUser(user)
+          setUserName(userName)
           setLoggedIn(true)
       
       setLoginForm({

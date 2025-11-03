@@ -22,8 +22,6 @@ router.post("/create-account", newUserValidation, async (req,res) => {
 
         const createUser = await User.create(newUser)
 
-        console.log(`${createUser._id}`)
-
         const accessToken = jsonwebtoken.sign(
                 { userId: `${createUser._id}` }, 
                 process.env.JWT_ACCESS_SECRET,
@@ -44,7 +42,13 @@ router.post("/create-account", newUserValidation, async (req,res) => {
                     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
                 })
                 .status(200)
-        .json({ accessToken, message: "User created", id: createUser._id})
+                .json({ 
+                    accessToken, 
+                    message: "User created",
+                    id: createUser._id,
+                    firstName: createUser.firstName,
+                    lastName: createUser.lastName
+                })
 
     } catch {
         return res.status(500).json({ error: "Unable to create user" })
@@ -81,7 +85,9 @@ router.post("/login", async (req,res) => {
                 { expiresIn: "7d" }
             )
 
-            console.log(loginInfo.firstName)
+            const nameOfUser = `${loginInfo.firstName} ${loginInfo.lastName}`
+
+            console.log(nameOfUser)
 
             return res
                 .cookie("refreshToken", refreshToken, {
@@ -92,7 +98,11 @@ router.post("/login", async (req,res) => {
                     expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
                 })
                 .status(200)
-                .json({ accessToken, message: "Login successful"})
+                .json({ 
+                    accessToken, 
+                    userName: nameOfUser,
+                    message: "Login successful"
+                })
 
         }  else {
             return res.status(401).json({ message: "Incorrect password."})
@@ -115,7 +125,13 @@ router.post("/refresh", async (req,res) => {
 
         const decoded = jsonwebtoken.verify(refreshCookie, process.env.JWT_REFRESH_SECRET)
 
-        console.log(`${decoded.userId}`)
+        const userId = `${decoded.userId}`
+
+        const userInfo = await User.findOne({_id: userId})
+
+        const nameOfUser = `${userInfo.firstName} ${userInfo.lastName}`
+
+        console.log(nameOfUser)
 
         const accessToken = jsonwebtoken.sign(
             { userId: `${decoded.userId}` }, 
@@ -123,7 +139,7 @@ router.post("/refresh", async (req,res) => {
             { expiresIn: "15min" }
         )
 
-        res.status(201).json({ accessToken, message: "Refresh Succesful"})
+        res.status(201).json({ accessToken, userName: nameOfUser, message: "Refresh Succesful"})
 
     } catch {
         return res.status(500).json({ error: "Unable to refresh"})

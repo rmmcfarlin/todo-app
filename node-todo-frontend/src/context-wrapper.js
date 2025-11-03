@@ -33,11 +33,10 @@ const ContextWrapper = ({}) => {
 
           if (!authResponse.ok) throw new Error("Unable to refresh")
 
-          const { accessToken, message } = await authResponse.json()
+          const { accessToken, message, userName } = await authResponse.json()
 
-          console.log(accessToken)
-          console.log(message)
 
+          setUserName(userName)
           setAccessToken(accessToken)
           setLoggedIn(true)
           setCheckingAuth(false)
@@ -54,7 +53,6 @@ const ContextWrapper = ({}) => {
         if (!accessToken) return
             const fetchData = async () => {
             try {
-                    console.log("token seen")
                const response = await fetch(`${domain}/tasks`, {
                 method: "GET",
                 headers: {
