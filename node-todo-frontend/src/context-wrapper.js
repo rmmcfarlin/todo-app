@@ -15,6 +15,14 @@ const ContextWrapper = ({}) => {
     const [error, setError] = useState(null)
     const [refreshTrigger, setRefreshTrigger] = useState(0)
 
+    const taskData = { 
+        tasks,
+        setTasks,
+        completedTasks,
+        setCompletedTasks,
+        archivedTasks,
+        setArchivedTasks
+    }
 
   const domain = "http://localhost:3000"
       useEffect(() => {
@@ -98,17 +106,14 @@ const ContextWrapper = ({}) => {
           {loggedIn ? (
             <AppWrapper 
               domain={domain} 
-              tasks={tasks} 
-              setTasks={setTasks} 
-              setCompletedTasks={setCompletedTasks} 
-              completedTasks={completedTasks}
-              archivedTasks={archivedTasks}
-              setArchivedTasks={setArchivedTasks}
               refreshTrigger={refreshTrigger}
               setRefreshTrigger={setRefreshTrigger}
+              taskData={taskData}
             />
           ) : (
-            <LoginPage domain={domain} setRefreshTrigger={setRefreshTrigger} />
+            <LoginPage 
+                domain={domain}
+                setRefreshTrigger={setRefreshTrigger} />
           )}
         </div>
   )

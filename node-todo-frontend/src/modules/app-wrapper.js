@@ -6,9 +6,10 @@ import TaskArchive from './taskarchive'
 import { useUser } from '../context/user-context'
 
 
-const AppWrapper = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks, errror, setError, refreshTrigger, setRefreshTrigger, userData }) => {
+const AppWrapper = ({ domain, taskData, errror, setError, refreshTrigger, setRefreshTrigger, userData }) => {
     
     const { loggedIn, setLoggedIn, accessToken, setAccessToken, setCurrentUser } = useUser()
+    const { tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks } = taskData
 
     const [addTask, setAddTask] = useState(false)
     const [expanded, setExpanded] = useState(false)
@@ -21,30 +22,25 @@ const AppWrapper = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks
            <div className='appContainer'>
             <Sidebar 
                 domain={domain}
+                taskData={taskData}
                 className={`appContainer ${expanded ? 'expanded' : 'collapsed'}`}
-                tasks={tasks} 
-                setTasks={setTasks} 
                 addTask={addTask} 
                 setAddTask={setAddTask} 
                 expanded={expanded}
                 setExpanded={setExpanded}
-                archivedTasks={archivedTasks}
-                setArchivedTasks={setArchivedTasks}
                 setError={setError}
                 showArchived={showArchived} 
                 setShowArchived={setShowArchived}
-                userData={userData}
                 setRefreshTrigger={setRefreshTrigger}
             />
             <div className="appMain">
                 {showArchived ? (
             <TaskArchive  
-                domain={domain} 
+                domain={domain}
+                taskData={taskData} 
                 expanded={expanded} 
                 showArchived={showArchived} 
                 setShowArchived={setShowArchived} 
-                archivedTasks={archivedTasks} 
-                setArchivedTasks={setArchivedTasks}
                 setError={setError}
                 setRefreshTrigger={setRefreshTrigger}
                 sortMethod={sortMethod}
@@ -52,10 +48,7 @@ const AppWrapper = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks
             ) : (
             <TodoList
                 domain={domain} 
-                tasks={tasks} 
-                setTasks={setTasks} 
-                completedTasks={completedTasks} 
-                setCompletedTasks={setCompletedTasks} 
+                taskData={taskData}
                 setError={setError}
                 addTask={addTask} 
                 setAddTask={setAddTask}

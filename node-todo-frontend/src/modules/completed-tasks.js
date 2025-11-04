@@ -4,19 +4,12 @@ import ArchiveTaskButton from './archive-task-button'
 
 const CompletedTasks = ({ domain, completedTasks, setCompletedTasks, setError, setRefreshTrigger, handleDelete, handleArchive }) => {
 
-    const [showCompleted, setShowCompleted] = useState(false)
-
-    const handleShowCompleted = () => {
-        setShowCompleted(!showCompleted)
-    }
 
 
     return(
         <>
-            <button className="button showCompletedTasks" onClick={handleShowCompleted}>Show Completed Tasks</button>
-            {showCompleted ? (
-                  <div className="listContainer">            
-        {completedTasks.map((task) => {
+        <div className="listContainer">            
+            {completedTasks.map((task) => {
                 let taskId = task._id
                 let date = new Date(task.dueDate)
                 let dueDate = date.toDateString()
@@ -43,10 +36,6 @@ const CompletedTasks = ({ domain, completedTasks, setCompletedTasks, setError, s
                 )
             }
             </div>
-            ) : (
-                <></>
-            )
-        }
         </>
         )
 }

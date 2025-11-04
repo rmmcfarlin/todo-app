@@ -1,20 +1,22 @@
 import { useMemo, useState, useEffect } from 'react'
 import { ReactComponent as SortSvg } from '../assets/sort.svg'
-import { ReactComponent as EditDots } from '../assets/dots-horizontal.svg'
 import EditTaskForm from './edit-task-form'
 import CompletedCheckbox from './completed-checkbox'
 import CompletedTasks from "./completed-tasks"
 import AddTask from './add-task'
 import SortDropdown from './sortdropdown'
+import { TodoTasks } from './todo-tasks'
 import { TaskActionMenu } from './task-action-menu'
 
-const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, setError, addTask, setAddTask, setRefreshTrigger, sortMethod, setSortMethod }) => {
+const TodoList = ({ domain, taskData, setError, addTask, setAddTask, setRefreshTrigger, sortMethod, setSortMethod }) => {
 
     const [showTaskActions, setShowTaskActions] = useState("")
+    const [showCompleted, setShowCompleted] = useState(false)
     const [editTask, setEditTask] = useState("")
-    const [archiveMap, setArchiveMap] = useState({})
-    
+    const [archiveMap, setArchiveMap] = useState({})  
     const [sort, setSort] = useState(false)
+
+    const { tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks } = taskData
 
     useEffect(() => {
         const init = {};
@@ -40,25 +42,7 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
     const handleSort = () => {
         setSort(!sort)
     }
-
-
-
-    const sortedTasks = useMemo(() => {
-        if (sortMethod === "dueSoonest") {
-            return [...tasks].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
-        } else if (sortMethod === "dueLatest") {
-            return [...tasks].sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate))
-        } else if (sortMethod === "createdNewest") {
-            return [...tasks].sort((a, b) => b.id - a.id)
-        } else if (sortMethod === "createdOldest") {
-            return [...tasks].sort((a, b) => a.id - b.id)
-        } else {
-            return tasks
-        }
-    }, [tasks, sortMethod])
     
-
-
     const handleDelete = async (id) => {
         if(window.confirm("Are you sure you want to delete this task?")) {
         try {
@@ -98,11 +82,36 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
 
     }
 
+    const handleShowCompleted = () => {
+        setShowCompleted(!showCompleted)
+    }
+
+    const getSwitchClass = (id) => {
+        if (id === "todo") {
+            return showCompleted ? "inactive" : "active"
+        }
+        
+        if (id === "completed") {
+            return showCompleted ? "active" : "inactive"
+        }
+    }
+
+    const handlers = {
+        handleTaskMenu,
+        cancelEdits,
+        showTaskActions, 
+        setShowTaskActions,
+        editTask,
+        setEditTask
+    }
+
     const taskActionFunctions = {
         handleEdit,
         handleDelete,
         handleArchive
     }
+
+
 
     return (
     <>
@@ -113,71 +122,33 @@ const TodoList = ({ domain, tasks, setTasks, completedTasks, setCompletedTasks, 
                 ) : (
                     <></>
                 )}
-
-                <AddTask tasks={tasks} setTasks={setTasks} addTask={addTask} setAddTask={setAddTask} className="addTaskMain" />
-             {
-                sortedTasks.map((task) => {
-                
-                let taskId = task._id
-                let date = new Date(task.dueDate)
-                let dueDate = date.toDateString()
-
-                return (
-                        <div className="itemContainer" key={taskId}>
-                           <EditDots className="taskActionsIcon" onClick={() => handleTaskMenu(taskId)} /> 
-                           {showTaskActions == taskId ? (
-                            <TaskActionMenu taskActionFunctions={taskActionFunctions} taskId={taskId} />
-                           ) : (
-                            <></>
-                           )}
-                           <CompletedCheckbox 
-                                task={task} 
-                                setError={setError}
-                                setCompletedTasks={setCompletedTasks}
-                                setRefreshTrigger={setRefreshTrigger}
-                                domain={domain}
-                                />
-                            <div className="itemInfo">                            
-                            {editTask === taskId ? (
-                                <>
-                                    <EditTaskForm domain={domain} task={task} setError={setError} setEditTask={setEditTask} setRefreshTrigger={setRefreshTrigger} />
-                                </>
-                            ) : (
-                               <>
-                                 <div className="itemHeader">
-                                    <span className="todoItem">{task.title}</span>
-                                    <div>
-                                        <span className="label">Due: </span><span>{dueDate}</span>
-                                    </div>
-                                    </div>
-                                <div className="notesSection">
-                                    <span>{task.notes}</span>
-                                </div>
-                               </>
-                            )   
-                        }
-                            </div>
-                            {editTask === taskId ? (
-                               <>
-                                <button className="button taskButton cancelButton" onClick={cancelEdits}>Cancel</button>
-                               </>)
-                                :  (
-                                    <></>
-                                )
-                            }
-                        </div>
-                )
-            })
-        }
-        <CompletedTasks 
-            domain={domain}
-            completedTasks={completedTasks} 
-            setCompletedTasks={setCompletedTasks} 
-            setError={setError}
-            setRefreshTrigger={setRefreshTrigger}
-            handleDelete={handleDelete}
-            handleArchive={handleArchive} 
-            />
+            <div className="completedTaskSwitch">
+                <button className={`completedSwitchButton ${getSwitchClass("todo")}`} onClick={() => handleShowCompleted()}>To-Do</button>
+                <button className={`completedSwitchButton ${getSwitchClass("completed")}`} onClick={() => handleShowCompleted()}>Completed</button>
+            </div>
+            <AddTask tasks={tasks} setTasks={setTasks} addTask={addTask} setAddTask={setAddTask} className="addTaskMain" />
+            
+            {showCompleted ? (
+                <CompletedTasks 
+                    domain={domain}
+                    completedTasks={completedTasks} 
+                    setCompletedTasks={setCompletedTasks} 
+                    setError={setError}
+                    setRefreshTrigger={setRefreshTrigger}
+                    handleDelete={handleDelete}
+                    handleArchive={handleArchive} 
+                />
+            ) : (
+                <TodoTasks
+                    domain={domain} 
+                    taskData={taskData}
+                    taskActionFunctions={taskActionFunctions}
+                    handlers={handlers}
+                    setRefreshTrigger={setRefreshTrigger}
+                    setError={setError}
+                    sortMethod={sortMethod}
+                 />
+            )}
         </div>
     </>
     )

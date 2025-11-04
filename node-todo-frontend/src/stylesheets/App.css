@@ -280,6 +280,37 @@
   background-color: var(--lightred);
 }
 
+.completedTaskSwitch {
+  position: absolute;
+  top: -46px;
+  left: 50%;
+  width: 20%;
+  transform: translate(-50%, 0);
+  background-color: #87848E;
+  border-radius: 5px;
+  padding: 2px;
+}
+
+.completedSwitchButton {
+  background-color: transparent;
+  border: none;
+  width: 50%;
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+.completedSwitchButton.inactive {
+  background-color: #87848E;
+  color: whitesmoke;
+}
+
+.completedSwitchButton.active {
+  background-color: var(--charcoal);
+  color: whitesmoke;
+}
+
+.comp
+
 /* User Profile Footer */
 
 .userProfileFooter {
