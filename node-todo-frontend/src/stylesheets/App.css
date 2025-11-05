@@ -195,7 +195,108 @@
 }
 
 
+/* Toolbar */
 
+.searchHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  position: relative;
+  width: 100%
+}
+.searchBackIcon {
+  transform: rotate(90deg);
+  width: 40px;
+  position: absolute;
+  left: 0;
+}
+
+.toolbarMain {
+  width: 65vw;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1.5rem;
+}
+
+.toolbarMain.hidden {
+  display: none;
+}
+
+.toolbarIcon {
+  width: 30px;
+}
+
+.addTaskMain {
+  margin-left: auto;
+}
+
+.toolbarLeft {
+  margin-right: auto;
+  position: relative;
+}
+
+.toolbarIcon:nth-of-type(2) {
+  margin-left: 2rem;
+}
+
+.completedTaskSwitch {
+  justify-self: center;
+}
+
+/* Search Page */
+
+.searchContainer {
+  width: max(700px, 30vw);
+  background-color: var(--charcoal);
+  padding: 1rem;
+  border-radius: 5px;
+  height: auto;
+  margin-bottom: 2rem;
+}
+
+.searchbar {
+  position: relative;
+  background-color: transparent;
+  border: 1px solid whitesmoke;
+  border-radius: 20px;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.searchbarIcon {
+  width: 20px;
+  display: inline;
+  position: absolute;
+  left: 0.5rem;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+
+.searchbar input {
+  margin-bottom: 0;
+}
+
+input[type="search"] {
+  all: unset;     
+  height: 1.5rem;  
+  width: 100%;  
+  height: 100%;  
+  box-sizing: border-box;    
+  display: inline-block;                    
+  padding: 0.5rem 1rem;      
+  border-radius: 4px;
+  color: whitesmoke;
+  background-color: transparent;
+  border: none;
+  margin-left: 1.5rem;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+}
 
 /* UI */
 
@@ -281,11 +382,7 @@
 }
 
 .completedTaskSwitch {
-  position: absolute;
-  top: -46px;
-  left: 50%;
   width: 20%;
-  transform: translate(-50%, 0);
   background-color: #87848E;
   border-radius: 5px;
   padding: 2px;
@@ -308,8 +405,6 @@
   background-color: var(--charcoal);
   color: whitesmoke;
 }
-
-.comp
 
 /* User Profile Footer */
 
@@ -406,9 +501,6 @@
 }
 
 .addTaskMain {
-  position: absolute;
-  top: -46px;
-  right: 0%;
   background-color: transparent;
   border: none;
 }
@@ -420,13 +512,6 @@
 
 .addTaskMain svg {
   width: 30px;
-}
-
-.sortIcon {
-  width: 30px;
-  position: absolute;
-  top: -46px;
-  left: 0px;
 }
 
 .addTaskMain span {
@@ -515,8 +600,8 @@ input {
   display: flex;
   flex-direction: column;
   position: absolute;
-  top: -30px;
-  left: 40px;
+  top: 35px;
+  left: 10px;
   z-index: 1;
 }
 

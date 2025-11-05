@@ -1,14 +1,10 @@
-import { useMemo, useState, useEffect } from 'react'
-import { ReactComponent as SortSvg } from '../assets/sort.svg'
-import EditTaskForm from './edit-task-form'
-import CompletedCheckbox from './completed-checkbox'
+import { useState, useEffect } from 'react'
 import CompletedTasks from "./completed-tasks"
-import AddTask from './add-task'
-import SortDropdown from './sortdropdown'
 import { TodoTasks } from './todo-tasks'
-import { TaskActionMenu } from './task-action-menu'
+import { TaskSearch } from './task-search'
+import { Toolbar } from './tool-bar'
 
-const TodoList = ({ domain, taskData, setError, addTask, setAddTask, setRefreshTrigger, sortMethod, setSortMethod }) => {
+const TodoList = ({ domain, taskData, setError, addTask, setAddTask, setRefreshTrigger, sortMethod, setSortMethod, showSearch, setShowSearch }) => {
 
     const [showTaskActions, setShowTaskActions] = useState("")
     const [showCompleted, setShowCompleted] = useState(false)
@@ -111,35 +107,44 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, setRefreshT
         handleArchive
     }
 
+    const toolbarHandlers = {
+        handleSort,
+        sort,
+        setSort,
+        setSortMethod,
+        getSwitchClass,
+        handleShowCompleted,
+        addTask,
+        setAddTask,
+        showSearch,
+        setShowSearch
+    }
 
+    const renderContent = () => {
 
-    return (
-    <>
-             <div className="listContainer">
-                <SortSvg className="sortIcon" onClick={handleSort} />
-                {sort ? (
-                    <SortDropdown sort={sort} setSort={setSort} setSortMethod={setSortMethod} />
-                ) : (
-                    <></>
-                )}
-            <div className="completedTaskSwitch">
-                <button className={`completedSwitchButton ${getSwitchClass("todo")}`} onClick={() => handleShowCompleted()}>To-Do</button>
-                <button className={`completedSwitchButton ${getSwitchClass("completed")}`} onClick={() => handleShowCompleted()}>Completed</button>
-            </div>
-            <AddTask tasks={tasks} setTasks={setTasks} addTask={addTask} setAddTask={setAddTask} className="addTaskMain" />
-            
-            {showCompleted ? (
-                <CompletedTasks 
-                    domain={domain}
-                    completedTasks={completedTasks} 
-                    setCompletedTasks={setCompletedTasks} 
-                    setError={setError}
-                    setRefreshTrigger={setRefreshTrigger}
-                    handleDelete={handleDelete}
-                    handleArchive={handleArchive} 
-                />
-            ) : (
-                <TodoTasks
+        if (showCompleted) {
+            return <CompletedTasks 
+                        domain={domain}
+                        completedTasks={completedTasks} 
+                        setCompletedTasks={setCompletedTasks} 
+                        setError={setError}
+                        setRefreshTrigger={setRefreshTrigger}
+                        handleDelete={handleDelete}
+                        handleArchive={handleArchive} 
+                    />
+        } else if (showSearch) {
+            return <TaskSearch
+                        taskData={taskData}
+                        handlers={handlers}
+                        sortMethod={sortMethod}
+                        taskActionFunctions={taskActionFunctions}
+                        setError={setError}
+                        setRefreshTrigger={setRefreshTrigger}
+                        domain={domain}
+                        setShowSearch={setShowSearch}
+                    />
+        } else {
+            return <TodoTasks
                     domain={domain} 
                     taskData={taskData}
                     taskActionFunctions={taskActionFunctions}
@@ -148,7 +153,14 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, setRefreshT
                     setError={setError}
                     sortMethod={sortMethod}
                  />
-            )}
+        }
+    }
+
+    return (
+    <>
+        <Toolbar taskData={taskData} toolbarHandlers={toolbarHandlers} />
+        <div className="listContainer">
+            {renderContent()}
         </div>
     </>
     )

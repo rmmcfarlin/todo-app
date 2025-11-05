@@ -12,6 +12,7 @@ const AppWrapper = ({ domain, taskData, errror, setError, refreshTrigger, setRef
     const { tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks } = taskData
 
     const [addTask, setAddTask] = useState(false)
+    const [showSearch, setShowSearch] = useState(false)
     const [expanded, setExpanded] = useState(false)
     const [sortMethod, setSortMethod] = useState("dueSoonest")
     const [showArchived, setShowArchived] = useState(false)
@@ -32,6 +33,8 @@ const AppWrapper = ({ domain, taskData, errror, setError, refreshTrigger, setRef
                 showArchived={showArchived} 
                 setShowArchived={setShowArchived}
                 setRefreshTrigger={setRefreshTrigger}
+                showSearch={showSearch}
+                setShowSearch={setShowSearch}
             />
             <div className="appMain">
                 {showArchived ? (
@@ -56,6 +59,8 @@ const AppWrapper = ({ domain, taskData, errror, setError, refreshTrigger, setRef
                 setRefreshTrigger={setRefreshTrigger}
                 sortMethod={sortMethod}
                 setSortMethod={setSortMethod}
+                showSearch={showSearch}
+                setShowSearch={setShowSearch}
             /> 
             )}
             </div>

@@ -3,6 +3,7 @@ import AddTask from './add-task'
 import UserProfile from './user-profile'
 import ShowArchivedButton from './show-archived-button'
 import { ReactComponent as HamburgerIcon } from '../assets/menu-hamburger-svgrepo-com.svg'
+import { ReactComponent as SearchIcon } from '../assets/search.svg'
 
 const Sidebar = ({ domain, taskData, addTask, setAddTask, expanded, setExpanded, showArchived, setShowArchived, setRefreshTrigger }) => {
 
