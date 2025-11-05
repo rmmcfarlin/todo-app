@@ -18,8 +18,6 @@ router.post("/create-account", newUserValidation, async (req,res) => {
         const pwHash = await bcrypt.hash(data.password, 10)
         const newUser = ({...data, "password": pwHash})
 
-        console.log(newUser.email)
-
         const createUser = await User.create(newUser)
 
         const accessToken = jsonwebtoken.sign(
@@ -71,7 +69,6 @@ router.post("/login", async (req,res) => {
             }
 
         const correctPw = loginInfo.password
-        console.log(loginInfo._id)
 
         if (await bcrypt.compare(password, correctPw)) {
             const accessToken = jsonwebtoken.sign(
@@ -86,8 +83,6 @@ router.post("/login", async (req,res) => {
             )
 
             const nameOfUser = `${loginInfo.firstName} ${loginInfo.lastName}`
-
-            console.log(nameOfUser)
 
             return res
                 .cookie("refreshToken", refreshToken, {
@@ -130,8 +125,6 @@ router.post("/refresh", async (req,res) => {
         const userInfo = await User.findOne({_id: userId})
 
         const nameOfUser = `${userInfo.firstName} ${userInfo.lastName}`
-
-        console.log(nameOfUser)
 
         const accessToken = jsonwebtoken.sign(
             { userId: `${decoded.userId}` }, 
