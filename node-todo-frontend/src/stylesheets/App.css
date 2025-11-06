@@ -208,7 +208,7 @@
   transform: rotate(90deg);
   width: 40px;
   position: absolute;
-  left: 0;
+  left: -2rem;
 }
 
 .toolbarMain {
@@ -247,7 +247,7 @@
 /* Search Page */
 
 .searchContainer {
-  width: max(700px, 30vw);
+  width: 60vw;
   background-color: var(--charcoal);
   padding: 1rem;
   border-radius: 5px;
@@ -296,6 +296,72 @@ input[type="search"] {
 input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
   appearance: none;
+}
+
+.queryParamContainer {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.queryParamButton, .paramOption {
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  padding: 0.6rem;
+  display: flex;
+  align-items: center;
+}
+
+.queryParamButton {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 25%;
+}
+
+.queryParamButton:hover, .paramOption:hover {
+  background-color: #87848E;
+}
+
+.paramText {
+  color: whitesmoke;
+  font-weight: 500;
+  margin-left: 0.5rem;
+}
+
+.dateParam.hidden {
+  display: none;
+}
+
+.paramIcon {
+  height: 1.2rem;
+}
+
+.paramDropdownMenu.visible {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  position: absolute;
+  top: 100%;
+  left: 0%;
+  background-color: var(--charcoal);
+}
+
+.paramOption {
+  color: whitesmoke;
+  border-radius: 0;
+  display: block;
+  width: 100%;
+  margin: 0;
+}
+
+.paramDropdownMenu.hidden {
+  display: none;
 }
 
 /* UI */

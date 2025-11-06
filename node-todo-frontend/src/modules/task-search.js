@@ -7,6 +7,7 @@ import { TaskActionMenu } from "./task-action-menu";
 import debounce from 'debounce'
 import CompletedCheckbox from "./completed-checkbox";
 import EditTaskForm from './edit-task-form';
+import { SearchParams } from './search-query-params'
 
 
 export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions, setError, setRefreshTrigger, domain, setShowSearch }) => {
@@ -15,8 +16,25 @@ export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions
     const { accessToken } = useUser()
     const { tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks } = taskData    
     const { handleTaskMenu, showTaskActions, editTask, setEditTask, cancelEdits } = handlers
+
+
     const [query, setQuery] = useState('')
+    const [sortParamValue, setSortParamValue] = useState("Relevance")
+    const [fieldParamValue, setFieldParamValue] = useState("Title + Notes")
+    const [typeParamValue, setTypeParamValue] = useState("All Results")
+    const [dateParamValue, setDateParamValue] = useState('')
     const [searchResults, setSearchResults] = useState([])
+
+    const paramData = {
+        sortParamValue,
+        setSortParamValue,
+        fieldParamValue,
+        setFieldParamValue,
+        typeParamValue,
+        setTypeParamValue,
+        dateParamValue,
+        setDateParamValue
+    }
 
         const sortedTasks = useMemo(() => {
             if (sortMethod === "dueSoonest") {
@@ -58,7 +76,7 @@ export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions
             const data = await response.json()
             const searchResult = Object.values(data).flat()
             
-            if (!searchResult) setSearchResults([])
+            if (!searchResult) setSearchResults([{title: "No results found"}])
             setSearchResults(searchResult)
                
         } catch (err) {
@@ -77,6 +95,7 @@ export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions
                     <SearchIcon className="searchbarIcon" />
                     <input type="search" id="search" onChange={(e) => handleChange(e)}></input>
                 </span>
+            <SearchParams paramData={paramData} />
             </div>
         </div>
             {

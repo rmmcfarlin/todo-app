@@ -5,6 +5,8 @@ import Task from '../models/task.js'
     
     const {query} = req.query
     const userId = req.user.id
+
+    console.log(query)
     
 
     try {
@@ -12,8 +14,6 @@ import Task from '../models/task.js'
             userId: userId, 
             $text: {$search: query}
         })
-
-        console.log('searched')
 
         if (!result) {
             result = await Task.find({
