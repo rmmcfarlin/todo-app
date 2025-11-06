@@ -9,6 +9,7 @@ const taskSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false }
 })
 
+taskSchema.index({ title: "text", notes: "text" })
 const Task = mongoose.model('Task', taskSchema)
 
 export default Task

@@ -2,6 +2,7 @@ import { Router } from 'express'
 import mongoose from 'mongoose'
 import Task from '../models/task.js'
 import { requireAuth } from '../middleware/auth.js'
+import { searchTasks } from '../controllers/task-controller.js'
 
 const router = Router()
 
@@ -65,5 +66,9 @@ router.put('/:id', async (req,res) => {
         return res.status(500).json({ error: "Unable to modify task"})
     }
 })
+
+// Search 
+
+router.get('/search', requireAuth, searchTasks)
 
 export default router

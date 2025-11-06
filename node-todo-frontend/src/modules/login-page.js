@@ -30,7 +30,9 @@ const LoginPage = ({ domain, setRefreshTrigger }) => {
             body: JSON.stringify(loginForm)
         }
       )
-      if (!response.ok) throw new Error("Login unsuccessful")
+      if (!response.ok) {
+        alert("Incorrect username or password")
+      }
 
         const { accessToken, userName } = await response.json()
           setAccessToken(accessToken)
