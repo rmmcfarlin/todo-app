@@ -6,7 +6,8 @@ const taskSchema = new mongoose.Schema({
     archived: { type: Boolean },
     dueDate: { type: Date },
     notes: { type: String },
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false }
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: false }, 
+    created: { type: Date }
 })
 
 taskSchema.index({ title: "text", notes: "text" })

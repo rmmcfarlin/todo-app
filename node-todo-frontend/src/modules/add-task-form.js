@@ -12,7 +12,8 @@ const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask, setRefreshT
         dueDate: "",
         notes: "",
         archived: false,
-        userId: ""
+        userId: "", 
+        created: ""
     })
 
     useEffect(() => {

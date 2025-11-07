@@ -26,6 +26,7 @@ router.post('/', requireAuth, async (req,res) => {
         const newTask = req.body
         
         newTask.userId = userId
+        newTask.created = Date.now()
 
         const createdTask = await Task.create(newTask)
         return res.status(201).json({ message: 'Task Added', id: createdTask._id })

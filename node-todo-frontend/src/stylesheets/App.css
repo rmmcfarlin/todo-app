@@ -341,7 +341,7 @@ input[type="search"]::-webkit-search-cancel-button {
   height: 1.2rem;
 }
 
-.paramDropdownMenu.visible {
+.paramDropdownMenu.visible, .dateParam.visible {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -350,6 +350,7 @@ input[type="search"]::-webkit-search-cancel-button {
   top: 100%;
   left: 0%;
   background-color: var(--charcoal);
+  z-index: 1;
 }
 
 .paramOption {
@@ -362,6 +363,29 @@ input[type="search"]::-webkit-search-cancel-button {
 
 .paramDropdownMenu.hidden {
   display: none;
+}
+
+.dateTypeButtons {
+  position: absolute;
+  top: 100%;
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  height: 2rem;
+  background-color: var(--charcoal);
+  margin: 1rem 0;
+}
+
+.dateTypeButton {
+  width: fit-content;
+  color: whitesmoke;
+  display: block;
+  border-radius: 50px;
+  padding: 0.5rem;
+}
+
+.dateTypeButton.active {
+  background-color: #87848E;
 }
 
 /* UI */

@@ -8,7 +8,7 @@ import { ReactComponent as CalendarSvg } from '../assets/calendar.svg'
 export const SearchParams = ({ paramData }) => {
 
 
-    const { sortParamValue, setSortParamValue, fieldParamValue, setFieldParamValue, typeParamValue, setTypeParamValue, dateParamValue, setDateParamValue } = paramData
+    const { sortParamValue, setSortParamValue, fieldParamValue, setFieldParamValue, typeParamValue, setTypeParamValue, dateParamValue, setDateParamValue, dateType, setDateType } = paramData
     const [showDropdown, setShowDropdown] = useState('')
   
 
@@ -33,6 +33,18 @@ export const SearchParams = ({ paramData }) => {
         "Todo + Completed",
         "Archived Tasks Only"
     ]
+
+    const dateParams = [
+        "All Time", 
+        "Last 7 Days",
+        "Last 30 Days",
+        "Last Year"
+    ]
+
+    const dateTypeParams = [
+        "Due:",
+        "Created:"
+    ]
     
     const handleDropdown = (id) => {
         if (id === showDropdown) {
@@ -52,6 +64,14 @@ export const SearchParams = ({ paramData }) => {
 
     const handleType = (param) => {
         setTypeParamValue(param)
+    }
+
+    const handleDate = (param) => {
+        setDateParamValue(param)
+    }
+
+    const handleDateType = (param) => {
+        setDateType(param)
     }
 
     const getClass = (id) => {
@@ -79,11 +99,19 @@ export const SearchParams = ({ paramData }) => {
                 <span className="paramText">Include {typeParamValue}</span>
                 <ParamDropdown params={typeParams} setValue={handleType} className={getClass("type")}/>
             </button>
-            <button className="queryParamButton">
+            <button className="queryParamButton" onClick={() => handleDropdown("date")}>
                 <CalendarSvg className="paramIcon" />
-                <span className="paramText">Date Range</span>
-                <input type="date" className={showDropdown == "date" ? 'dateParam visible' : 'dateParam hidden'}></input>
-            </button>
+                <span className="paramText">{dateType} {dateParamValue}</span>
+                <div className={showDropdown == "date" ? 'dateParam visible' : 'dateParam hidden'}>
+                     <div className="dateTypeButtons">
+                        <span className={`dateTypeButton ${dateType === "Due:" ? "active" : "inactive"}`} onClick={() => handleDateType("Due:")}>Due</span>
+                        <span className={`dateTypeButton ${dateType === "Created:" ? "active" : "inactive"}`} onClick={() => handleDateType("Created:")}>Created</span>
+                        <ParamDropdown params={dateParams} setValue={handleDate} className={"paramDropdownMenu visible bottom"} />
+                    </div>
+                    
+                    
+                </div>
+                </button>
             
         </div>
     )

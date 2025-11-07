@@ -1,5 +1,5 @@
 import { ReactComponent as SearchIcon } from '../assets/search.svg'
-import { useMemo, useState, useCallback } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { useUser } from '../context/user-context'
 import { ReactComponent as EditDots } from '../assets/dots-horizontal.svg'
 import {ReactComponent as CarrotIcon} from '../assets/down-arrow.svg'
@@ -22,7 +22,8 @@ export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions
     const [sortParamValue, setSortParamValue] = useState("Relevance")
     const [fieldParamValue, setFieldParamValue] = useState("Title + Notes")
     const [typeParamValue, setTypeParamValue] = useState("All Results")
-    const [dateParamValue, setDateParamValue] = useState('')
+    const [dateParamValue, setDateParamValue] = useState('All time')
+    const [dateType, setDateType] = useState("Due:")
     const [searchResults, setSearchResults] = useState([])
 
     const paramData = {
@@ -33,7 +34,9 @@ export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions
         typeParamValue,
         setTypeParamValue,
         dateParamValue,
-        setDateParamValue
+        setDateParamValue,
+        dateType,
+        setDateType
     }
 
         const sortedTasks = useMemo(() => {
@@ -57,14 +60,23 @@ export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions
     const handleChange = (e) => {
         const searchTerm = e.target.value
         setQuery(searchTerm)
-        handleSearch(searchTerm)
     }
 
-    const handleSearch = useCallback( 
-        debounce(async (query) => {
+    const handleSearch = useEffect(() => {
+        if (!query) return;
+
+        const timeout = setTimeout(() => {
+            (async () => {
+
+        const searchQuery = new URLSearchParams({
+            query,
+            fieldParamValue,
+            typeParamValue,
+            dateParamValue
+        })
 
         try {
-            const response = await fetch(`${domain}/tasks/search?query=${encodeURIComponent(query)}`, {
+            const response = await fetch(`${domain}/tasks/search?${searchQuery.toString()}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -82,7 +94,12 @@ export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions
         } catch (err) {
             console.log(err)
         }
-    }, 300), [])
+      })();
+  }, 300);
+
+  return () => clearTimeout(timeout);
+}, [query, fieldParamValue, typeParamValue, dateParamValue]);
+
 
 
 

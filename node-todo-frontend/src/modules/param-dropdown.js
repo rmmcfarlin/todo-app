@@ -1,3 +1,4 @@
+import { memo } from "react"
 
 export const ParamDropdown = ({ params, setValue, className }) => {
 
