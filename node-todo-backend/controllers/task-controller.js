@@ -10,87 +10,82 @@ import Task from '../models/task.js'
 
     const { query, fieldParamValue, typeParamValue, dateType, dateParamValue } = searchParams
 
+    console.log(searchParams)
   
     const filteredSearch = {
-        userId: userId,
-        field: {},
-        type: {},
-        date: {}
+        userId: userId
     }
+    const conditions = []
+
+
 
     // Field filtering
     if (fieldParamValue === "Title + Notes") {
-        filteredSearch.field.$or = [
+        conditions.push({
+            $or: [
             { title: { $regex: query, $options: "i" } },
             { notes: { $regex: query, $options: "i" } }
-        ]
+    ]})
     } else if (fieldParamValue === "Title Only") {
-        filteredSearch.field.title = { $regex: query, $options: "i" }
+        conditions.push({ title: { $regex: query, $options: "i" }})
     } else if (fieldParamValue === "Notes Only") {
-        filteredSearch.field.notes = { $regex: query, $options: "i" }
+        conditions.push({ notes: { $regex: query, $options: "i" } })
     }
     
     // Task type filtering
     if (typeParamValue === "Todo Tasks Only") {
-        filteredSearch.type.$and = [
+        conditions.push({ $and: [
             { completed: false }, 
             { archived: false }
-        ]
+        ]})
     } else if (typeParamValue === "Completed Tasks Only") {
-        filteredSearch.type.$and = [
-            { completed: true },
+       conditions.push({ $and: [
+            { completed: true }, 
             { archived: false }
-        ]
+        ]})
     } else if ( typeParamValue === "Todo + Completed") {
-       filteredSearch.type = { archived: false}
+       conditions.push({ archived: false})
     } else if ( typeParamValue === "Archived Tasks Only") {
-        filteredSearch.type = { archived: true }
+        conditions.push({ archived: true })
     }
 
     // Task Date Filtering
 
+    let dateField
     if (dateType === "Due:") {
-        let dateField = "dueDate"
+        dateField = "dueDate"
     } else if (dateType === "Created:") {
-        let dateField = "created"
+        dateField = "created"
     }
 
+    const today = new Date()
+    let rangeStart
 
     if (dateParamValue === "Last 7 Days") {
-        const lastWeek = new Date()
-        lastWeek.setDate(today.getDate() - 7)
-
-        filteredSearch.date = {dateField: {
-            $gte: ISODate(dateParamValue),
-            $lte: ISODate(lastWeek)
-        }}
+        rangeStart = new Date(today)
+        rangeStart.setDate(today.getDate() - 7)
     } else if (dateParamValue === "Last 30 Days") {
-        const lastMonth = new Date()
-        lastMonth.setDate(today.getDate() - 30)
-
-        filteredSearch.date = {dateField: {
-            $gte: ISODate(dateParamValue),
-            $lte: ISODate(lastMonth)
-        }}
+        rangeStart = new Date(today)
+        rangeStart.setDate(today.getDate() - 30)
     } else if (dateParamValue === "Last Year") {
-        const lastYear = new Date()
-        lastYear.setDate(today.getDate() - 365)
-
-        filteredSearch.date = {dateField: {
-            $gte: ISODate(dateParamValue),
-            $lte: ISODate(lastYear)
-        }}
+        rangeStart = new Date(today)
+        rangeStart.setDate(today.getDate() - 365)
     }
 
+    if (rangeStart) {
+        conditions.push({
+            [dateField]: { $gte: rangeStart, $lte: today}
+        })
+    }
 
+    if (conditions.length > 0) {
+        filteredSearch.$and = conditions
+    }
 
     console.log(filteredSearch)
 
     try {
-        let result = await Task.find({
-            userId: userId, 
-            $text: {$search: query}
-        })
+        let result = await Task.find(filteredSearch)
 
         if (!result) {
             result = await Task.find({

@@ -39,20 +39,6 @@ export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions
         setDateType
     }
 
-        const sortedTasks = useMemo(() => {
-            if (sortMethod === "dueSoonest") {
-                return [...searchResults].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
-            } else if (sortMethod === "dueLatest") {
-                return [...searchResults].sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate))
-            } else if (sortMethod === "createdNewest") {
-                return [...searchResults].sort((a, b) => b.id - a.id)
-            } else if (sortMethod === "createdOldest") {
-                return [...searchResults].sort((a, b) => a.id - b.id)
-            } else {
-                return searchResults
-            }
-        }, [searchResults, sortMethod])
-
     const handleBack = () => {
         setShowSearch(false)
     }
@@ -72,6 +58,7 @@ export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions
             query,
             fieldParamValue,
             typeParamValue,
+            dateType,
             dateParamValue
         })
 
@@ -100,8 +87,19 @@ export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions
   return () => clearTimeout(timeout);
 }, [query, fieldParamValue, typeParamValue, dateParamValue]);
 
-
-
+      const sortedSearch = useMemo(() => {
+        if (sortParamValue === "Due Date (Soonest)") {
+            return [...searchResults].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
+        } else if (sortParamValue === "Due Date (Latest)") {
+            return [...searchResults].sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate))
+        } else if (sortParamValue === "Created (Newest)") {
+            return [...searchResults].sort((a, b) => new Date(b.created) - new Date(a.created))
+        } else if (sortParamValue === "Created (Newest)") {
+            return [...searchResults].sort((a, b) => new Date(a.created) - new Date(b.created))
+        } else {
+            return searchResults
+        }
+    }, [searchResults, sortParamValue])
 
     return (
         <>
@@ -116,7 +114,7 @@ export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions
             </div>
         </div>
             {
-            sortedTasks.map((task) => {
+            sortedSearch.map((task) => {
                 
             let taskId = task._id
             let date = new Date(task.dueDate)

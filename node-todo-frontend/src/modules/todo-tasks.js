@@ -15,9 +15,9 @@ const { handleTaskMenu, showTaskActions, editTask, setEditTask, cancelEdits } = 
         } else if (sortMethod === "dueLatest") {
             return [...tasks].sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate))
         } else if (sortMethod === "createdNewest") {
-            return [...tasks].sort((a, b) => b.id - a.id)
+            return [...tasks].sort((a, b) => new Date(b.created) - new Date(a.created))
         } else if (sortMethod === "createdOldest") {
-            return [...tasks].sort((a, b) => a.id - b.id)
+            return [...tasks].sort((a, b) => new Date(a.created) - new Date(b.created))
         } else {
             return tasks
         }
