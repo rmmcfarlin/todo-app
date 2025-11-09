@@ -6,11 +6,7 @@ import Task from '../models/task.js'
     const userId = req.user.id
     const searchParams = req.query
 
-    console.log(searchParams)
-
     const { query, fieldParamValue, typeParamValue, dateType, dateParamValue } = searchParams
-
-    console.log(searchParams)
   
     const filteredSearch = {
         userId: userId
@@ -81,8 +77,6 @@ import Task from '../models/task.js'
     if (conditions.length > 0) {
         filteredSearch.$and = conditions
     }
-
-    console.log(filteredSearch)
 
     try {
         let result = await Task.find(filteredSearch)

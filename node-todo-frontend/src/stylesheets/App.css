@@ -168,33 +168,6 @@
   background-color: #87848E;
 }
 
-/* Archived Tasks Component */
-
-.archiveHeaderContainer {
-  display: flex;
-  position: absolute;
-  top: -46px;
-  right: -0;
-}
-
-.archivedTasksHeader {
-  font-size: 2rem;
-  color: whitesmoke;
-  font-style: italic;
-  font-weight: 700;
-  margin-left: 1rem;
-
-}
-
-.headerIcon {
-  width: 30px;
-}
-
-.headerIcon circle, .headerIcon path {
-  stroke: whitesmoke;
-}
-
-
 /* Toolbar */
 
 .searchHeader {
@@ -240,7 +213,7 @@
   margin-left: 2rem;
 }
 
-.completedTaskSwitch {
+.completedTaskSwitch, .archiveHeaderContainer {
   justify-self: center;
 }
 
@@ -388,6 +361,22 @@ input[type="search"]::-webkit-search-cancel-button {
   background-color: #87848E;
 }
 
+.archivedBadge.visible {
+  background-color: var(--charcoal);
+  color: whitesmoke;
+  font-style: italic;
+  padding: 0.4rem;
+  display: inline;
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  border-radius: 10px;
+}
+
+.archivedBadge.hidden {
+  display: none;
+}
+
 /* UI */
 
 .hamburgerIcon {
@@ -471,11 +460,41 @@ input[type="search"]::-webkit-search-cancel-button {
   background-color: var(--lightred);
 }
 
-.completedTaskSwitch {
+.completedTaskSwitch, .archiveHeaderContainer {
   width: 20%;
   background-color: #87848E;
   border-radius: 5px;
   padding: 2px;
+}
+
+.archiveHeaderContainer {
+  background-color: var(--charcoal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.archivedTasksHeader {
+  font-size: 1rem;
+  color: whitesmoke;
+  font-weight: 400;
+  margin-left: 0.5rem;
+}
+
+.headerIcon {
+  width: 20px;
+}
+
+.headerIcon.backButton {
+  transform: rotate(90deg);
+  position: absolute;
+  left: 1rem;
+}
+
+.headerIcon circle, .headerIcon path {
+  stroke: whitesmoke;
 }
 
 .completedSwitchButton {

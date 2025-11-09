@@ -57,6 +57,10 @@ router.put('/:id', async (req,res) => {
     const id = req.params.id
     try {
         const updatedTask = req.body
+
+        console.log(updatedTask)
+        console.log(id)
+
         const result = await Task.findByIdAndUpdate(id, updatedTask)
         if (!result) {
             return res.status(404).json({ error: "Task not found"})

@@ -1,15 +1,12 @@
 import { useState, useMemo } from 'react'
-import { ReactComponent as SortSvg } from '../assets/sort.svg'
 import ArchiveTaskButton from './archive-task-button'
-import {ReactComponent as ClockSvg} from '../assets/clock-svgrepo-com.svg'
-import SortDropdown from './sortdropdown'
 
 
 
-const TaskArchive = ({ domain, expanded, showArchived, archivedTasks, setRefreshTrigger, setError, sortMethod, setSortMethod }) => {
+const TaskArchive = ({ domain, taskData, expanded, showArchived, setRefreshTrigger, setError, sortMethod, setSortMethod, handleArchive }) => {
 
     const [archSort, setArchSort] = useState(false)
-
+    const { tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks } = taskData
 
     // Fix sorting once created info is added in MongoDB
     const sortedArchive = useMemo(() => {
@@ -19,9 +16,9 @@ const TaskArchive = ({ domain, expanded, showArchived, archivedTasks, setRefresh
         } else if (sortMethod === "dueLatest") {
             return [...archivedTasks].sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate))
         } else if (sortMethod === "createdNewest") {
-            return [...archivedTasks].sort((a, b) => b.id - a.id)
+            return [...archivedTasks].sort((a, b) => new Date(b.created) - new Date(a.created))
         } else if (sortMethod === "createdOldest") {
-            return [...archivedTasks].sort((a, b) => a.id - b.id)
+            return [...archivedTasks].sort((a, b) => new Date(a.created) - new Date (b.created))
         } else {
             return archivedTasks
         }
@@ -43,20 +40,8 @@ const TaskArchive = ({ domain, expanded, showArchived, archivedTasks, setRefresh
     const className = getClass()
 
     return(
-        <>
-            {showArchived ? (
-                <div className="archiveListContainer">
-                    <SortSvg className="sortIcon" onClick={handleSort} />
-                    <div className="archiveHeaderContainer">
-                        <ClockSvg className="headerIcon" />
-                        <p className='archivedTasksHeader'>Archived Tasks</p>
-                    </div>
-                    {archSort ? (
-                        <SortDropdown sort={archSort} setSort={setArchSort} sortMethod={sortMethod} setSortMethod={setSortMethod} />
-                        ) : (
-                        <></>
-                        )}
-                    {sortedArchive.map((task) => {
+        <>                   
+            {sortedArchive.map((task) => {
                         let taskId = task._id
                         let date = new Date(task.dueDate)
                         let dueDate = date.toDateString()
@@ -72,19 +57,13 @@ const TaskArchive = ({ domain, expanded, showArchived, archivedTasks, setRefresh
                                 <div className="notesSection">
                                     <span>{task.notes}</span>
                                 </div>
-                                <ArchiveTaskButton domain={domain} serError={setError} task={task} setRefreshTrigger={setRefreshTrigger} archiveAction={"Unarchive"} />
+                                <ArchiveTaskButton domain={domain} serError={setError} task={task} setRefreshTrigger={setRefreshTrigger} archiveAction={"Unarchive"} handleArchive={handleArchive} />
                             </div>
                             </div>
                         )
                     })
-
                     }
-                </div>
-            ) : (
-               <></> 
-            )}
-        </>
-     
+                </>
     )
 }
 

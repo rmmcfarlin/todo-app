@@ -8,6 +8,7 @@ export const TodoTasks = ({ taskData, domain, taskActionFunctions, handlers, set
 
 const { tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks } = taskData
 const { handleTaskMenu, showTaskActions, editTask, setEditTask, cancelEdits } = handlers
+const { handleArchive } = taskActionFunctions
 
     const sortedTasks = useMemo(() => {
         if (sortMethod === "dueSoonest") {

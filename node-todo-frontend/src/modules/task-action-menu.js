@@ -1,5 +1,5 @@
 
-export const TaskActionMenu = ({ taskActionFunctions, taskId }) => {
+export const TaskActionMenu = ({ taskActionFunctions, taskId, archiveMap }) => {
 
     const { handleDelete, handleEdit, handleArchive } = taskActionFunctions
 

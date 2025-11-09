@@ -1,15 +1,21 @@
 import { ReactComponent as SortSvg } from '../assets/sort.svg'
 import { ReactComponent as SearchIcon } from '../assets/search.svg'
+import {ReactComponent as ClockSvg} from '../assets/clock-svgrepo-com.svg'
+import {ReactComponent as CarrotIcon} from '../assets/down-arrow.svg'
 import AddTask from './add-task'
 import SortDropdown from './sortdropdown'
 
-export const Toolbar = ({ taskData, toolbarHandlers }) => {
+export const Toolbar = ({ taskData, toolbarHandlers, showArchived, setShowArchived }) => {
 
     const { tasks, setTasks } = taskData
     const { handleSort, sort, setSort, setSortMethod, getSwitchClass, handleShowCompleted, addTask, setAddTask, showSearch, setShowSearch } = toolbarHandlers
 
     const handleShowSearch = () => {
         setShowSearch(!showSearch)
+    }
+
+    const handleShowArchived = () => {
+        setShowArchived(!showArchived)
     }
 
     const getClass = () => {
@@ -32,10 +38,20 @@ export const Toolbar = ({ taskData, toolbarHandlers }) => {
                     )}
                 <SearchIcon  className="toolbarIcon" onClick={handleShowSearch} />
             </div>
-            <div className="completedTaskSwitch">
-                <button className={`completedSwitchButton ${getSwitchClass("todo")}`} onClick={() => handleShowCompleted()}>To-Do</button>
-                <button className={`completedSwitchButton ${getSwitchClass("completed")}`} onClick={() => handleShowCompleted()}>Completed</button>
-            </div>
+
+            {showArchived ? (
+                <div className="archiveHeaderContainer">
+                        <CarrotIcon onClick={() => handleShowArchived()} className="headerIcon backButton" />
+                        <ClockSvg className="headerIcon" />
+                        <p className='archivedTasksHeader'>Archived</p>
+                </div>
+            ) : (
+                <div className="completedTaskSwitch">
+                    <button className={`completedSwitchButton ${getSwitchClass("todo")}`} onClick={() => handleShowCompleted()}>To-Do</button>
+                    <button className={`completedSwitchButton ${getSwitchClass("completed")}`} onClick={() => handleShowCompleted()}>Completed</button>
+                </div> 
+            )}
+           
             <AddTask tasks={tasks} setTasks={setTasks} addTask={addTask} setAddTask={setAddTask} className="addTaskMain toolbarIcon" />
         </div>
     )

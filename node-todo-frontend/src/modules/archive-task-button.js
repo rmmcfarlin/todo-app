@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-const ArchiveTaskButton = ({ domain, setError, task, archiveAction, setRefreshTrigger, handleArchive }) => {
+const ArchiveTaskButton = ({ domain, setError, task, archiveAction, setRefreshTrigger, handleArchive, archiveMap }) => {
 
 
 

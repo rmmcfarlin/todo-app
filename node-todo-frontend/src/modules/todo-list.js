@@ -3,8 +3,9 @@ import CompletedTasks from "./completed-tasks"
 import { TodoTasks } from './todo-tasks'
 import { TaskSearch } from './task-search'
 import { Toolbar } from './tool-bar'
+import TaskArchive from './taskarchive'
 
-const TodoList = ({ domain, taskData, setError, addTask, setAddTask, setRefreshTrigger, sortMethod, setSortMethod, showSearch, setShowSearch }) => {
+const TodoList = ({ domain, taskData, setError, addTask, setAddTask, setRefreshTrigger, sortMethod, setSortMethod, showSearch, setShowSearch, showArchived, setShowArchived, expanded }) => {
 
     const [showTaskActions, setShowTaskActions] = useState("")
     const [showCompleted, setShowCompleted] = useState(false)
@@ -15,10 +16,12 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, setRefreshT
     const { tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks } = taskData
 
     useEffect(() => {
+        const allTasks = [...tasks, ...completedTasks, ...archivedTasks]
+        console.log(allTasks)
         const init = {};
-        tasks.forEach(t => (init[t._id] = t.archived || false));
+        allTasks.forEach(t => (init[t._id] = t.archived || false));
         setArchiveMap(init);
-    }, [tasks])
+    }, [tasks, archivedTasks, completedTasks])
 
     const handleTaskMenu = (id) => {
         if (id === showTaskActions) {
@@ -57,9 +60,13 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, setRefreshT
 
     const handleArchive = async (id) => {
 
-        window.confirm("Are you sure you want to archive this task?")
+        window.confirm("Are you sure you want to archive/unarchive this task?")
+        console.log(archiveMap)
+        const archivedValue = archiveMap[id];
+        const isArchived = !archivedValue
+        console.log(archivedValue)
+        console.log(isArchived)
 
-        const isArchived = !archiveMap[id];
         setArchiveMap(prev => ({ ...prev, [id]: isArchived }));
         const updatedTask = { archived: isArchived }
 
@@ -122,7 +129,19 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, setRefreshT
 
     const renderContent = () => {
 
-        if (showCompleted) {
+        if (showArchived) {
+            return <TaskArchive  
+                domain={domain}
+                taskData={taskData} 
+                expanded={expanded} 
+                showArchived={showArchived} 
+                setShowArchived={setShowArchived} 
+                setError={setError}
+                setRefreshTrigger={setRefreshTrigger}
+                sortMethod={sortMethod}
+                setSortMethod={setSortMethod}
+                handleArchive={handleArchive} />
+        } else if (showCompleted) {
             return <CompletedTasks 
                         domain={domain}
                         completedTasks={completedTasks} 
@@ -142,6 +161,8 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, setRefreshT
                         setRefreshTrigger={setRefreshTrigger}
                         domain={domain}
                         setShowSearch={setShowSearch}
+                        handleArchive={handleArchive}
+                        archiveMap={archiveMap}
                     />
         } else {
             return <TodoTasks
@@ -158,7 +179,7 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, setRefreshT
 
     return (
     <>
-        <Toolbar taskData={taskData} toolbarHandlers={toolbarHandlers} />
+        <Toolbar taskData={taskData} toolbarHandlers={toolbarHandlers} showArchived={showArchived} setShowArchived={setShowArchived} />
         <div className="listContainer">
             {renderContent()}
         </div>

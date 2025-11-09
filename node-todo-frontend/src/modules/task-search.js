@@ -4,13 +4,14 @@ import { useUser } from '../context/user-context'
 import { ReactComponent as EditDots } from '../assets/dots-horizontal.svg'
 import {ReactComponent as CarrotIcon} from '../assets/down-arrow.svg'
 import { TaskActionMenu } from "./task-action-menu";
-import debounce from 'debounce'
 import CompletedCheckbox from "./completed-checkbox";
 import EditTaskForm from './edit-task-form';
 import { SearchParams } from './search-query-params'
+import ArchiveTaskButton from './archive-task-button'
 
 
-export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions, setError, setRefreshTrigger, domain, setShowSearch }) => {
+
+export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions, setError, setRefreshTrigger, domain, setShowSearch, handleArchive, archiveMap }) => {
 
 
     const { accessToken } = useUser()
@@ -119,12 +120,13 @@ export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions
             let taskId = task._id
             let date = new Date(task.dueDate)
             let dueDate = date.toDateString()
+            let archived = task.archived
 
                 return (
                         <div className="itemContainer" key={taskId}>
                            <EditDots className="taskActionsIcon" onClick={() => handleTaskMenu(taskId)} /> 
                            {showTaskActions == taskId ? (
-                            <TaskActionMenu taskActionFunctions={taskActionFunctions} taskId={taskId} />
+                            <TaskActionMenu taskActionFunctions={taskActionFunctions} taskId={taskId} archiveMap={archiveMap} />
                            ) : (
                             <></>
                            )}
@@ -135,7 +137,14 @@ export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions
                                 setRefreshTrigger={setRefreshTrigger}
                                 domain={domain}
                                 />
-                            <div className="itemInfo">                            
+                            <div className="itemInfo">
+                            {/* <p className={archived ? "archivedBadge visible" : "archivedBadge hidden"}>{archived ? "Archived" : ""}</p>
+                                                    */}
+                            {archived ? (
+                                <ArchiveTaskButton domain={domain} serError={setError} task={task} setRefreshTrigger={setRefreshTrigger} archiveAction={"Unarchive"} handleArchive={handleArchive} archiveMap={archiveMap} />
+                            ) : (
+                                <></>
+                            )}
                             {editTask === taskId ? (
                                 <>
                                     <EditTaskForm domain={domain} task={task} setError={setError} setEditTask={setEditTask} setRefreshTrigger={setRefreshTrigger} />

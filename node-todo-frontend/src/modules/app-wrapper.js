@@ -37,18 +37,6 @@ const AppWrapper = ({ domain, taskData, errror, setError, refreshTrigger, setRef
                 setShowSearch={setShowSearch}
             />
             <div className="appMain">
-                {showArchived ? (
-            <TaskArchive  
-                domain={domain}
-                taskData={taskData} 
-                expanded={expanded} 
-                showArchived={showArchived} 
-                setShowArchived={setShowArchived} 
-                setError={setError}
-                setRefreshTrigger={setRefreshTrigger}
-                sortMethod={sortMethod}
-                setSortMethod={setSortMethod} />
-            ) : (
             <TodoList
                 domain={domain} 
                 taskData={taskData}
@@ -61,8 +49,10 @@ const AppWrapper = ({ domain, taskData, errror, setError, refreshTrigger, setRef
                 setSortMethod={setSortMethod}
                 showSearch={showSearch}
                 setShowSearch={setShowSearch}
+                showArchived={showArchived}
+                setShowArchived={setShowArchived}
+                expanded={expanded}
             /> 
-            )}
             </div>
            </div>
             <AddTaskForm
