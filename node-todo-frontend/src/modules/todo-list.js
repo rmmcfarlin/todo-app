@@ -61,12 +61,8 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, setRefreshT
     const handleArchive = async (id) => {
 
         window.confirm("Are you sure you want to archive/unarchive this task?")
-        console.log(archiveMap)
         const archivedValue = archiveMap[id];
         const isArchived = !archivedValue
-        console.log(archivedValue)
-        console.log(isArchived)
-
         setArchiveMap(prev => ({ ...prev, [id]: isArchived }));
         const updatedTask = { archived: isArchived }
 
