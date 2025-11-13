@@ -1,14 +1,55 @@
-import { useMemo } from 'react'
+import { useMemo, useEffect } from 'react'
 import { ReactComponent as EditDots } from '../assets/dots-horizontal.svg'
 import { TaskActionMenu } from "./task-action-menu";
+import { useUser } from '../context/user-context';
 import CompletedCheckbox from "./completed-checkbox";
 import EditTaskForm from './edit-task-form';
 
-export const TodoTasks = ({ taskData, domain, taskActionFunctions, handlers, setError, setRefreshTrigger, sortMethod }) => {
+export const TodoTasks = ({ taskData, domain, taskActionFunctions, handlers, setError, refreshTrigger, setRefreshTrigger, sortMethod }) => {
 
-const { tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks } = taskData
-const { handleTaskMenu, showTaskActions, editTask, setEditTask, cancelEdits } = handlers
-const { handleArchive } = taskActionFunctions
+    const { accessToken } = useUser()
+    const { tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks, viewCount, setViewCount } = taskData
+    const { handleTaskMenu, showTaskActions, editTask, setEditTask, cancelEdits } = handlers
+    const { handleArchive } = taskActionFunctions
+
+
+    const taskParams = new URLSearchParams({
+        viewCount,
+        completed: false,
+        archived: false,
+        sortMethod
+    })
+
+    useEffect(() => {
+
+        if (!accessToken) return
+            const fetchData = async () => {
+            try {
+               const response = await fetch(`${domain}/tasks?${taskParams.toString()}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
+                }
+               })
+
+               if (!response.ok) {
+                throw new Error("Network response not ok")
+               }
+
+               const data = await response.json();
+
+               const userTasks = Object.values(data).flat()
+
+               setTasks(userTasks)
+
+            } catch (err) {
+                console.log(err)
+                setError(err.message)
+            }
+        }
+        fetchData();
+    }, [accessToken, refreshTrigger]) 
 
     const sortedTasks = useMemo(() => {
         if (sortMethod === "dueSoonest") {

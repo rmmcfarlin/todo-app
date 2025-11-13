@@ -4,10 +4,11 @@ import {ReactComponent as ClockSvg} from '../assets/clock-svgrepo-com.svg'
 import {ReactComponent as CarrotIcon} from '../assets/down-arrow.svg'
 import AddTask from './add-task'
 import SortDropdown from './sortdropdown'
+import { ViewCount } from './view-count'
 
 export const Toolbar = ({ taskData, toolbarHandlers, showArchived, setShowArchived }) => {
 
-    const { tasks, setTasks } = taskData
+    const { tasks, setTasks, viewCount, setViewCount } = taskData
     const { handleSort, sort, setSort, setSortMethod, getSwitchClass, handleShowCompleted, addTask, setAddTask, showSearch, setShowSearch } = toolbarHandlers
 
     const handleShowSearch = () => {
@@ -36,7 +37,7 @@ export const Toolbar = ({ taskData, toolbarHandlers, showArchived, setShowArchiv
                     ) : (
                         <></>
                     )}
-                <SearchIcon  className="toolbarIcon" onClick={handleShowSearch} />
+                <ViewCount taskData={taskData} />
             </div>
 
             {showArchived ? (
@@ -52,7 +53,10 @@ export const Toolbar = ({ taskData, toolbarHandlers, showArchived, setShowArchiv
                 </div> 
             )}
            
-            <AddTask tasks={tasks} setTasks={setTasks} addTask={addTask} setAddTask={setAddTask} className="addTaskMain toolbarIcon" />
+            <div className="toolbarRight">
+                <SearchIcon  className="toolbarIcon" onClick={handleShowSearch} />
+                <AddTask tasks={tasks} setTasks={setTasks} addTask={addTask} setAddTask={setAddTask} className="addTaskMain toolbarIcon" />
+            </div>
         </div>
     )
 }

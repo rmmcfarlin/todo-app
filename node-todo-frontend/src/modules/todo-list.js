@@ -5,7 +5,7 @@ import { TaskSearch } from './task-search'
 import { Toolbar } from './tool-bar'
 import TaskArchive from './taskarchive'
 
-const TodoList = ({ domain, taskData, setError, addTask, setAddTask, setRefreshTrigger, sortMethod, setSortMethod, showSearch, setShowSearch, showArchived, setShowArchived, expanded }) => {
+const TodoList = ({ domain, taskData, setError, addTask, setAddTask, refreshTrigger, setRefreshTrigger, sortMethod, setSortMethod, showSearch, setShowSearch, showArchived, setShowArchived, expanded }) => {
 
     const [showTaskActions, setShowTaskActions] = useState("")
     const [showCompleted, setShowCompleted] = useState(false)
@@ -133,6 +133,7 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, setRefreshT
                 showArchived={showArchived} 
                 setShowArchived={setShowArchived} 
                 setError={setError}
+                refreshTrigger={refreshTrigger}
                 setRefreshTrigger={setRefreshTrigger}
                 sortMethod={sortMethod}
                 setSortMethod={setSortMethod}

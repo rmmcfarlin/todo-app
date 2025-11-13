@@ -1,7 +1,58 @@
 import mongoose from "mongoose"
 import Task from '../models/task.js'
-   
-   export const searchTasks = async (req,res) => {
+
+
+// GET 
+export const getTasks = async (req,res) => {
+
+    const userId = req.user.id
+    const getParams = req.query
+
+    console.log(getParams)
+
+    const { viewCount, completed, archived, sortMethod } = getParams
+
+    const requestedTasks = {
+        userId: userId,
+        $and: [
+            { completed: [completed] },
+            { archived: [archived] }
+        ]
+    }
+
+    //Set sort parameter
+    let sortParam 
+
+    switch (sortMethod) {
+        case "dueSoonest":
+            sortParam = { dueDate: 1 };
+            break;
+        case "dueLatest":
+            sortParam = { dueDate: -1 };
+            break;
+        case "createdNewest":
+            sortParam = { created: 1 };
+            break;
+        case "createdOldest":
+            sortParam = { created: -1 }
+    }
+
+    try {
+        const result = await Task.find(requestedTasks)
+            .limit(viewCount)
+            .sort(sortParam)
+
+        return res.status(201).json(result)
+
+    } catch {
+        return res.status(500).json({ error: "Unable to fetch tasks"})
+    }
+
+}
+
+
+// Search
+export const searchTasks = async (req,res) => {
     
     const userId = req.user.id
     const searchParams = req.query
@@ -9,7 +60,7 @@ import Task from '../models/task.js'
     const { query, fieldParamValue, typeParamValue, dateType, dateParamValue } = searchParams
   
     const filteredSearch = {
-        userId: userId
+        userId: userId,
     }
     const conditions = []
 
@@ -93,3 +144,4 @@ import Task from '../models/task.js'
         return res.status(500).json({ error: "Search failed"})
     }
    }
+

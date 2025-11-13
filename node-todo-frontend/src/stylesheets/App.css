@@ -204,9 +204,18 @@
   margin-left: auto;
 }
 
+.toolbarLeft, .toolbarRight {
+  position: relative;
+  display: flex;
+  gap: 1.5rem;
+}
+
 .toolbarLeft {
   margin-right: auto;
-  position: relative;
+}
+
+.toolbarRight {
+  margin-left: auto;
 }
 
 .toolbarIcon:nth-of-type(2) {
@@ -216,6 +225,16 @@
 .completedTaskSwitch, .archiveHeaderContainer {
   justify-self: center;
 }
+
+.viewCountMenu {
+  background-color: transparent;
+  border: none;
+}
+
+.viewCountMenu span {
+  color: whitesmoke;
+  font-size: 1rem;
+} 
 
 /* Search Page */
 

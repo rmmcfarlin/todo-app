@@ -138,8 +138,6 @@ export const TaskSearch = ({ taskData, handlers, sortMethod, taskActionFunctions
                                 domain={domain}
                                 />
                             <div className="itemInfo">
-                            {/* <p className={archived ? "archivedBadge visible" : "archivedBadge hidden"}>{archived ? "Archived" : ""}</p>
-                                                    */}
                             {archived ? (
                                 <ArchiveTaskButton domain={domain} serError={setError} task={task} setRefreshTrigger={setRefreshTrigger} archiveAction={"Unarchive"} handleArchive={handleArchive} archiveMap={archiveMap} />
                             ) : (

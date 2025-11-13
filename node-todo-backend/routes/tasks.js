@@ -2,22 +2,13 @@ import { Router } from 'express'
 import mongoose from 'mongoose'
 import Task from '../models/task.js'
 import { requireAuth } from '../middleware/auth.js'
+import { getTasks } from '../controllers/task-controller.js'
 import { searchTasks } from '../controllers/task-controller.js'
 
 const router = Router()
 
 // GET
-router.get('/', requireAuth, async (req,res) => {
-    try {
-
-        const userId = req.user.id
-
-        const data = await Task.find({ userId })
-        return res.status(200).json(data)
-    } catch (err) {
-        return res.status(500).json({ error: "unable to read tasks" })
-    }
-})
+router.get('/', requireAuth, getTasks)
 
 //POST
 router.post('/', requireAuth, async (req,res) => {
