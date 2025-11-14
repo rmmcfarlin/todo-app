@@ -8,8 +8,6 @@ export const getTasks = async (req,res) => {
     const userId = req.user.id
     const getParams = req.query
 
-    console.log(getParams)
-    
     let { viewCount, completed, archived, sortMethod } = getParams
 
     const parseBool = (param) => {
@@ -21,6 +19,8 @@ export const getTasks = async (req,res) => {
     viewCount = parseInt(viewCount)
     completed = parseBool(completed)
     archived = parseBool(archived)
+
+    if (viewCount === "All") viewCount = 0
 
     const requestedTasks = {
         userId: userId,

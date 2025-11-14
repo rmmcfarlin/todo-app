@@ -6,7 +6,7 @@ import ArchiveTaskButton from './archive-task-button'
 
 const TaskArchive = ({ domain, taskData, expanded, refreshTrigger, setRefreshTrigger, setError, sortMethod, handleArchive }) => {
 
-    const { accessToken } = useUser()
+    const { accessToken, setAccessToken } = useUser()
     const { viewCount, archivedTasks, setArchivedTasks } = taskData
 
     const archivedTaskParams = new URLSearchParams({
@@ -15,21 +15,46 @@ const TaskArchive = ({ domain, taskData, expanded, refreshTrigger, setRefreshTri
         archived: true,
         sortMethod
     })
-    
+
 
     useEffect(() => {
 
         if (!accessToken) return
         const fetchData = async () => {
             try {
-                const response = await fetch(`${domain}/tasks?${archivedTaskParams.toString()}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${accessToken}`
-                    }
-                })
+                const request = async (token) => {
+                    return fetch(`${domain}/tasks?${archivedTaskParams.toString()}`, {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        }
+                    })
+                }
 
+                let response = await request(accessToken)
+
+                if (response.status === 401) {
+                    try {
+                        const authResponse = await fetch(`${domain}/users/refresh`, {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            credentials: "include"
+                        })
+
+                        if (!authResponse.ok) throw new Error("Unable to refresh")
+
+                        const { accessToken: newAccessToken } = await authResponse.json()
+                        setAccessToken(newAccessToken)
+
+                        if (newAccessToken) {
+                            response = await request(newAccessToken)
+                        }
+
+                    } catch {
+                        console.log("Unauthorized, unable to refresh access token")
+                    }
+                }
                 if (!response.ok) {
                     throw new Error("Network response not ok")
                 }

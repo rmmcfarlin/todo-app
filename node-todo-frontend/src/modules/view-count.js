@@ -7,6 +7,7 @@ export const ViewCount = ({ taskData }) => {
     const { viewCount, setViewCount } = taskData
     const [showCountDropdown, setShowCountDropdown] = useState(false)
     const viewCountParams = [
+        "All",
         5,
         10,
         25,

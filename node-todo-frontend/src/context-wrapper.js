@@ -14,7 +14,7 @@ const ContextWrapper = ({}) => {
     const [archivedTasks, setArchivedTasks] = useState([])
     const [error, setError] = useState(null)
     const [refreshTrigger, setRefreshTrigger] = useState(0)
-    const [viewCount, setViewCount] = useState(10)
+    const [viewCount, setViewCount] = useState("All")
 
     const taskData = { 
         tasks,

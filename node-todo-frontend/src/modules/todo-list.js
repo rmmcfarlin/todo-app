@@ -133,6 +133,7 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, sortMethod,
                         domain={domain}
                         taskData={taskData}
                         setError={setError}
+                        refreshTrigger={refreshTrigger}
                         setRefreshTrigger={setRefreshTrigger}
                         handleDelete={handleDelete}
                         handleArchive={handleArchive}
