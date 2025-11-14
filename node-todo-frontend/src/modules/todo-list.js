@@ -5,7 +5,7 @@ import { TaskSearch } from './task-search'
 import { Toolbar } from './tool-bar'
 import TaskArchive from './taskarchive'
 
-const TodoList = ({ domain, taskData, setError, addTask, setAddTask, refreshTrigger, setRefreshTrigger, sortMethod, setSortMethod, showSearch, setShowSearch, showArchived, setShowArchived, expanded }) => {
+const TodoList = ({ domain, taskData, setError, addTask, setAddTask, sortMethod, setSortMethod, showSearch, setShowSearch, showArchived, setShowArchived, expanded, refreshTrigger, setRefreshTrigger }) => {
 
     const [showTaskActions, setShowTaskActions] = useState("")
     const [showCompleted, setShowCompleted] = useState(false)
@@ -13,15 +13,7 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, refreshTrig
     const [archiveMap, setArchiveMap] = useState({})  
     const [sort, setSort] = useState(false)
 
-    const { tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks } = taskData
-
-    useEffect(() => {
-        const allTasks = [...tasks, ...completedTasks, ...archivedTasks]
-        console.log(allTasks)
-        const init = {};
-        allTasks.forEach(t => (init[t._id] = t.archived || false));
-        setArchiveMap(init);
-    }, [tasks, archivedTasks, completedTasks])
+    const { setTasks } = taskData
 
     const handleTaskMenu = (id) => {
         if (id === showTaskActions) {
@@ -76,9 +68,7 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, refreshTrig
             setRefreshTrigger(prev => prev + 1)
         } catch(err) {
             console.log(err.message)
-            setError(err)
         }
-
     }
 
     const handleShowCompleted = () => {
@@ -141,12 +131,12 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, refreshTrig
         } else if (showCompleted) {
             return <CompletedTasks 
                         domain={domain}
-                        completedTasks={completedTasks} 
-                        setCompletedTasks={setCompletedTasks} 
+                        taskData={taskData}
                         setError={setError}
                         setRefreshTrigger={setRefreshTrigger}
                         handleDelete={handleDelete}
-                        handleArchive={handleArchive} 
+                        handleArchive={handleArchive}
+                        sortMethod={sortMethod} 
                     />
         } else if (showSearch) {
             return <TaskSearch
@@ -167,6 +157,7 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, refreshTrig
                     taskData={taskData}
                     taskActionFunctions={taskActionFunctions}
                     handlers={handlers}
+                    refreshTrigger={refreshTrigger}
                     setRefreshTrigger={setRefreshTrigger}
                     setError={setError}
                     sortMethod={sortMethod}
@@ -176,7 +167,7 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, refreshTrig
 
     return (
     <>
-        <Toolbar taskData={taskData} toolbarHandlers={toolbarHandlers} showArchived={showArchived} setShowArchived={setShowArchived} />
+        <Toolbar taskData={taskData} toolbarHandlers={toolbarHandlers} showArchived={showArchived} setShowArchived={setShowArchived} sortMethod={sortMethod} />
         <div className="listContainer">
             {renderContent()}
         </div>

@@ -1,10 +1,50 @@
-import { useState } from 'react'
+import { useEffect } from 'react'
+import { useUser } from '../context/user-context'
 import CompletedCheckbox from './completed-checkbox'
 import ArchiveTaskButton from './archive-task-button'
 
-const CompletedTasks = ({ domain, completedTasks, setCompletedTasks, setError, setRefreshTrigger, handleDelete, handleArchive }) => {
+const CompletedTasks = ({ domain, taskData, sortMethod, setError, refreshTrigger, setRefreshTrigger, handleDelete, handleArchive }) => {
 
+    
+    const { accessToken } = useUser()
+    const { viewCount, completedTasks, setCompletedTasks } = taskData
 
+    const completedTaskParams = new URLSearchParams({
+        viewCount,
+        completed: true,
+        archived: false,
+        sortMethod
+    })
+    
+    useEffect(() => {
+
+        if (!accessToken) return
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${domain}/tasks?${completedTaskParams.toString()}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                })
+
+                if (!response.ok) {
+                    throw new Error("Network response not ok")
+                }
+
+                const data = await response.json();
+
+                const userTasks = Object.values(data).flat()
+
+                setCompletedTasks(userTasks)
+
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        fetchData();
+    }, [accessToken, refreshTrigger, sortMethod, viewCount]) 
 
     return(
         <>

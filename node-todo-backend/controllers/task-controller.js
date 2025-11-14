@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose, { get } from "mongoose"
 import Task from '../models/task.js'
 
 
@@ -9,15 +9,23 @@ export const getTasks = async (req,res) => {
     const getParams = req.query
 
     console.log(getParams)
+    
+    let { viewCount, completed, archived, sortMethod } = getParams
 
-    const { viewCount, completed, archived, sortMethod } = getParams
+    const parseBool = (param) => {
+        if (param === "true") return true
+        if (param === "false") return false
+        return undefined
+    }
+
+    viewCount = parseInt(viewCount)
+    completed = parseBool(completed)
+    archived = parseBool(archived)
 
     const requestedTasks = {
         userId: userId,
-        $and: [
-            { completed: [completed] },
-            { archived: [archived] }
-        ]
+        completed: completed,
+        archived: archived
     }
 
     //Set sort parameter

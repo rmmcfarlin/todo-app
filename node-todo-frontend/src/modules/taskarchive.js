@@ -1,34 +1,52 @@
-import { useState, useMemo } from 'react'
+import { useEffect } from 'react'
+import { useUser } from '../context/user-context'
 import ArchiveTaskButton from './archive-task-button'
 
 
 
-const TaskArchive = ({ domain, taskData, expanded, showArchived, setRefreshTrigger, setError, sortMethod, setSortMethod, handleArchive }) => {
+const TaskArchive = ({ domain, taskData, expanded, refreshTrigger, setRefreshTrigger, setError, sortMethod, handleArchive }) => {
 
-    const [archSort, setArchSort] = useState(false)
-    const { tasks, setTasks, completedTasks, setCompletedTasks, archivedTasks, setArchivedTasks } = taskData
+    const { accessToken } = useUser()
+    const { viewCount, archivedTasks, setArchivedTasks } = taskData
 
-    // Fix sorting once created info is added in MongoDB
-    const sortedArchive = useMemo(() => {
-        // console.log("sorting tasks")
-        if (sortMethod === "dueSoonest") {
-            return [...archivedTasks].sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate))
-        } else if (sortMethod === "dueLatest") {
-            return [...archivedTasks].sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate))
-        } else if (sortMethod === "createdNewest") {
-            return [...archivedTasks].sort((a, b) => new Date(b.created) - new Date(a.created))
-        } else if (sortMethod === "createdOldest") {
-            return [...archivedTasks].sort((a, b) => new Date(a.created) - new Date (b.created))
-        } else {
-            return archivedTasks
+    const archivedTaskParams = new URLSearchParams({
+        viewCount,
+        completed: false,
+        archived: true,
+        sortMethod
+    })
+    
+
+    useEffect(() => {
+
+        if (!accessToken) return
+        const fetchData = async () => {
+            try {
+                const response = await fetch(`${domain}/tasks?${archivedTaskParams.toString()}`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${accessToken}`
+                    }
+                })
+
+                if (!response.ok) {
+                    throw new Error("Network response not ok")
+                }
+
+                const data = await response.json();
+                const userTasks = Object.values(data).flat()
+                setArchivedTasks(userTasks)
+
+            } catch (err) {
+                console.log(err)
+            }
         }
-    }, [archivedTasks, sortMethod])
+        fetchData();
+    }, [accessToken, refreshTrigger, sortMethod, viewCount])
 
-    const handleSort = () => {
-        setArchSort(!archSort)
-    }
 
-     const getClass = () => {
+    const getClass = () => {
 
         if (expanded) {
             return ""
@@ -36,34 +54,34 @@ const TaskArchive = ({ domain, taskData, expanded, showArchived, setRefreshTrigg
             return "collapsed"
         }
     }
-    
+
     const className = getClass()
 
-    return(
-        <>                   
-            {sortedArchive.map((task) => {
-                        let taskId = task._id
-                        let date = new Date(task.dueDate)
-                        let dueDate = date.toDateString()
-                        return (
-                            <div className="archivedContainer" key={taskId}>
-                            <div className="itemInfo">                            
-                                <div className="itemHeader">
-                                    <span className="todoItem">{task.title}</span>
-                                    <div>
-                                        <span className="label">Due: </span><span>{dueDate}</span>
-                                    </div>
+    return (
+        <>
+            {archivedTasks.map((task) => {
+                let taskId = task._id
+                let date = new Date(task.dueDate)
+                let dueDate = date.toDateString()
+                return (
+                    <div className="archivedContainer" key={taskId}>
+                        <div className="itemInfo">
+                            <div className="itemHeader">
+                                <span className="todoItem">{task.title}</span>
+                                <div>
+                                    <span className="label">Due: </span><span>{dueDate}</span>
                                 </div>
-                                <div className="notesSection">
-                                    <span>{task.notes}</span>
-                                </div>
-                                <ArchiveTaskButton domain={domain} serError={setError} task={task} setRefreshTrigger={setRefreshTrigger} archiveAction={"Unarchive"} handleArchive={handleArchive} />
                             </div>
+                            <div className="notesSection">
+                                <span>{task.notes}</span>
                             </div>
-                        )
-                    })
-                    }
-                </>
+                            <ArchiveTaskButton domain={domain} serError={setError} task={task} setRefreshTrigger={setRefreshTrigger} archiveAction={"Unarchive"} handleArchive={handleArchive} />
+                        </div>
+                    </div>
+                )
+            })
+            }
+        </>
     )
 }
 

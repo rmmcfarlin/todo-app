@@ -6,7 +6,7 @@ import AddTask from './add-task'
 import SortDropdown from './sortdropdown'
 import { ViewCount } from './view-count'
 
-export const Toolbar = ({ taskData, toolbarHandlers, showArchived, setShowArchived }) => {
+export const Toolbar = ({ taskData, toolbarHandlers, showArchived, setShowArchived, sortMethod }) => {
 
     const { tasks, setTasks, viewCount, setViewCount } = taskData
     const { handleSort, sort, setSort, setSortMethod, getSwitchClass, handleShowCompleted, addTask, setAddTask, showSearch, setShowSearch } = toolbarHandlers
