@@ -3,7 +3,7 @@ import { useUser } from '../context/user-context';
 
 const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask, setRefreshTrigger }) => {
 
-    const { accessToken } = useUser()
+    const { accessToken, setAccessToken } = useUser()
 
     const [newNotes, setNewNotes] = useState("")
     const [formData, setFormData] = useState({
@@ -42,14 +42,40 @@ const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask, setRefreshT
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const res = await fetch(`${domain}/tasks/`, {
+
+        const request = async (token) => {
+            return await fetch(`${domain}/tasks/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${accessToken}`
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(formData)
         })
+        }
+
+        let response = await request(accessToken);
+
+        if (response.status === 401) {
+            try {
+                const authRefresh = await fetch(`${domain}/users/refresh`, {
+                    method: "POST",
+                    headers: {"Content-Type": "application/json"},
+                    credentials: "include"
+                })
+
+                if (!authRefresh.ok) throw new Error("Unable to refresh accesstoken")
+                
+                const { accessToken: newAccessToken } = await authRefresh.json()
+                setAccessToken(newAccessToken)
+
+                if (newAccessToken) {
+                    response = await request(newAccessToken)
+                }
+            } catch {
+                console.log("Unauthorized, invalid access token and unable to refresh token")
+            }
+        }
 
         const newTask = formData
         const updatedList = [...tasks, newTask]

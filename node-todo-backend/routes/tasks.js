@@ -3,6 +3,9 @@ import mongoose from 'mongoose'
 import Task from '../models/task.js'
 import { requireAuth } from '../middleware/auth.js'
 import { getTasks } from '../controllers/task-controller.js'
+import { addTask } from '../controllers/task-controller.js'
+import { deleteTask } from '../controllers/task-controller.js'
+import { editTask } from '../controllers/task-controller.js'
 import { searchTasks } from '../controllers/task-controller.js'
 
 const router = Router()
@@ -11,60 +14,15 @@ const router = Router()
 router.get('/', requireAuth, getTasks)
 
 //POST
-router.post('/', requireAuth, async (req,res) => {
-    try {
-        const userId = req.user.id
-        const newTask = req.body
-        
-        newTask.userId = userId
-        newTask.created = Date.now()
-
-        const createdTask = await Task.create(newTask)
-        return res.status(201).json({ message: 'Task Added', id: createdTask._id })
-    } catch (err) {
-        return res.status(500).json({ error: "Unable to write tasks"})
-    }
-})
+router.post('/', requireAuth, addTask)
 
 //DELETE
-
-router.delete('/:id', async (req,res) => {
-    const id = req.params.id
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ error: "Task id not valid "})
-    }
-    try {
-        const deletedTask = await Task.findByIdAndDelete(id)
-        return res.status(200).json({ message: 'Task Deleted'})
-
-    } catch {
-        return res.status(500).json({ error: "Unable to delete task"})
-    }
-
-})
+router.delete('/:id', requireAuth, deleteTask)
 
 //PUT
-router.put('/:id', async (req,res) => {
-    const id = req.params.id
-    try {
-        const updatedTask = req.body
-
-        console.log(updatedTask)
-        console.log(id)
-
-        const result = await Task.findByIdAndUpdate(id, updatedTask)
-        if (!result) {
-            return res.status(404).json({ error: "Task not found"})
-        }
-        return res.status(200).json({ message: "Task updated"})
-
-    } catch {
-        return res.status(500).json({ error: "Unable to modify task"})
-    }
-})
+router.put('/:id', requireAuth, editTask)
 
 // Search 
-
 router.get('/search', requireAuth, searchTasks)
 
 export default router

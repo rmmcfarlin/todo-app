@@ -1,9 +1,10 @@
 import { useState } from 'react'
+import { useUser } from '../context/user-context'
 
 const CompletedCheckbox = ({ domain, task, setError, setRefreshTrigger }) => {
 
     const [completed, setCompleted] = useState(task.completed || false)
-
+    const { accessToken, setAccessToken } = useUser()
     const [ newFormData, setNewFormData ] = useState({
         "title": task.title,
         "completed": task.completed,
@@ -20,17 +21,43 @@ const CompletedCheckbox = ({ domain, task, setError, setRefreshTrigger }) => {
         const updatedFormData = {...newFormData, completed: checked}
 
         try {
-            const response = await fetch(`${domain}/tasks/${id}`, {
+            const request = async (token) => {
+                return fetch(`${domain}/tasks/${id}`, {
                 method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Authorization": `Bearer ${token}`
+                },
                 body: JSON.stringify(updatedFormData)
-            })
+            })}
+
+            let response = await request(accessToken)
+
+            if (response.status === 401) {
+                try {
+                    const authRefresh = await fetch(`${domain}/users/refresh`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        credentials: "include"
+                    })
+
+                    if (!authRefresh.ok) throw new Error("Unable to refresh accesstoken")
+
+                    const { accessToken: newAccessToken } = await authRefresh.json()
+                    setAccessToken(newAccessToken)
+
+                    if (newAccessToken) {
+                        response = await request(newAccessToken)
+                    }
+                } catch {
+                    console.log("Unauthorized, invalid access token and unable to refresh token")
+                }
+            }
             
             if (!response.ok) throw new Error("Failed to set task as completed")
 
         } catch (err) {
             console.log(err.message)
-            setError(err)
         }
 
         setTimeout(() => {
