@@ -36,13 +36,14 @@
 --yellow: #CFAD18;
 --parchment: #ECEAE4;
 --charcoal: #3A3A40;
+--darkcharcoal: #26262C;
 }
 
 /* Main */
 
 #root {
   width: 100vw;
-  background-color: #9B99A3;
+  background-color: var(--darkcharcoal);
 }
 
 .App {
@@ -85,7 +86,44 @@
   display: none;
 }
 
-.itemContainer, .archivedContainer {
+/* List View  */
+
+.taskListItem {
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  padding: 0.5rem;
+  border-bottom: 0.5px solid var(--greypurple);
+  margin-top: 0.25rem;
+}
+
+.taskListItem:last-of-type {
+  border-bottom: none;
+}
+
+.taskListMain {
+  width: 100%;
+  display: flex;
+}
+
+.taskListItem span {
+  color: #BFC0C7;
+}
+
+.taskListItem span:last-of-type {
+  margin-left: auto;
+}
+
+.taskListItem span:first-of-type {
+  margin-left: 1rem;
+}
+
+.taskListInfo {
+  align-self: center;
+} 
+
+/* Card View */
+.taskCard, .archivedContainer {
   width: 100%;
   height: fit-content;
   position: relative;

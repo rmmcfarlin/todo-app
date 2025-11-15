@@ -1,11 +1,14 @@
-import { useMemo, useEffect } from 'react'
+import { useEffect } from 'react'
 import { ReactComponent as EditDots } from '../assets/dots-horizontal.svg'
 import { TaskActionMenu } from "./task-action-menu";
 import { useUser } from '../context/user-context';
 import CompletedCheckbox from "./completed-checkbox";
 import EditTaskForm from './edit-task-form';
+import { CardView } from './task-views/card-view';
+import { ListView } from './task-views/list-view';
 
-export const TodoTasks = ({ taskData, domain, taskActionFunctions, handlers, setError, refreshTrigger, setRefreshTrigger, sortMethod }) => {
+
+export const TodoTasks = ({ taskData, domain, taskActionFunctions, handlers, setError, refreshTrigger, setRefreshTrigger, sortMethod, view }) => {
 
     const { accessToken, setAccessToken } = useUser()
     const { tasks, setTasks, setCompletedTasks, viewCount } = taskData
@@ -26,12 +29,13 @@ export const TodoTasks = ({ taskData, domain, taskActionFunctions, handlers, set
             try {
                 const request = async (token) => {
                     return fetch(`${domain}/tasks?${taskParams.toString()}`, {
-                    method: "GET",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${token}`
-                    }
-                })}
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${token}`
+                        }
+                    })
+                }
 
                 let response = await request(accessToken)
 
@@ -69,62 +73,33 @@ export const TodoTasks = ({ taskData, domain, taskActionFunctions, handlers, set
         fetchData();
     }, [accessToken, refreshTrigger, sortMethod, viewCount])
 
+    const renderContent = () => {
+        if (view === "List") {
+            return <ListView
+                taskData={taskData}
+                handlers={handlers}
+                taskActionFunctions={taskActionFunctions}
+                domain={domain}
+                setRefreshTrigger={setRefreshTrigger}
+                setError={setError}
+            />
+        } else if (view === "Card") {
+            return <CardView
+                taskData={taskData}
+                handlers={handlers}
+                taskActionFunctions={taskActionFunctions}
+                domain={domain}
+                setRefreshTrigger={setRefreshTrigger}
+                setError={setError} 
+            />
+        } else {
+            return <></>
+        }
+    }
+
     return (
         <>
-            {
-                tasks.map((task) => {
-
-                    let taskId = task._id
-                    let date = new Date(task.dueDate)
-                    let dueDate = date.toDateString()
-
-                    return (
-                        <div className="itemContainer" key={taskId}>
-                            <EditDots className="taskActionsIcon" onClick={() => handleTaskMenu(taskId)} />
-                            {showTaskActions == taskId ? (
-                                <TaskActionMenu taskActionFunctions={taskActionFunctions} taskId={taskId} />
-                            ) : (
-                                <></>
-                            )}
-                            <CompletedCheckbox
-                                task={task}
-                                setError={setError}
-                                setCompletedTasks={setCompletedTasks}
-                                setRefreshTrigger={setRefreshTrigger}
-                                domain={domain}
-                            />
-                            <div className="itemInfo">
-                                {editTask === taskId ? (
-                                    <>
-                                        <EditTaskForm domain={domain} task={task} setError={setError} setEditTask={setEditTask} setRefreshTrigger={setRefreshTrigger} />
-                                    </>
-                                ) : (
-                                    <>
-                                        <div className="itemHeader">
-                                            <span className="todoItem">{task.title}</span>
-                                            <div>
-                                                <span className="label">Due: </span><span>{dueDate}</span>
-                                            </div>
-                                        </div>
-                                        <div className="notesSection">
-                                            <span>{task.notes}</span>
-                                        </div>
-                                    </>
-                                )
-                                }
-                            </div>
-                            {editTask === taskId ? (
-                                <>
-                                    <button className="button taskButton cancelButton" onClick={cancelEdits}>Cancel</button>
-                                </>)
-                                : (
-                                    <></>
-                                )
-                            }
-                        </div>
-                    )
-                })
-            }
+            {renderContent()}
         </>
     )
 }

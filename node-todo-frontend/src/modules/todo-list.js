@@ -139,6 +139,7 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, sortMethod,
                         handleDelete={handleDelete}
                         handleArchive={handleArchive}
                         sortMethod={sortMethod} 
+                        view={view}
                     />
         } else if (showSearch) {
             return <TaskSearch
@@ -152,6 +153,7 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, sortMethod,
                         setShowSearch={setShowSearch}
                         handleArchive={handleArchive}
                         archiveMap={archiveMap}
+                        view={view}
                     />
         } else {
             return <TodoTasks
@@ -163,6 +165,7 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, sortMethod,
                     setRefreshTrigger={setRefreshTrigger}
                     setError={setError}
                     sortMethod={sortMethod}
+                    view={view}
                  />
         }
     }
