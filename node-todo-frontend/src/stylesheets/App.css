@@ -201,7 +201,7 @@
 }
 
 .addTaskMain {
-  margin-left: auto;
+  margin-left: 1rem;
 }
 
 .toolbarLeft, .toolbarRight {
@@ -210,12 +210,18 @@
   gap: 1.5rem;
 }
 
+.toolbarLeft, .toolbarRight, .toolbarMiddle {
+  width: 33.333%;
+}
+
 .toolbarLeft {
   margin-right: auto;
 }
 
 .toolbarRight {
   margin-left: auto;
+  display: flex;
+  justify-content: right;
 }
 
 .toolbarIcon:nth-of-type(2) {
@@ -229,12 +235,28 @@
 .viewCountMenu {
   background-color: transparent;
   border: none;
+  position: relative;
 }
+
+.viewCountMenu span:first-of-type {
+  font-weight: 700;
+} 
 
 .viewCountMenu span {
   color: whitesmoke;
   font-size: 1rem;
 } 
+
+.viewCountMenu .paramDropdownMenu.visible {
+  border-radius: 10px;
+  padding: 0.5rem;
+  width: 125%;
+  left: -12.5%;
+}
+
+.paramDropdownMenu.visible span:first-of-type {
+  font-weight: 400;
+}
 
 /* Search Page */
 
@@ -480,7 +502,7 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .completedTaskSwitch, .archiveHeaderContainer {
-  width: 20%;
+  width: 60%;
   background-color: #87848E;
   border-radius: 5px;
   padding: 2px;

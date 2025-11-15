@@ -12,6 +12,7 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, sortMethod,
     const [editTask, setEditTask] = useState("")
     const [archiveMap, setArchiveMap] = useState({})  
     const [sort, setSort] = useState(false)
+    const [view, setView] = useState("Card")
 
     const { setTasks } = taskData
 
@@ -168,7 +169,15 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, sortMethod,
 
     return (
     <>
-        <Toolbar taskData={taskData} toolbarHandlers={toolbarHandlers} showArchived={showArchived} setShowArchived={setShowArchived} sortMethod={sortMethod} />
+        <Toolbar 
+            taskData={taskData} 
+            toolbarHandlers={toolbarHandlers} 
+            showArchived={showArchived} 
+            setShowArchived={setShowArchived} 
+            sortMethod={sortMethod}
+            view={view}
+            setView={setView} 
+        />
         <div className="listContainer">
             {renderContent()}
         </div>

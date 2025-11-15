@@ -27,7 +27,7 @@ export const ViewCount = ({ taskData }) => {
     }
     return(
         <button className="viewCountMenu" onClick={() => handleShowCountParams()}>
-            <span>View: {viewCount}</span>
+            <span>Show: </span><span>{viewCount}</span>
             <ParamDropdown params={viewCountParams} setValue={handleSelect} className={getClass()} />
         </button>
     )

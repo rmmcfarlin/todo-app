@@ -5,7 +5,7 @@ const CompletedCheckbox = ({ domain, task, setError, setRefreshTrigger }) => {
 
     const [completed, setCompleted] = useState(task.completed || false)
     const { accessToken, setAccessToken } = useUser()
-    const [ newFormData, setNewFormData ] = useState({
+    const [newFormData, setNewFormData] = useState({
         "title": task.title,
         "completed": task.completed,
         "dueDate": task.dueDate,
@@ -17,19 +17,20 @@ const CompletedCheckbox = ({ domain, task, setError, setRefreshTrigger }) => {
     const handleCheck = async (e, id) => {
         const checked = e.target.checked
         setCompleted(checked)
-        setNewFormData(prev => ({...prev, completed: e.target.checked}))
-        const updatedFormData = {...newFormData, completed: checked}
+        setNewFormData(prev => ({ ...prev, completed: e.target.checked }))
+        const updatedFormData = { ...newFormData, completed: checked }
 
         try {
             const request = async (token) => {
                 return fetch(`${domain}/tasks/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    "Authorization": `Bearer ${token}`
-                },
-                body: JSON.stringify(updatedFormData)
-            })}
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        "Authorization": `Bearer ${token}`
+                    },
+                    body: JSON.stringify(updatedFormData)
+                })
+            }
 
             let response = await request(accessToken)
 
@@ -53,7 +54,7 @@ const CompletedCheckbox = ({ domain, task, setError, setRefreshTrigger }) => {
                     console.log("Unauthorized, invalid access token and unable to refresh token")
                 }
             }
-            
+
             if (!response.ok) throw new Error("Failed to set task as completed")
 
         } catch (err) {
@@ -65,19 +66,19 @@ const CompletedCheckbox = ({ domain, task, setError, setRefreshTrigger }) => {
         }, 1250)
     }
 
-    return(
-         <form>
+    return (
+        <form>
             <label className="custom-checkbox">
-                 <input 
-                    type="checkbox" 
+                <input
+                    type="checkbox"
                     name="completed"
-                    checked={completed} 
-                    onChange={(e) => {handleCheck(e, task._id)}}
+                    checked={completed}
+                    onChange={(e) => { handleCheck(e, task._id) }}
                 ></input>
-                 <span className="checkmark"></span>
+                <span className="checkmark"></span>
             </label>
-           
-         </form>
+
+        </form>
     )
 
 }

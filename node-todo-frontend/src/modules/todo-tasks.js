@@ -12,7 +12,6 @@ export const TodoTasks = ({ taskData, domain, taskActionFunctions, handlers, set
     const { handleTaskMenu, showTaskActions, editTask, setEditTask, cancelEdits } = handlers
     const { handleArchive } = taskActionFunctions
 
-
     const taskParams = new URLSearchParams({
         viewCount,
         completed: false,
