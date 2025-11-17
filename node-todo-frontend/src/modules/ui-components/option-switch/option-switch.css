@@ -1,0 +1,27 @@
+.optionSwitch {
+  background-color: #87848E;
+  border-radius: 5px;
+  padding: 2px;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+}
+
+.switchButton {
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  padding: 0.5rem;
+  min-width: max-content;
+  text-align: center;
+}
+
+.switchButton.inactive {
+  background-color: #87848E;
+  color: whitesmoke;
+}
+
+.switchButton.active {
+  background-color: var(--charcoal);
+  color: whitesmoke;
+}

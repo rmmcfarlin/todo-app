@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { useUser } from '../context/user-context'
 import CompletedTasks from "./completed-tasks"
+import { ReactComponent as LayoutSVG } from '../assets/layout.svg'
 import { TodoTasks } from './todo-tasks'
 import { TaskSearch } from './task-search'
 import { Toolbar } from './tool-bar'
@@ -10,10 +12,11 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, sortMethod,
     const [showTaskActions, setShowTaskActions] = useState("")
     const [showCompleted, setShowCompleted] = useState(false)
     const [editTask, setEditTask] = useState("")
-    const [archiveMap, setArchiveMap] = useState({})  
+    const [archiveMap, setArchiveMap] = useState({})
+    const [showToolbar, setShowToolbar] = useState(false)
     const [sort, setSort] = useState(false)
-    const [view, setView] = useState("Card")
-
+    const [view, setView] = useState("List")
+    const { accessToken, setAccessToken } = useUser()
     const { setTasks } = taskData
 
     const handleTaskMenu = (id) => {
@@ -40,7 +43,10 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, sortMethod,
         try {
             const response = await fetch(`${domain}/tasks/${id}`, {
             method: "DELETE",
-            headers: {"Content-Type": "application/json"},
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${accessToken}`
+            },
         })
         if (!response.ok) throw new Error("Failed to delete task");
         setTasks(prevTasks => prevTasks.filter(tasks => tasks._id !== id))
@@ -76,11 +82,14 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, sortMethod,
         setShowCompleted(!showCompleted)
     }
 
+    const handleShowToolbar = () => {
+        setShowToolbar(!showToolbar)
+    }
+
     const getSwitchClass = (id) => {
         if (id === "todo") {
             return showCompleted ? "inactive" : "active"
         }
-        
         if (id === "completed") {
             return showCompleted ? "active" : "inactive"
         }
@@ -128,7 +137,11 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, sortMethod,
                 setRefreshTrigger={setRefreshTrigger}
                 sortMethod={sortMethod}
                 setSortMethod={setSortMethod}
-                handleArchive={handleArchive} />
+                handleArchive={handleArchive} 
+                view={view}
+                handlers={handlers}
+                taskActionFunctions={taskActionFunctions}
+                />
         } else if (showCompleted) {
             return <CompletedTasks 
                         domain={domain}
@@ -140,6 +153,8 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, sortMethod,
                         handleArchive={handleArchive}
                         sortMethod={sortMethod} 
                         view={view}
+                        handlers={handlers}
+                        taskActionFunctions={taskActionFunctions}
                     />
         } else if (showSearch) {
             return <TaskSearch
@@ -152,7 +167,6 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, sortMethod,
                         domain={domain}
                         setShowSearch={setShowSearch}
                         handleArchive={handleArchive}
-                        archiveMap={archiveMap}
                         view={view}
                     />
         } else {
@@ -171,8 +185,10 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, sortMethod,
     }
 
     return (
-    <>
-        <Toolbar 
+    <div className="scrollWrapper">
+        <LayoutSVG className="layoutIcon" onClick={() => handleShowToolbar()}/>
+        {showToolbar ? (
+                <Toolbar 
             taskData={taskData} 
             toolbarHandlers={toolbarHandlers} 
             showArchived={showArchived} 
@@ -181,10 +197,16 @@ const TodoList = ({ domain, taskData, setError, addTask, setAddTask, sortMethod,
             view={view}
             setView={setView} 
         />
+        ) : (
+            <></>
+        )
+
+        }
+    
         <div className="listContainer">
             {renderContent()}
         </div>
-    </>
+    </div>
     )
 
 }

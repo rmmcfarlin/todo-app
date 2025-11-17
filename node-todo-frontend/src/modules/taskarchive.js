@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
 import { useUser } from '../context/user-context'
+import { ListView } from './task-views/list-view'
+import { CardView } from './task-views/card-view'
 import ArchiveTaskButton from './archive-task-button'
 
 
 
-const TaskArchive = ({ domain, taskData, expanded, refreshTrigger, setRefreshTrigger, setError, sortMethod, handleArchive }) => {
+const TaskArchive = ({ domain, taskData, expanded, refreshTrigger, setRefreshTrigger, setError, sortMethod, handleArchive, handlers, taskActionFunctions, view }) => {
 
     const { accessToken, setAccessToken } = useUser()
     const { viewCount, archivedTasks, setArchivedTasks } = taskData
@@ -82,30 +84,35 @@ const TaskArchive = ({ domain, taskData, expanded, refreshTrigger, setRefreshTri
 
     const className = getClass()
 
+    const renderContent = () => {
+        if (view === "List") {
+            return <ListView
+                selectedTasks={archivedTasks}
+                taskData={taskData}
+                handlers={handlers}
+                taskActionFunctions={taskActionFunctions}
+                domain={domain}
+                setRefreshTrigger={setRefreshTrigger}
+                setError={setError}
+            />
+        } else if (view === "Card") {
+            return <CardView
+                selectedTasks={archivedTasks}
+                taskData={taskData}
+                handlers={handlers}
+                taskActionFunctions={taskActionFunctions}
+                domain={domain}
+                setRefreshTrigger={setRefreshTrigger}
+                setError={setError}
+            />
+        } else {
+            return <></>
+        }
+    }
+
     return (
         <>
-            {archivedTasks.map((task) => {
-                let taskId = task._id
-                let date = new Date(task.dueDate)
-                let dueDate = date.toDateString()
-                return (
-                    <div className="archivedContainer" key={taskId}>
-                        <div className="itemInfo">
-                            <div className="itemHeader">
-                                <span className="todoItem">{task.title}</span>
-                                <div>
-                                    <span className="label">Due: </span><span>{dueDate}</span>
-                                </div>
-                            </div>
-                            <div className="notesSection">
-                                <span>{task.notes}</span>
-                            </div>
-                            <ArchiveTaskButton domain={domain} serError={setError} task={task} setRefreshTrigger={setRefreshTrigger} archiveAction={"Unarchive"} handleArchive={handleArchive} />
-                        </div>
-                    </div>
-                )
-            })
-            }
+            {renderContent()}
         </>
     )
 }

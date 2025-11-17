@@ -10,7 +10,7 @@ const EditableDate = ({ task, handleChange }) => {
     return(
         <>
             <input 
-            type="date" 
+            type="datetime-local" 
             name="dueDate" 
             value={date} 
             className='editTaskInput' 

@@ -6,6 +6,7 @@ import CompletedCheckbox from "./completed-checkbox";
 import EditTaskForm from './edit-task-form';
 import { CardView } from './task-views/card-view';
 import { ListView } from './task-views/list-view';
+import { CalendarView } from './task-views/calendar-view';
 
 
 export const TodoTasks = ({ taskData, domain, taskActionFunctions, handlers, setError, refreshTrigger, setRefreshTrigger, sortMethod, view }) => {
@@ -76,6 +77,7 @@ export const TodoTasks = ({ taskData, domain, taskActionFunctions, handlers, set
     const renderContent = () => {
         if (view === "List") {
             return <ListView
+                selectedTasks={tasks}
                 taskData={taskData}
                 handlers={handlers}
                 taskActionFunctions={taskActionFunctions}
@@ -85,6 +87,17 @@ export const TodoTasks = ({ taskData, domain, taskActionFunctions, handlers, set
             />
         } else if (view === "Card") {
             return <CardView
+                selectedTasks={tasks}
+                taskData={taskData}
+                handlers={handlers}
+                taskActionFunctions={taskActionFunctions}
+                domain={domain}
+                setRefreshTrigger={setRefreshTrigger}
+                setError={setError} 
+            />
+        } else if (view === "Calendar") {
+            return <CalendarView
+                selectedTasks={tasks}
                 taskData={taskData}
                 handlers={handlers}
                 taskActionFunctions={taskActionFunctions}

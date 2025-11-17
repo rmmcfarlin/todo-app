@@ -2,8 +2,10 @@ import { useEffect } from 'react'
 import { useUser } from '../context/user-context'
 import CompletedCheckbox from './completed-checkbox'
 import ArchiveTaskButton from './archive-task-button'
+import { ListView } from './task-views/list-view'
+import { CardView } from './task-views/card-view'
 
-const CompletedTasks = ({ domain, taskData, sortMethod, setError, refreshTrigger, setRefreshTrigger, handleDelete, handleArchive }) => {
+const CompletedTasks = ({ domain, taskData, sortMethod, setError, refreshTrigger, setRefreshTrigger, handlers, taskActionFunctions, view }) => {
 
 
     const { accessToken, setAccessToken } = useUser()
@@ -52,53 +54,52 @@ const CompletedTasks = ({ domain, taskData, sortMethod, setError, refreshTrigger
                         console.log("Unauthorized, unable to refresh access token")
                     }
                 }
-                    if (!response.ok) {
-                        throw new Error("Network response not ok")
-                    }
-
-                    const data = await response.json();
-
-                    const userTasks = Object.values(data).flat()
-
-                    setCompletedTasks(userTasks)
-
-                } catch (err) {
-                    console.log(err)
+                if (!response.ok) {
+                    throw new Error("Network response not ok")
                 }
+
+                const data = await response.json();
+
+                const userTasks = Object.values(data).flat()
+
+                setCompletedTasks(userTasks)
+
+            } catch (err) {
+                console.log(err)
             }
+        }
         fetchData();
-        }, [accessToken, refreshTrigger, sortMethod, viewCount])
+    }, [accessToken, refreshTrigger, sortMethod, viewCount])
+
+    const renderContent = () => {
+        if (view === "List") {
+            return <ListView
+                selectedTasks={completedTasks}
+                taskData={taskData}
+                handlers={handlers}
+                taskActionFunctions={taskActionFunctions}
+                domain={domain}
+                setRefreshTrigger={setRefreshTrigger}
+                setError={setError}
+            />
+        } else if (view === "Card") {
+            return <CardView
+                selectedTasks={completedTasks}
+                taskData={taskData}
+                handlers={handlers}
+                taskActionFunctions={taskActionFunctions}
+                domain={domain}
+                setRefreshTrigger={setRefreshTrigger}
+                setError={setError}
+            />
+        } else {
+            return <></>
+        }
+    }
 
     return (
         <>
-            <div className="listContainer">
-                {completedTasks.map((task) => {
-                    let taskId = task._id
-                    let date = new Date(task.dueDate)
-                    let dueDate = date.toDateString()
-                    return (
-                        <div className="itemContainer" key={taskId}>
-                            <CompletedCheckbox domain={domain} task={task} setError={setError} setCompletedTasks={setCompletedTasks} setRefreshTrigger={setRefreshTrigger} />
-                            <div className="itemInfo">
-                                <div className="itemHeader">
-                                    <span className="todoItem">{task.title}</span>
-                                    <div>
-                                        <span className="label">Due: </span><span>{dueDate}</span>
-                                    </div>
-                                </div>
-                                <div className="notesSection">
-                                    <span>{task.notes}</span>
-                                </div>
-                                <button className="button deleteButton" onClick={() => handleDelete(taskId)}>Delete</button>
-                                <ArchiveTaskButton handleArchive={handleArchive} archiveAction={"Archive"} domain={domain} setError={setError} task={task} setRefreshTrigger={setRefreshTrigger} />
-                            </div>
-
-                        </div>
-                    )
-                }
-                )
-                }
-            </div>
+            {renderContent()}
         </>
     )
 }

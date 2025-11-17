@@ -37,6 +37,8 @@
 --parchment: #ECEAE4;
 --charcoal: #3A3A40;
 --darkcharcoal: #26262C;
+--lightgrey: #BFC0C7;
+--backgroundlightgrey: #87848E;
 }
 
 /* Main */
@@ -66,20 +68,27 @@
   min-height: 100vh;
   flex-grow: 1;
   transition: width 0.3s ease;
-  overflow: scroll;
+  overflow: hidden;
   justify-content: center;
-  padding: 7rem 0 3rem;
 }
 
 /* Todo List Component */
 
+.scrollWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: scroll;
+}
+
 .listContainer, .archiveListContainer {
-  width: 65vw;
+  width: min(65vw, 1000px);
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
   margin: 0 auto;
+  margin-top: 3rem;
 }
 
 .listContainer::-webkit-scrollbar {
@@ -107,7 +116,7 @@
 }
 
 .taskListItem span {
-  color: #BFC0C7;
+  color: var(--lightgrey);
 }
 
 .taskListItem span:last-of-type {
@@ -127,13 +136,17 @@
   width: 100%;
   height: fit-content;
   position: relative;
-  background-color: var(--parchment);
+  background-color: var(--charcoal);
   padding: 2rem;
   margin-bottom: 2rem;
   border-radius: 10px;
   display: flex;
   align-items: center;
   position: relative;
+}
+
+.taskCard span {
+  color: var(--lightgrey);
 }
 
 .todoItem {
@@ -172,6 +185,10 @@
   width: 20px;
 }
 
+.taskActionsIcon path {
+  fill: var(--lightgrey);
+}
+
 .showCompletedTasks {
   width: 25%;
   margin-bottom: 2rem;
@@ -206,15 +223,82 @@
   background-color: #87848E;
 }
 
+/* Calendar View */
+
+    /* Calendar Toolbar */
+    .calendarContainer {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .calendarToolbarMain {
+      width: 100%;
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .calendarViewSwitch {
+      margin-left: auto;
+    }
+
+    .dateSelectContainer {
+      background-color: var(--backgroundlightgrey);
+      padding: 2px;
+      border-radius: 5px;
+      display: flex;
+      gap: 0.05rem;
+      /* margin-right: auto; */
+    }
+    
+    .dateSelectButton {
+      background-color: var(--charcoal);
+      border: none;
+      border-radius: 5px;
+      padding: 0.25rem;
+    }
+
+    .dateSelectButton span {
+      color: whitesmoke;
+      padding: 1rem;
+    }
+
+    .previousArrow, .nextArrow {
+      width: 25px;
+    }
+
+    .previousArrow {
+      transform: rotate(90deg);
+    }
+
+    .nextArrow {
+      transform: rotate(270deg);
+    }
+
 /* Toolbar */
+
+.layoutIcon {
+  width: 30px;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.layoutIcon path {
+  stroke: var(--lightgrey);
+}
 
 .searchHeader {
   display: flex;
   align-items: flex-start;
   justify-content: center;
   position: relative;
-  width: 100%
+  width: 100%;
+  margin-top: 7rem;
 }
+
 .searchBackIcon {
   transform: rotate(90deg);
   width: 40px;
@@ -223,11 +307,12 @@
 }
 
 .toolbarMain {
-  width: 65vw;
+  width: min(65vw, 1000px);
   display: flex;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 1.5rem;
+  margin-top: 3rem;
 }
 
 .toolbarMain.hidden {
@@ -262,6 +347,10 @@
   justify-content: right;
 }
 
+.toolbarIcon path {
+  stroke: var(--lightgrey);
+}
+
 .toolbarIcon:nth-of-type(2) {
   margin-left: 2rem;
 }
@@ -281,7 +370,7 @@
 } 
 
 .viewCountMenu span {
-  color: whitesmoke;
+  color: var(--lightgrey);
   font-size: 1rem;
 } 
 
@@ -725,6 +814,7 @@ input {
   background: transparent;
   font-family: "Roboto";
   font-size: 1rem;
+  color: var(--lightgrey);
 }
 
 .notesInput, .addNotesInput {

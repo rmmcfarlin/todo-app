@@ -5,15 +5,15 @@ import CompletedCheckbox from "../completed-checkbox";
 import EditTaskForm from '../edit-task-form';
 
 
-export const ListView = ({ domain, setError, setRefreshTrigger, taskData, handlers, taskActionFunctions }) => {
+export const ListView = ({ domain, setError, setRefreshTrigger, taskData, handlers, taskActionFunctions, selectedTasks }) => {
 
-    const { tasks, setTasks, setCompletedTasks, viewCount } = taskData
+    const { setCompletedTasks } = taskData
     const { handleTaskMenu, showTaskActions, editTask, setEditTask, cancelEdits } = handlers
     const { handleArchive } = taskActionFunctions
 
     return (
         <>
-            {tasks.map((task) => {
+            {selectedTasks.map((task) => {
 
                 let taskId = task._id
                 let date = new Date(task.dueDate)

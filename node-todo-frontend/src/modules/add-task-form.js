@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useUser } from '../context/user-context';
+import DateTimePicker from 'react-datetime-picker'
 
 const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask, setRefreshTrigger }) => {
 
@@ -93,7 +94,6 @@ const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask, setRefreshT
         setRefreshTrigger(prev => prev + 1)
     }
 
-
     return (
         <>
             {addTask ? (
@@ -103,7 +103,8 @@ const AddTaskForm = ({ domain, tasks, setTasks, addTask, setAddTask, setRefreshT
                         <label for="taskName">Task:</label>
                         <input type="text" name="title" value={formData.title} onChange={handleChange}></input>
                         <label for="dueDate">Due Date:</label>
-                        <input type="date" name="dueDate" value={formData.dueDate} onChange={handleChange}></input>
+                        {/* <DateTimePicker value={formData.dueDate} onChange={handleChange} /> */}
+                        <input type="datetime-local" name="dueDate" value={formData.dueDate} onChange={handleChange}></input>
                         <label for="notes">Notes:</label>
                         <textarea type="text" name="notes" onChange={handleChange} className="addNotesInput"></textarea>
                         <div className="addTaskButtonContainer">
